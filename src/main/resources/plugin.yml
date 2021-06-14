@@ -1,0 +1,5 @@
+name: OnigoPlugin
+version: ${project.version}
+main: net.kigawa.onigoplugin.Onigoplugin
+api-version: 1.17
+authors: [ kigawa ]
