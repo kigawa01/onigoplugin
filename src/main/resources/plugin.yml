@@ -1,5 +1,11 @@
 name: OnigoPlugin
 version: ${project.version}
-main: net.kigawa.onigoplugin.Onigoplugin
-api-version: 1.17
+main: net.kigawa.onigoplugin.OnigoPlugin
+api-version: 1.16
 authors: [ kigawa ]
+softdepend: [UtilPlugin]
+commands:
+  onigo:
+    description: for onigo
+    usage: /onigo
+    permission: onigoplugin.onigo
