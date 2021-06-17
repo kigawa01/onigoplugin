@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SubCommand implements Command {
+public abstract class LastCommand implements Command {
     public abstract boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
 
     public boolean equals(Object o) {
@@ -31,11 +31,11 @@ public abstract class SubCommand implements Command {
             }
             if (strings.length>getWordNumber()){
                 if(getCommandList().contains(new ForEquals("command",strings[getWordNumber()]))){
-                    SubCommand subCommand= getCommandList().get(getCommandList().indexOf(new ForEquals("command",strings[getWordNumber()])));
+                    LastCommand subCommand= getCommandList().get(getCommandList().indexOf(new ForEquals("command",strings[getWordNumber()])));
 
                 }
             }
             return null;
     }
-    public abstract List<SubCommand> getCommandList();
+    public abstract List<LastCommand> getCommandList();
 }

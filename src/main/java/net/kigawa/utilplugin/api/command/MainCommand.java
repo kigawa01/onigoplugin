@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MainCommand implements CommandExecutor,Command  {
+    KigawaPlugin plugin;
     public MainCommand(KigawaPlugin plugin) {
+        this.plugin=plugin;
+
         plugin.getCommand(getCommandStr()).setExecutor(this);
         plugin.getCommand(getCommandStr()).setTabCompleter(new TabCompleter() {
             @Override
@@ -24,7 +27,7 @@ public abstract class MainCommand implements CommandExecutor,Command  {
                 }
                 if (strings.length>0){
                     if(getCommandList().contains(new ForEquals("command",strings[0]))){
-                        SubCommand subCommand= getCommandList().get(getCommandList().indexOf(new ForEquals("command",strings[0])));
+                        LastCommand subCommand= getCommandList().get(getCommandList().indexOf(new ForEquals("command",strings[0])));
                         return subCommand.getCommandsStr(strings);
                     }
                 }
@@ -37,19 +40,21 @@ public abstract class MainCommand implements CommandExecutor,Command  {
     @Override
     public boolean onCommand(
             CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings){
+        plugin.logger(getCommandStr()+" onAlways");
         if(!onAlways(commandSender,command,s,strings)) {
          return false;
         }
-        if (getCommandList().isEmpty()&&strings.length>0) {
+        if (strings.length>0) {
             if (getCommandList().contains(new ForEquals("command", strings[0]))) {
-                SubCommand subCommand = getCommandList().get(getCommandList().indexOf(new ForEquals("command", strings[0])));
+                LastCommand subCommand = getCommandList().get(getCommandList().indexOf(new ForEquals("command", strings[0])));
                 return subCommand.onCommand(commandSender, command, s, strings);
             }
         }
+        plugin.logger(getCommandStr()+" onNotFound");
         return onNotFound(commandSender,command,s,strings);
     }
     public abstract boolean onAlways(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
     public abstract boolean onNotFound(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
-    public abstract List<SubCommand> getCommandList();
+    public abstract List<LastCommand> getCommandList();
 
 }
