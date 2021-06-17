@@ -9,10 +9,12 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class onigo extends MainCommand {
+public class Onigo extends MainCommand {
     List<SubCommand> subCommands=new ArrayList<>();
-    public onigo(KigawaPlugin plugin) {
+    public Onigo(KigawaPlugin plugin) {
         super(plugin);
+        subCommands.add(new OnigoStart());
+        subCommands.add(new OnigoEnd());
     }
 
     @Override

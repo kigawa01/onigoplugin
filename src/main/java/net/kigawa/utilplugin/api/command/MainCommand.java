@@ -40,9 +40,11 @@ public abstract class MainCommand implements CommandExecutor,Command  {
         if(!onAlways(commandSender,command,s,strings)) {
          return false;
         }
-        if(getCommandList().contains(new ForEquals("command",strings[0]))){
-            SubCommand subCommand=getCommandList().get(getCommandList().indexOf(new ForEquals("command",strings[0])));
-            return subCommand.onCommand(commandSender,command,s,strings);
+        if (getCommandList().isEmpty()&&strings.length>0) {
+            if (getCommandList().contains(new ForEquals("command", strings[0]))) {
+                SubCommand subCommand = getCommandList().get(getCommandList().indexOf(new ForEquals("command", strings[0])));
+                return subCommand.onCommand(commandSender, command, s, strings);
+            }
         }
         return onNotFound(commandSender,command,s,strings);
     }
