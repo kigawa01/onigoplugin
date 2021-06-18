@@ -1,28 +1,29 @@
 package net.kigawa.onigoplugin.command;
 
-import net.kigawa.utilplugin.api.command.MainCommand;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.utilplugin.api.command.LastCommand;
-import net.kigawa.utilplugin.api.command.SubCommands;
+import net.kigawa.utilplugin.api.command.MainCommand;
 import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Onigo extends MainCommand {
-    List<LastCommand> subCommands=new ArrayList<LastCommand>(Arrays.asList());
-    KigawaPlugin plugin;
-    public Onigo(KigawaPlugin plugin) {
+public class Test extends MainCommand {
+    OnigoPlugin plugin;
+    public Test(OnigoPlugin plugin) {
         super(plugin);
-        subCommands.add(new OnigoStart(plugin));
-        subCommands.add(new OnigoEnd(plugin));
+        this.plugin=plugin;
+    }
+
+    @Override
+    public String getCommandStr() {
+        return "test";
     }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
+        plugin.logger(Integer.toString(plugin.getOnigo().getCommandList().size()));
         return true;
     }
 
@@ -33,11 +34,6 @@ public class Onigo extends MainCommand {
 
     @Override
     public List<LastCommand> getCommandList() {
-        return subCommands;
-    }
-
-    @Override
-    public String getCommandStr() {
-        return "onigo";
+        return null;
     }
 }

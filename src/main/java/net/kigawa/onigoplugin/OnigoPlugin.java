@@ -1,19 +1,25 @@
 package net.kigawa.onigoplugin;
 
 import net.kigawa.onigoplugin.command.Onigo;
+import net.kigawa.onigoplugin.command.Test;
 import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
 
 public final class OnigoPlugin extends KigawaPlugin {
-
+    Onigo onigo;
 
     @Override
     public void onStart() {
-        new Onigo(this);
+        onigo= new Onigo(this);
+        new Test(this);
 
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public Onigo getOnigo() {
+        return onigo;
     }
 }

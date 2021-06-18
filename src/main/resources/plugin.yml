@@ -9,3 +9,7 @@ commands:
     description: for onigo
     usage: /onigo
     permission: onigoplugin.onigo
+  test:
+    description: for test
+    usage: /test
+    permission: onigoplugin.test

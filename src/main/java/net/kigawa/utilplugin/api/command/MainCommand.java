@@ -45,7 +45,14 @@ public abstract class MainCommand implements CommandExecutor,Command  {
          return false;
         }
         if (strings.length>0) {
+
+            plugin.logger(getCommandStr()+" onIsContain");
+            plugin.logger(getCommandStr()+" ListSize "+getCommandList().size());
+            plugin.logger(getCommandStr()+" isListContain "+getCommandList().contains(new ForEquals("command",strings[0])));
+            plugin.logger(getCommandStr()+" strings "+strings[0]);
+
             if (getCommandList().contains(new ForEquals("command", strings[0]))) {
+                plugin.logger(getCommandStr()+" onGetSubCommand");
                 LastCommand subCommand = getCommandList().get(getCommandList().indexOf(new ForEquals("command", strings[0])));
                 return subCommand.onCommand(commandSender, command, s, strings);
             }

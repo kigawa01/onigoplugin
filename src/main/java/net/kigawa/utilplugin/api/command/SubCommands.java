@@ -7,7 +7,8 @@ import org.bukkit.command.CommandSender;
 public abstract class SubCommands extends LastCommand {
     KigawaPlugin plugin;
     public SubCommands(KigawaPlugin kigawaPlugin){
-    plugin=kigawaPlugin;
+        super(kigawaPlugin);
+        plugin=kigawaPlugin;
     }
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings){

@@ -2,19 +2,26 @@ package net.kigawa.utilplugin.api.command;
 
 
 import net.kigawa.utilplugin.api.list.ForEquals;
+import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class LastCommand implements Command {
+    KigawaPlugin plugin;
+    public LastCommand(KigawaPlugin kigawaPlugin){
+        plugin=kigawaPlugin;
+    }
     public abstract boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
 
+    @Override
     public boolean equals(Object o) {
+        plugin.logger(getCommandStr()+" onEquals");
         if (o instanceof ForEquals) {
             ForEquals forEquals = (ForEquals) o;
             if (forEquals.getType().equals("command")) {
-                return getCommandStr().equals(o);
+                return getCommandStr().equals(forEquals.getObject());
             }
         }
         return false;
