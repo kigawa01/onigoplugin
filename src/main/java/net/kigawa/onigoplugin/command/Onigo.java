@@ -1,19 +1,16 @@
 package net.kigawa.onigoplugin.command;
 
 import net.kigawa.utilplugin.api.command.MainCommand;
-import net.kigawa.utilplugin.api.command.LastCommand;
-import net.kigawa.utilplugin.api.command.SubCommands;
+import net.kigawa.utilplugin.api.command.SubCommand;
 import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Onigo extends MainCommand {
-    List<LastCommand> subCommands=new ArrayList<LastCommand>(Arrays.asList());
+    List<SubCommand> subCommands=new ArrayList<SubCommand>();
     KigawaPlugin plugin;
     public Onigo(KigawaPlugin plugin) {
         super(plugin);
@@ -32,7 +29,7 @@ public class Onigo extends MainCommand {
     }
 
     @Override
-    public List<LastCommand> getCommandList() {
+    public List<SubCommand> getCommandList() {
         return subCommands;
     }
 

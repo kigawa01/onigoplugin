@@ -1,9 +1,9 @@
 package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.utilplugin.api.command.LastCommand;
 import net.kigawa.utilplugin.api.command.MainCommand;
-import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
+import net.kigawa.utilplugin.api.command.SubCommand;
+import net.kigawa.utilplugin.api.list.EqualsCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -23,7 +23,9 @@ public class Test extends MainCommand {
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
-        plugin.logger(Integer.toString(plugin.getOnigo().getCommandList().size()));
+        plugin.logger(plugin.getOnigo().getCommandList().size());
+        plugin.logger(plugin.getOnigo().getCommandList().get(0).getCommandStr());
+        plugin.logger(plugin.getOnigo().getCommandList().contains(new EqualsCommand("start")));
         return true;
     }
 
@@ -33,7 +35,7 @@ public class Test extends MainCommand {
     }
 
     @Override
-    public List<LastCommand> getCommandList() {
+    public List<SubCommand> getCommandList() {
         return null;
     }
 }

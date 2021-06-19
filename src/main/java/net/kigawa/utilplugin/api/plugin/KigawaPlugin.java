@@ -32,6 +32,11 @@ public abstract class KigawaPlugin extends JavaPlugin {
             this.getLogger().info(Integer.toString(message));
         }
     }
+    public void logger(boolean message){
+        if(debug) {
+            this.getLogger().info(Boolean.toString(message));
+        }
+    }
     public KigawaConfig getConfig;
     public void eventSetter(Listener listener){
         getServer().getPluginManager().registerEvents(listener,this);

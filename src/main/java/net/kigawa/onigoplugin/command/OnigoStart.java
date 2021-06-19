@@ -1,22 +1,23 @@
 package net.kigawa.onigoplugin.command;
 
-import net.kigawa.utilplugin.api.command.SubCommands;
-import net.kigawa.utilplugin.api.command.LastCommand;
+import net.kigawa.utilplugin.api.command.SubCommand;
 import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class OnigoStart extends SubCommands {
+public class OnigoStart extends SubCommand {
+    KigawaPlugin plugin;
 
     public OnigoStart(KigawaPlugin kigawaPlugin) {
         super(kigawaPlugin);
+        plugin=kigawaPlugin;
     }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;
+        return true;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class OnigoStart extends SubCommands {
     }
 
     @Override
-    public List<LastCommand> getCommandList() {
+    public List<SubCommand> getCommandList() {
         return null;
     }
 
@@ -38,4 +39,5 @@ public class OnigoStart extends SubCommands {
     public String getCommandStr() {
         return "start";
     }
+
 }
