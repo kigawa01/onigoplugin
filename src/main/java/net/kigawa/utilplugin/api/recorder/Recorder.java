@@ -13,6 +13,14 @@ public class Recorder {
         dataFolder.mkdirs();
     }
     public void save(Data data){
+        if(!plugin.getConfig().getBoolean("useDB")){
+            Yaml yaml=new Yaml(plugin,data);
+            yaml.save(data);
+        }
 
+    }
+    public Data load(Data data){
+        Yaml yaml=new Yaml(plugin,data);
+        return yaml.load();
     }
 }
