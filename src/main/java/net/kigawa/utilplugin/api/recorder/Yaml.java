@@ -10,11 +10,9 @@ public class Yaml {
     File dataFile;
     Data data;
     org.yaml.snakeyaml.Yaml yaml;
-    Class<Data> type;
     public Yaml(KigawaPlugin kigawaPlugin,Data data){
         plugin=kigawaPlugin;
         this.data=data;
-        this.type=data.type;
         dataFolder= new File(plugin.getDataFolder(),"data");
         dataFolder.mkdirs();
         dataFile=new File(dataFolder,data.getName()+".yml");
@@ -31,7 +29,7 @@ public class Yaml {
         }
         try {
             FileReader fileReader = new FileReader(dataFile);
-            data=yaml.loadAs(fileReader,type);
+            data=yaml.loadAs(fileReader,data.getClass());
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -51,7 +49,7 @@ public class Yaml {
     public Data load(){
         try {
             FileReader fileReader = new FileReader(dataFile);
-            data=yaml.loadAs(fileReader,type);
+            data=yaml.loadAs(fileReader,data.getClass());
         }catch (IOException e){
             e.printStackTrace();
         }

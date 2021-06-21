@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.onigo;
 
 public class Onigo {
+    OnigoData onigoData;
     public Onigo(){
 
     }
