@@ -1,7 +1,7 @@
-package net.kigawa.utilplugin.api.command;
+package net.kigawa.util.plugin.command;
 
-import net.kigawa.utilplugin.api.list.EqualsCommand;
-import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.list.EqualsCommand;
+import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class SubCommand implements Command {
     KigawaPlugin plugin;
+    List<SubCommand> subCommands;
     public SubCommand(KigawaPlugin kigawaPlugin){
         plugin=kigawaPlugin;
     }

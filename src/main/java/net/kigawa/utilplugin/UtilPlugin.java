@@ -1,9 +1,8 @@
 package net.kigawa.utilplugin;
 
-import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import net.kigawa.utilplugin.sql.Connect;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class UtilPlugin extends KigawaPlugin {
     UtilConfig config;

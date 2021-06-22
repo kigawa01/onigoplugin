@@ -1,18 +1,44 @@
 package net.kigawa.onigoplugin.onigo;
 
-public class Onigo {
-    OnigoData onigoData;
-    public Onigo(){
+import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.List;
+
+public class Onigo {
+    OnigoData d;
+    KigawaPlugin plugin;
+    public Onigo(KigawaPlugin kigawaPlugin,OnigoData onigoData){
+        plugin=kigawaPlugin;
+        d=onigoData;
+    }
+    public void start(CommandSender sender){
+        if (d.waitRoomWorld!=null) {
+            List<Player> playerGetter = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
+                    d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
+        }else {
+            sender.sendMessage("need waiting room");
+        }
+    }
+    public void setWaitingRoom(String world,int x,int y,int z,int x1,int y1,int z1){
+        d.setWaitRoom(new int[]{
+                x,y,z,x1,y1,z1
+        });
+        d.setWaitRoomWorld(world);
+        plugin.getRecorder().save(d);
     }
     public void start(){
-
+        start(plugin.getServer().getConsoleSender());
     }
     public void end(){
 
     }
     public void exit(){
 
+    }
+    public String getName(){
+        return d.getName();
     }
 
 }

@@ -1,6 +1,6 @@
-package net.kigawa.utilplugin.api.list;
+package net.kigawa.util.plugin.list;
 
-import net.kigawa.utilplugin.api.command.SubCommand;
+import net.kigawa.util.plugin.command.SubCommand;
 
 public class EqualsCommand {
     String command;

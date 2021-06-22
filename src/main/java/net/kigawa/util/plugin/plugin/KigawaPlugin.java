@@ -1,11 +1,7 @@
-package net.kigawa.utilplugin.api.plugin;
+package net.kigawa.util.plugin.plugin;
 
-import net.kigawa.utilplugin.api.command.MainCommand;
-import net.kigawa.utilplugin.api.config.KigawaConfig;
-import net.kigawa.utilplugin.api.player.PlayerGetter;
-import net.kigawa.utilplugin.api.recorder.Recorder;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
+import net.kigawa.util.plugin.player.PlayerGetter;
+import net.kigawa.util.plugin.recorder.Recorder;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,7 +22,7 @@ public abstract class KigawaPlugin extends JavaPlugin {
         debug=config.getBoolean("debug");
 
         recorder=new Recorder(this);
-        playerGetter=new PlayerGetter();
+        playerGetter=new PlayerGetter(this);
 
         onStart();
     }
@@ -53,5 +49,7 @@ public abstract class KigawaPlugin extends JavaPlugin {
             return recorder;
     }
     public abstract void addConfigDefault(FileConfiguration config);
-
+    public PlayerGetter getPlayerGetter(){
+        return playerGetter;
+    }
 }

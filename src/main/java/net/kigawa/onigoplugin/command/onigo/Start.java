@@ -1,21 +1,18 @@
-package net.kigawa.onigoplugin.command;
+package net.kigawa.onigoplugin.command.onigo;
 
-import net.kigawa.utilplugin.api.command.MainCommand;
-import net.kigawa.utilplugin.api.command.SubCommand;
-import net.kigawa.utilplugin.api.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Onigo extends MainCommand {
-    List<SubCommand> subCommands=new ArrayList<SubCommand>();
+public class Start extends SubCommand {
     KigawaPlugin plugin;
-    public Onigo(KigawaPlugin plugin) {
-        super(plugin);
-        subCommands.add(new OnigoStart(plugin));
-        subCommands.add(new OnigoEnd(plugin));
+
+    public Start(KigawaPlugin kigawaPlugin) {
+        super(kigawaPlugin);
+        plugin=kigawaPlugin;
     }
 
     @Override
@@ -29,12 +26,18 @@ public class Onigo extends MainCommand {
     }
 
     @Override
+    public int getWordNumber() {
+        return 0;
+    }
+
+    @Override
     public List<SubCommand> getCommandList() {
-        return subCommands;
+        return null;
     }
 
     @Override
     public String getCommandStr() {
-        return "onigo";
+        return "start";
     }
+
 }
