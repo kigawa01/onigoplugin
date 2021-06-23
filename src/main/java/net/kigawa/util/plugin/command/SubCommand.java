@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.command;
 
 import net.kigawa.util.plugin.list.EqualsCommand;
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

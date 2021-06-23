@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.player;
 
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

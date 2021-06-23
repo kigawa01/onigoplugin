@@ -1,7 +1,8 @@
-package net.kigawa.util.plugin.plugin;
+package net.kigawa.util.plugin;
 
 import net.kigawa.util.plugin.player.PlayerGetter;
 import net.kigawa.util.plugin.recorder.Recorder;
+import net.kigawa.util.plugin.stage.StageManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,6 +11,7 @@ public abstract class KigawaPlugin extends JavaPlugin {
     boolean debug;
     Recorder recorder;
     PlayerGetter playerGetter;
+    StageManager stageManager;
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
@@ -23,9 +25,15 @@ public abstract class KigawaPlugin extends JavaPlugin {
 
         recorder=new Recorder(this);
         playerGetter=new PlayerGetter(this);
+        stageManager=new StageManager(this);
 
         onStart();
     }
+
+    public StageManager getStageManager() {
+        return stageManager;
+    }
+
     public abstract void onStart();
     public void logger(String message){
         if(debug) {

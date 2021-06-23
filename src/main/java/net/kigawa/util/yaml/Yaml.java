@@ -1,7 +1,6 @@
 package net.kigawa.util.yaml;
 
 
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
 import java.io.*;

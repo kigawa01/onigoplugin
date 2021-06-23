@@ -1,6 +1,8 @@
 package net.kigawa.onigoplugin.onigo;
 
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.stage.StageData;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,6 +25,7 @@ public class Onigo {
     }
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
+            //sort oni
             List<Player> joinPlayer = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
                     d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
             Random random=new Random();
@@ -36,10 +39,18 @@ public class Onigo {
                     oniPlayer.add(joinPlayer.get(randomNumber));
                     runPlayer.remove(randomNumber);
                 }
+                //teleport runner
+                StageData stageData=plugin.getStageManager().getRandomStage();
+                if (stageData!=null) {
+                    for (int i = 0; i < runPlayer.size(); i++) {
+                        //runPlayer.get(i).teleport(new Location(plugin.getServer().getWorld()));
+                    }
+                }else {
+                    sender.sendMessage("stage is not exit");
+                }
             }else {
                 sender.sendMessage("players is not enough");
             }
-
         }else {
             sender.sendMessage("need waiting room");
         }

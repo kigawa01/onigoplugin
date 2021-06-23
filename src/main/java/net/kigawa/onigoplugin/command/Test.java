@@ -4,11 +4,10 @@ import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.onigoplugin.onigo.OnigoData;
 import net.kigawa.util.plugin.command.MainCommand;
 import net.kigawa.util.plugin.command.SubCommand;
-import net.kigawa.util.plugin.data.RecorderData;
+import net.kigawa.util.plugin.recorder.RecorderData;
 import net.kigawa.util.plugin.list.EqualsCommand;
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.yaml.Yaml;
-import net.kigawa.util.yaml.YamlData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
@@ -17,7 +16,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class Test extends MainCommand {

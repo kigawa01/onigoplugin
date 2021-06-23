@@ -1,7 +1,6 @@
 package net.kigawa.util.plugin.recorder;
 
-import net.kigawa.util.plugin.data.RecorderData;
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.yaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 

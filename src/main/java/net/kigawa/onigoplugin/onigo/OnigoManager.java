@@ -1,9 +1,9 @@
 package net.kigawa.onigoplugin.onigo;
 
-import net.kigawa.util.plugin.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.recorder.EqualsRecorderData;
 import org.bukkit.command.CommandSender;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,23 +37,23 @@ public class OnigoManager {
         }
     }
     public Onigo getOnigo(String gameName,CommandSender sender){
-        if (list.contains(new EqualsOnigo(gameName))){
-            return list.get(list.indexOf(new EqualsOnigo(gameName)));
+        if (list.contains(new EqualsRecorderData(gameName))){
+            return list.get(list.indexOf(new EqualsRecorderData(gameName)));
         }else{
             sender.sendMessage(gameName+" is not exit");
             return null;
         }
     }
     public void setWaitRoom2(String gameName,int x,int y,int z,CommandSender sender){
-        if (list.contains(new EqualsOnigo(gameName))){
-            list.get(list.indexOf(new EqualsOnigo(gameName))).setWaitingRoom2(x,y,z);
+        if (list.contains(new EqualsRecorderData(gameName))){
+            list.get(list.indexOf(new EqualsRecorderData(gameName))).setWaitingRoom2(x,y,z);
         }else{
             sender.sendMessage(gameName+" is not exit");
         }
     }
     public void setWaitRoom1(String gameName,String worldName,int x,int y,int z,CommandSender sender){
-        if (list.contains(new EqualsOnigo(gameName))){
-            list.get(list.indexOf(new EqualsOnigo(gameName))).setWaitingRoom1(worldName,x,y,z);
+        if (list.contains(new EqualsRecorderData(gameName))){
+            list.get(list.indexOf(new EqualsRecorderData(gameName))).setWaitingRoom1(worldName,x,y,z);
         }else{
             sender.sendMessage(gameName+" is not exit");
         }
@@ -62,7 +62,7 @@ public class OnigoManager {
         createOnigo(plugin.getServer().getConsoleSender(),name);
     }
     public void createOnigo(CommandSender sender,String name){
-        if (!list.contains(new EqualsOnigo(name))){
+        if (!list.contains(new EqualsRecorderData(name))){
             OnigoData data=new OnigoData();
             data.setFolder("onigo");
             data.setName(name);

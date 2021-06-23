@@ -1,6 +1,6 @@
 package net.kigawa.onigoplugin.onigo;
 
-import net.kigawa.util.plugin.data.RecorderData;
+import net.kigawa.util.plugin.recorder.RecorderData;
 
 public class OnigoData extends RecorderData {
 
@@ -18,6 +18,7 @@ public class OnigoData extends RecorderData {
     int[] waitRoom=new int[5];
 
     public OnigoData() {
+        setFolder("onigo");
     }
     public int[] getWaitRoom() {
         return waitRoom;

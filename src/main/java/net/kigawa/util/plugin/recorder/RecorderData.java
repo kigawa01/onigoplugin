@@ -1,4 +1,4 @@
-package net.kigawa.util.plugin.data;
+package net.kigawa.util.plugin.recorder;
 
 import net.kigawa.util.yaml.YamlData;
 

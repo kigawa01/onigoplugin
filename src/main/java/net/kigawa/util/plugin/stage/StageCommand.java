@@ -1,17 +1,22 @@
-package net.kigawa.onigoplugin.command.onigo;
+package net.kigawa.util.plugin.stage;
 
-import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.command.MainCommand;
+import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class End extends SubCommand {
+public class StageCommand extends MainCommand {
+    public StageCommand(KigawaPlugin plugin) {
+        super(plugin);
+        subCommands.add(new CreateCommand(plugin));
+    }
 
-
-    public End(KigawaPlugin kigawaPlugin) {
-        super(kigawaPlugin);
+    @Override
+    public String getCommandStr() {
+        return "stage";
     }
 
     @Override
@@ -23,19 +28,9 @@ public class End extends SubCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         return false;
     }
-
-    @Override
-    public int getWordNumber() {
-        return 0;
-    }
-
+    List<SubCommand> subCommands;
     @Override
     public List<SubCommand> getCommandList() {
-        return null;
-    }
-
-    @Override
-    public String getCommandStr() {
-        return "end";
+        return subCommands;
     }
 }
