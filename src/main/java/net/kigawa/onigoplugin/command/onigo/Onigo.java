@@ -1,5 +1,6 @@
 package net.kigawa.onigoplugin.command.onigo;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.MainCommand;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.plugin.KigawaPlugin;
@@ -11,11 +12,13 @@ import java.util.List;
 
 public class Onigo extends MainCommand {
     List<SubCommand> subCommands=new ArrayList<SubCommand>();
-    KigawaPlugin plugin;
-    public Onigo(KigawaPlugin plugin) {
+    OnigoPlugin plugin;
+    public Onigo(OnigoPlugin plugin) {
         super(plugin);
+        this.plugin=plugin;
         subCommands.add(new Start(plugin));
         subCommands.add(new End(plugin));
+        subCommands.add(new net.kigawa.onigoplugin.command.onigo.List(plugin));
     }
 
     @Override

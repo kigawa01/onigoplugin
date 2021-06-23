@@ -17,7 +17,7 @@ public class OnigoCreate extends MainCommand {
         super(plugin);
         this.plugin=plugin;
         subCommands.add(new CreateGame(plugin));
-        subCommands.add(new net.kigawa.onigoplugin.command.onigo.List(plugin));
+
     }
 
     @Override

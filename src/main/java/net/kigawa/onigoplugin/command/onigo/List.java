@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.command.onigo;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.onigoplugin.onigo.Onigo;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
@@ -20,12 +21,16 @@ public class List extends SubCommand {
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;
+        java.util.List<Onigo> onigoList=plugin.getOnigoManager().getOnigoList();
+        for (int i=0;i<onigoList.size();i++){
+            commandSender.sendMessage(onigoList.get(i).getName());
+        }
+        return true;
     }
 
     @Override

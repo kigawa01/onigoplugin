@@ -19,7 +19,8 @@ public class OnigoManager {
         String[] files=folder.list();
         for (int i=0;i<files.length;i++){
             File file=new File(folder,files[i]);
-            OnigoData data=(OnigoData) plugin.getRecorder().load(OnigoData.class,"onigo",files[i].substring(0,-4));
+            plugin.logger(files[i]);
+            OnigoData data=(OnigoData) plugin.getRecorder().load(OnigoData.class,"onigo",files[i].substring(0, files[i].length()-4));
             onigoList.add(new Onigo(plugin,data));
         }
     }
@@ -37,5 +38,9 @@ public class OnigoManager {
             sender.sendMessage("this name can't use");
         }
 
+    }
+
+    public List<Onigo> getOnigoList() {
+        return onigoList;
     }
 }
