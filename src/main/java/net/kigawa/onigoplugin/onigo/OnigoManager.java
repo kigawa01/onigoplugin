@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OnigoManager {
-    List<Onigo> onigoList=new ArrayList<>();
+    List<Onigo> list=new ArrayList<>();
     KigawaPlugin plugin;
     public OnigoManager(KigawaPlugin kigawaPlugin){
         plugin=kigawaPlugin;
@@ -21,18 +21,32 @@ public class OnigoManager {
             File file=new File(folder,files[i]);
             plugin.logger(files[i]);
             OnigoData data=(OnigoData) plugin.getRecorder().load(OnigoData.class,"onigo",files[i].substring(0, files[i].length()-4));
-            onigoList.add(new Onigo(plugin,data));
+            list.add(new Onigo(plugin,data));
+        }
+    }
+    public void setWaitRoom2(String gameName,int x,int y,int z,CommandSender sender){
+        if (list.contains(new EqualsOnigo(gameName))){
+            list.get(list.indexOf(new EqualsOnigo(gameName))).setWaitingRoom2(x,y,z);
+        }else{
+            sender.sendMessage(gameName+" is not exit");
+        }
+    }
+    public void setWaitRoom1(String gameName,String worldName,int x,int y,int z,CommandSender sender){
+        if (list.contains(new EqualsOnigo(gameName))){
+            list.get(list.indexOf(new EqualsOnigo(gameName))).setWaitingRoom1(worldName,x,y,z);
+        }else{
+            sender.sendMessage(gameName+" is not exit");
         }
     }
     public void createOnigo(String name){
         createOnigo(plugin.getServer().getConsoleSender(),name);
     }
     public void createOnigo(CommandSender sender,String name){
-        if (!onigoList.contains(new EqualsOnigo(name))){
+        if (!list.contains(new EqualsOnigo(name))){
             OnigoData data=new OnigoData();
             data.setFolder("onigo");
             data.setName(name);
-            onigoList.add(new Onigo(plugin,data));
+            getOnigoList().add(new Onigo(plugin,data));
             plugin.getRecorder().save(data);
         }else {
             sender.sendMessage("this name can't use");
@@ -41,6 +55,6 @@ public class OnigoManager {
     }
 
     public List<Onigo> getOnigoList() {
-        return onigoList;
+        return list;
     }
 }

@@ -21,11 +21,21 @@ public class Onigo {
             sender.sendMessage("need waiting room");
         }
     }
-    public void setWaitingRoom(String world,int x,int y,int z,int x1,int y1,int z1){
-        d.setWaitRoom(new int[]{
-                x,y,z,x1,y1,z1
-        });
+    public void setWaitingRoom1(String world,int x,int y,int z){
+        int [] loc=d.getWaitRoom();
+        loc[0]=x;
+        loc[1]=y;
+        loc[2]=z;
+        d.setWaitRoom(loc);
         d.setWaitRoomWorld(world);
+        plugin.getRecorder().save(d);
+    }
+    public void setWaitingRoom2(int x,int y,int z){
+        int [] loc=d.getWaitRoom();
+        loc[3]=x;
+        loc[4]=y;
+        loc[5]=z;
+        d.setWaitRoom(loc);
         plugin.getRecorder().save(d);
     }
     public void start(){

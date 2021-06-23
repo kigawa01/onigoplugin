@@ -4,7 +4,7 @@ import net.kigawa.util.plugin.data.RecorderData;
 
 public class OnigoData extends RecorderData {
 
-    int[] waitRoom=new int[6];
+    int[] waitRoom=new int[5];
     String waitRoomWorld=null;
     public OnigoData() {
     }
