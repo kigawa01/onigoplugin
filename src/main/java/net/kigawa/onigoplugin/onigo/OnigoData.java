@@ -4,8 +4,19 @@ import net.kigawa.util.plugin.data.RecorderData;
 
 public class OnigoData extends RecorderData {
 
-    int[] waitRoom=new int[5];
+
     String waitRoomWorld=null;
+    int oniCount;
+
+    public int getOniCount() {
+        return oniCount;
+    }
+
+    public void setOniCount(int oniCount) {
+        this.oniCount = oniCount;
+    }
+    int[] waitRoom=new int[5];
+
     public OnigoData() {
     }
     public int[] getWaitRoom() {

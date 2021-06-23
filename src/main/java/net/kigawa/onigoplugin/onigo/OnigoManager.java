@@ -24,6 +24,12 @@ public class OnigoManager {
             list.add(new Onigo(plugin,data));
         }
     }
+    public void setOniCount(String gameName,CommandSender sender,int oniCount){
+        Onigo onigo=getOnigo(gameName,sender);
+        if (onigo!=null){
+            onigo.setOniCount(oniCount);
+        }
+    }
     public void start(String gameName,CommandSender sender){
         Onigo onigo=getOnigo(gameName,sender);
         if (onigo!=null){

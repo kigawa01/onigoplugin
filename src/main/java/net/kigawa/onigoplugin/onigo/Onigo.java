@@ -4,7 +4,9 @@ import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Onigo {
     OnigoData d;
@@ -21,11 +23,30 @@ public class Onigo {
     }
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
-            List<Player> playerGetter = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
+            List<Player> joinPlayer = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
                     d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
+            Random random=new Random();
+            List<Player> oniPlayer=new ArrayList<>();
+            List<Player> runPlayer=new ArrayList<>();
+            runPlayer.addAll(joinPlayer);
+            int randomNumber;
+            if (oniPlayer.size()>d.getOniCount()) {
+                for (int i = 0; i < d.getOniCount(); i++) {
+                    randomNumber=random.nextInt(runPlayer.size());
+                    oniPlayer.add(joinPlayer.get(randomNumber));
+                    runPlayer.remove(randomNumber);
+                }
+            }else {
+                sender.sendMessage("players is not enough");
+            }
+
         }else {
             sender.sendMessage("need waiting room");
         }
+    }
+    public void setOniCount(int oniCount){
+        d.setOniCount(oniCount);
+        plugin.getRecorder().save(d);
     }
 
     public OnigoData getD() {
