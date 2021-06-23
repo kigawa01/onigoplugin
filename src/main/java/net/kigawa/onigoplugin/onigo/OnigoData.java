@@ -15,7 +15,7 @@ public class OnigoData extends RecorderData {
     public void setOniCount(int oniCount) {
         this.oniCount = oniCount;
     }
-    int[] waitRoom=new int[5];
+    int[] waitRoom=new int[6];
 
     public OnigoData() {
         setFolder("onigo");

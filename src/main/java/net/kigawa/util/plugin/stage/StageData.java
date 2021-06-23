@@ -16,7 +16,7 @@ public class StageData extends RecorderData {
         this.stageLoc = stageLoc;
     }
 
-    int[] stageLoc=new int[5];
+    int[] stageLoc=new int[6];
     String stageWorld;
 
     public String getStageWorld() {

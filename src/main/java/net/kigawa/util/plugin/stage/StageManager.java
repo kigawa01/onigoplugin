@@ -37,6 +37,7 @@ public class StageManager {
             i[4]=y;
             i[5]=z;
             stageData.setStageLoc(i);
+            plugin.getRecorder().save(stageData);
         }
     }
     public void setStage1(String name,String world,int x,int y,int z,CommandSender sender){
@@ -48,6 +49,7 @@ public class StageManager {
             i[1]=y;
             i[2]=z;
             stageData.setStageLoc(i);
+            plugin.getRecorder().save(stageData);
         }
     }
     public StageData getStage(String name,CommandSender sender){

@@ -32,13 +32,14 @@ public class SetStage2 extends SubCommand {
         if (strings.length==5){
             if (commandSender instanceof Player|commandSender instanceof BlockCommandSender){
                 World world;
-                if (command instanceof Player){
+                if (commandSender instanceof Player){
                     world= ((Player)commandSender).getWorld();
                 }else {
                     world=((BlockCommandSender)commandSender).getBlock().getWorld();
                 }
                 plugin.getStageManager().setStage2(strings[1], world.getName(),
                         Integer.valueOf(strings[2]),Integer.valueOf(strings[2]),Integer.valueOf(strings[4]),commandSender);
+                commandSender.sendMessage("set start point of stage");
             }
 
         }else {
