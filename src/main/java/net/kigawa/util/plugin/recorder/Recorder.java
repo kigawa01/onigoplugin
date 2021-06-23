@@ -15,7 +15,7 @@ public class Recorder {
         plugin=kigawaPlugin;
         useDB=plugin.getConfig().getBoolean("useDB");
         if(!useDB){
-            yaml=new Yaml();
+            yaml=new Yaml(new CustomClassLoaderConstructor(KigawaPlugin.class.getClassLoader()));
         }
     }
     public void save(RecorderData data){

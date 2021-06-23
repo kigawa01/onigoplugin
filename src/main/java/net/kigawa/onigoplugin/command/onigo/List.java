@@ -28,7 +28,8 @@ public class List extends SubCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         java.util.List<Onigo> onigoList=plugin.getOnigoManager().getOnigoList();
         for (int i=0;i<onigoList.size();i++){
-            commandSender.sendMessage(onigoList.get(i).getName());
+            commandSender.sendMessage("name "+onigoList.get(i).getName());
+            commandSender.sendMessage(" world "+onigoList.get(i).getD().getWaitRoomWorld());
         }
         return true;
     }

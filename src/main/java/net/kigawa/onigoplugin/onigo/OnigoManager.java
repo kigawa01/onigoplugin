@@ -24,6 +24,20 @@ public class OnigoManager {
             list.add(new Onigo(plugin,data));
         }
     }
+    public void start(String gameName,CommandSender sender){
+        Onigo onigo=getOnigo(gameName,sender);
+        if (onigo!=null){
+            onigo.start(sender);
+        }
+    }
+    public Onigo getOnigo(String gameName,CommandSender sender){
+        if (list.contains(new EqualsOnigo(gameName))){
+            return list.get(list.indexOf(new EqualsOnigo(gameName)));
+        }else{
+            sender.sendMessage(gameName+" is not exit");
+            return null;
+        }
+    }
     public void setWaitRoom2(String gameName,int x,int y,int z,CommandSender sender){
         if (list.contains(new EqualsOnigo(gameName))){
             list.get(list.indexOf(new EqualsOnigo(gameName))).setWaitingRoom2(x,y,z);

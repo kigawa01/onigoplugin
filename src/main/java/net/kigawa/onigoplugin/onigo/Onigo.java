@@ -13,6 +13,12 @@ public class Onigo {
         plugin=kigawaPlugin;
         d=onigoData;
     }
+    public void end(){
+
+    }
+    public void exit(){
+
+    }
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
             List<Player> playerGetter = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
@@ -21,7 +27,12 @@ public class Onigo {
             sender.sendMessage("need waiting room");
         }
     }
-    public void setWaitingRoom1(String world,int x,int y,int z){
+
+    public OnigoData getD() {
+        return d;
+    }
+
+    public void setWaitingRoom1(String world, int x, int y, int z){
         int [] loc=d.getWaitRoom();
         loc[0]=x;
         loc[1]=y;
@@ -41,12 +52,7 @@ public class Onigo {
     public void start(){
         start(plugin.getServer().getConsoleSender());
     }
-    public void end(){
 
-    }
-    public void exit(){
-
-    }
     public String getName(){
         return d.getName();
     }

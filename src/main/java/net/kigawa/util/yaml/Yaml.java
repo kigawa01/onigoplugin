@@ -11,7 +11,10 @@ public class Yaml {
 
     org.yaml.snakeyaml.Yaml yaml;
     public Yaml(){
-        yaml=new org.yaml.snakeyaml.Yaml(new CustomClassLoaderConstructor(KigawaPlugin.class.getClassLoader()));
+        yaml=new org.yaml.snakeyaml.Yaml();
+    }
+    public Yaml(CustomClassLoaderConstructor constructor){
+        yaml=new org.yaml.snakeyaml.Yaml(constructor);
     }
     public void save(YamlData data, File file){
         try {

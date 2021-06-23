@@ -31,11 +31,12 @@ public class SetWaitRoom2 extends SubCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length!=5){
             commandSender.sendMessage("/onigocreate setwaitroom2 <game name> <x> <y> <z>");
-        }
-        if (commandSender instanceof Player|commandSender instanceof BlockCommandSender) {
-            plugin.getOnigoManager().setWaitRoom2(strings[1],Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]),commandSender);
         }else {
-            commandSender.sendMessage("this command can use by player or commandBlock");
+            if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
+                plugin.getOnigoManager().setWaitRoom2(strings[1], Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
+            } else {
+                commandSender.sendMessage("this command can use by player or commandBlock");
+            }
         }
         return true;
     }

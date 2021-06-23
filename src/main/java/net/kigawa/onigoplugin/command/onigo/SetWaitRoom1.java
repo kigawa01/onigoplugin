@@ -32,17 +32,19 @@ public class SetWaitRoom1 extends SubCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length!=5){
             commandSender.sendMessage("/onigocreate setwaitroom2 <game name> <x> <y> <z>");
-        }
-        if (commandSender instanceof Player |commandSender instanceof BlockCommandSender) {
-            World world=null;
-            if (commandSender instanceof Player){
-                world=((Player)commandSender).getWorld();
-            }if (commandSender instanceof BlockCommandSender){
-                world=((BlockCommandSender)commandSender).getBlock().getWorld();
-            }
-            plugin.getOnigoManager().setWaitRoom1(strings[1],world.getName(),Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]),commandSender);
         }else {
-            commandSender.sendMessage("this command can use by player or commandBlock");
+            if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
+                World world = null;
+                if (commandSender instanceof Player) {
+                    world = ((Player) commandSender).getWorld();
+                }
+                if (commandSender instanceof BlockCommandSender) {
+                    world = ((BlockCommandSender) commandSender).getBlock().getWorld();
+                }
+                plugin.getOnigoManager().setWaitRoom1(strings[1], world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
+            } else {
+                commandSender.sendMessage("this command can use by player or commandBlock");
+            }
         }
         return true;
     }

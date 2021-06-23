@@ -1,5 +1,6 @@
 package net.kigawa.onigoplugin.command.onigo;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
@@ -8,11 +9,11 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class Start extends SubCommand {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
-    public Start(KigawaPlugin kigawaPlugin) {
-        super(kigawaPlugin);
-        plugin=kigawaPlugin;
+    public Start(OnigoPlugin onigoPlugin) {
+        super(onigoPlugin);
+        plugin=onigoPlugin;
     }
 
     @Override
@@ -22,7 +23,12 @@ public class Start extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;
+        if (strings.length==2){
+            plugin.getOnigoManager().start(strings[1],commandSender);
+        }else {
+            commandSender.sendMessage("/onigo start <game name>");
+        }
+        return true;
     }
 
     @Override
