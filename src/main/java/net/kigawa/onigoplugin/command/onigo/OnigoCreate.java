@@ -19,6 +19,7 @@ public class OnigoCreate extends MainCommand {
         subCommands.add(new CreateGame(plugin));
         subCommands.add(new SetWaitRoom1(plugin));
         subCommands.add(new SetWaitRoom2(plugin));
+        subCommands.add(new SetOniCount(plugin));
     }
 
     @Override

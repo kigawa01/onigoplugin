@@ -42,6 +42,7 @@ public class SetWaitRoom1 extends SubCommand {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
                 plugin.getOnigoManager().setWaitRoom1(strings[1], world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
+                commandSender.sendMessage("start point of wait room is set");
             } else {
                 commandSender.sendMessage("this command can use by player or commandBlock");
             }
