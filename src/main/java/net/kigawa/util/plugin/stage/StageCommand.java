@@ -6,18 +6,16 @@ import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StageCommand extends MainCommand {
+public abstract class StageCommand extends MainCommand {
     public StageCommand(KigawaPlugin plugin) {
         super(plugin);
         subCommands.add(new CreateCommand(plugin));
+        subCommands.add(new SetStage1(plugin));
     }
 
-    @Override
-    public String getCommandStr() {
-        return "stage";
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -28,7 +26,7 @@ public class StageCommand extends MainCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         return false;
     }
-    List<SubCommand> subCommands;
+    List<SubCommand> subCommands=new ArrayList<>();
     @Override
     public List<SubCommand> getCommandList() {
         return subCommands;

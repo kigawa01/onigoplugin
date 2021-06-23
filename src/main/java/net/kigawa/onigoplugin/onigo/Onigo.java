@@ -43,7 +43,7 @@ public class Onigo {
                 StageData stageData=plugin.getStageManager().getRandomStage();
                 if (stageData!=null) {
                     for (int i = 0; i < runPlayer.size(); i++) {
-                        //runPlayer.get(i).teleport(new Location(plugin.getServer().getWorld()));
+                        //runPlayer.get(i).teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld())));
                     }
                 }else {
                     sender.sendMessage("stage is not exit");

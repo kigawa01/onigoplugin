@@ -7,7 +7,7 @@ softdepend: [UtilPlugin]
 commands:
   onigo:
     description: for onigo
-    usage: /onigo subcommand
+    usage: /onigo <subcommand>
     permission: onigoplugin.onigo
   test:
     description: for test
@@ -15,5 +15,9 @@ commands:
     permission: onigoplugin.test
   onigocreate:
     description: create onigp game
-    usage: /createonigo subcommand
+    usage: /createonigo <subcommand>
     permission: onigoplugin.createonigo
+  stage:
+    description: for stage
+    usage: /stage <subcommand>
+    permission: onigoplugin.stage

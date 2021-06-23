@@ -1,5 +1,6 @@
 package net.kigawa.onigoplugin;
 
+import net.kigawa.onigoplugin.command.Stage;
 import net.kigawa.onigoplugin.command.onigo.Onigo;
 import net.kigawa.onigoplugin.command.Test;
 import net.kigawa.onigoplugin.command.onigo.OnigoCreate;
@@ -17,7 +18,7 @@ public final class OnigoPlugin extends KigawaPlugin {
         onigo= new Onigo(this);
         new Test(this);
         new OnigoCreate(this);
-        new StageCommand(this);
+        new Stage(this);
 
     }
 

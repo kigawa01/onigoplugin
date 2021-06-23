@@ -28,9 +28,41 @@ public class StageManager {
             allStage.add(data);
         }
     }
+    public void setStage2(String name,String world,int x,int y,int z,CommandSender sender){
+        StageData stageData=getStage(name,sender);
+        if (stageData!=null){
+            stageData.setStageWorld(world);
+            int[] i=stageData.getStageLoc();
+            i[3]=x;
+            i[4]=y;
+            i[5]=z;
+            stageData.setStageLoc(i);
+        }
+    }
+    public void setStage1(String name,String world,int x,int y,int z,CommandSender sender){
+        StageData stageData=getStage(name,sender);
+        if (stageData!=null){
+            stageData.setStageWorld(world);
+            int[] i=stageData.getStageLoc();
+            i[0]=x;
+            i[1]=y;
+            i[2]=z;
+            stageData.setStageLoc(i);
+        }
+    }
+    public StageData getStage(String name,CommandSender sender){
+        StageData stageData=null;
+        if (allStage.contains(new EqualsRecorderData(name))){
+            stageData= allStage.get(allStage.indexOf(new EqualsRecorderData(name)));
+        }else {
+            sender.sendMessage(name+" is not exit");
+        }
+        return stageData;
+    }
+
     public void setStage(String name, CommandSender sender){
         //check can use this name
-        if (plugin.getStageManager().getStage(name)!=null){
+        if (plugin.getStageManager().getStage(name)==null){
             //create Stage
             StageData stageData=new StageData();
             stageData.setName(name);
@@ -39,6 +71,8 @@ public class StageManager {
             allStage.add(stageData);
             //save
             plugin.getRecorder().save(stageData);
+            //send message
+            sender.sendMessage("create "+name);
         }else {
             sender.sendMessage("this name can't use");
         }
