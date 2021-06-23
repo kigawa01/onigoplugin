@@ -5,6 +5,7 @@ import net.kigawa.onigoplugin.command.Test;
 import net.kigawa.onigoplugin.command.onigo.OnigoCreate;
 import net.kigawa.onigoplugin.onigo.OnigoManager;
 import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.stage.StageCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public final class OnigoPlugin extends KigawaPlugin {
@@ -16,6 +17,7 @@ public final class OnigoPlugin extends KigawaPlugin {
         onigo= new Onigo(this);
         new Test(this);
         new OnigoCreate(this);
+        new StageCommand(this);
 
     }
 
