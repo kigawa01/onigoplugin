@@ -32,10 +32,12 @@ public class StageManager {
         StageData stageData=getStage(name,sender);
         if (stageData!=null){
             stageData.setStartWorld(world);
-            int[] i=stageData.getStageLoc();
+            int[] i=stageData.getStartLoc();
             i[0]=x;
             i[1]=y;
             i[2]=z;
+            //check x
+            plugin.logger(x);
             stageData.setStartLoc(i);
             plugin.getRecorder().save(stageData);
         }
