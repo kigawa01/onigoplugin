@@ -36,9 +36,9 @@ public class StageManager {
             i[0]=x;
             i[1]=y;
             i[2]=z;
-            //check x
-            plugin.logger(x);
             stageData.setStartLoc(i);
+            //logger
+            plugin.logger("stage manager startLoc "+stageData.getStartLoc()[0]);
             plugin.getRecorder().save(stageData);
         }
     }

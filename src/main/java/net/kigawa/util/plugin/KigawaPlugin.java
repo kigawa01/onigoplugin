@@ -1,5 +1,6 @@
 package net.kigawa.util.plugin;
 
+import net.kigawa.util.message.Logger;
 import net.kigawa.util.plugin.player.PlayerGetter;
 import net.kigawa.util.plugin.recorder.Recorder;
 import net.kigawa.util.plugin.stage.StageManager;
@@ -7,7 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class KigawaPlugin extends JavaPlugin {
+public abstract class KigawaPlugin extends JavaPlugin implements Logger {
     boolean debug;
     Recorder recorder;
     PlayerGetter playerGetter;
