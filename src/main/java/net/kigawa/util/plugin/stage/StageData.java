@@ -4,6 +4,24 @@ import net.kigawa.util.plugin.recorder.RecorderData;
 
 public class StageData extends RecorderData {
 
+    public int[] getStartLoc() {
+        return startLoc;
+    }
+
+    public void setStartLoc(int[] startLoc) {
+        this.startLoc = startLoc;
+    }
+
+    int[] startLoc=new int[3];
+    public String getStartWorld() {
+        return startWorld;
+    }
+
+    public void setStartWorld(String startWorld) {
+        this.startWorld = startWorld;
+    }
+
+    String startWorld;
     public StageData(){
         setFolder("stage");
     }

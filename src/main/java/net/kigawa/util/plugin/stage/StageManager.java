@@ -28,6 +28,18 @@ public class StageManager {
             allStage.add(data);
         }
     }
+    public void setStartLoc(String name,String world,int x,int y,int z,CommandSender sender){
+        StageData stageData=getStage(name,sender);
+        if (stageData!=null){
+            stageData.setStartWorld(world);
+            int[] i=stageData.getStageLoc();
+            i[0]=x;
+            i[1]=y;
+            i[2]=z;
+            stageData.setStartLoc(i);
+            plugin.getRecorder().save(stageData);
+        }
+    }
     public void setStage2(String name,String world,int x,int y,int z,CommandSender sender){
         StageData stageData=getStage(name,sender);
         if (stageData!=null){
