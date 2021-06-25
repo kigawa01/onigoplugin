@@ -4,6 +4,24 @@ import net.kigawa.util.plugin.recorder.RecorderData;
 
 public class OnigoData extends RecorderData {
 
+    public int getGameTime() {
+        return gameTime;
+    }
+
+    public void setGameTime(int gameTime) {
+        this.gameTime = gameTime;
+    }
+
+    int gameTime;
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
+
+    int waitTime;
 
     String waitRoomWorld=null;
     int oniCount;

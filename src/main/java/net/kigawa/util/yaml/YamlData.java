@@ -6,4 +6,5 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 
 public interface YamlData {
+    public String getName();
 }

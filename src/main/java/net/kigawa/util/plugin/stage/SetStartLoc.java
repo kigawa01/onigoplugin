@@ -31,28 +31,11 @@ public class SetStartLoc extends SubCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         //check args
         if (strings.length==5){
-            //check sender
-            if (commandSender instanceof Player|commandSender instanceof BlockCommandSender) {
-                //get world
-                World world=null;
-                //if player
-                if (commandSender instanceof Player){
-                    world=((Player)commandSender).getWorld();
-                }
-                //if commandBlock
-                else {
-                    world=((BlockCommandSender)commandSender).getBlock().getWorld();
-                }
                 //set start loc
-                plugin.getStageManager().setStartLoc(strings[1], world.getName(),Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]),
+                plugin.getStageManager().setStartLoc(strings[1],Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]),
                         commandSender);
                 //send message
                 commandSender.sendMessage("set start loc");
-            }
-            //if sender is console
-            else {
-                commandSender.sendMessage("can't use this command from console");
-            }
         }else{
             commandSender.sendMessage("/stage setstartloc <game name> <x> <y> <z>");
         }

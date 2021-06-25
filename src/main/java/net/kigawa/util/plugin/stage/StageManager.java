@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.stage;
 
 import net.kigawa.util.plugin.KigawaPlugin;
-import net.kigawa.util.plugin.recorder.EqualsRecorderData;
+import net.kigawa.util.yaml.EqualsYamlData;
 import org.bukkit.command.CommandSender;
 
 import java.io.File;
@@ -28,17 +28,16 @@ public class StageManager {
             allStage.add(data);
         }
     }
-    public void setStartLoc(String name,String world,int x,int y,int z,CommandSender sender){
+    public void setStartLoc(String name,int x,int y,int z,CommandSender sender){
         StageData stageData=getStage(name,sender);
         if (stageData!=null){
-            stageData.setStartWorld(world);
             int[] i=stageData.getStartLoc();
             i[0]=x;
             i[1]=y;
             i[2]=z;
-            stageData.setStartLoc(i);
             //logger
             plugin.logger("stage manager startLoc "+stageData.getStartLoc()[0]);
+            plugin.logger("length "+stageData.getStartLoc().length);
             plugin.getRecorder().save(stageData);
         }
     }
@@ -50,7 +49,6 @@ public class StageManager {
             i[3]=x;
             i[4]=y;
             i[5]=z;
-            stageData.setStageLoc(i);
             plugin.getRecorder().save(stageData);
         }
     }
@@ -62,14 +60,13 @@ public class StageManager {
             i[0]=x;
             i[1]=y;
             i[2]=z;
-            stageData.setStageLoc(i);
             plugin.getRecorder().save(stageData);
         }
     }
     public StageData getStage(String name,CommandSender sender){
         StageData stageData=null;
-        if (allStage.contains(new EqualsRecorderData(name))){
-            stageData= allStage.get(allStage.indexOf(new EqualsRecorderData(name)));
+        if (allStage.contains(new EqualsYamlData(name))){
+            stageData= allStage.get(allStage.indexOf(new EqualsYamlData(name)));
         }else {
             sender.sendMessage(name+" is not exit");
         }
@@ -95,8 +92,8 @@ public class StageManager {
     }
     public StageData getStage(String name){
         StageData stageData=null;
-        if (allStage.contains(new EqualsRecorderData(name))){
-            stageData= allStage.get(allStage.indexOf(new EqualsRecorderData(name)));
+        if (allStage.contains(new EqualsYamlData(name))){
+            stageData= allStage.get(allStage.indexOf(new EqualsYamlData(name)));
         }
         return stageData;
     }

@@ -13,15 +13,6 @@ public class StageData extends RecorderData {
     }
 
     int[] startLoc=new int[3];
-    public String getStartWorld() {
-        return startWorld;
-    }
-
-    public void setStartWorld(String startWorld) {
-        this.startWorld = startWorld;
-    }
-
-    String startWorld;
     public StageData(){
         setFolder("stage");
     }
