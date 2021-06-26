@@ -1,6 +1,7 @@
 package net.kigawa.util.plugin;
 
 import net.kigawa.util.message.Logger;
+import net.kigawa.util.plugin.player.Messenger;
 import net.kigawa.util.plugin.player.PlayerGetter;
 import net.kigawa.util.plugin.recorder.Recorder;
 import net.kigawa.util.plugin.stage.StageManager;
@@ -13,6 +14,7 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
     Recorder recorder;
     PlayerGetter playerGetter;
     StageManager stageManager;
+    Messenger messenger;
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
@@ -27,8 +29,13 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
         recorder=new Recorder(this);
         playerGetter=new PlayerGetter(this);
         stageManager=new StageManager(this);
+        messenger=new Messenger();
 
         onStart();
+    }
+
+    public Messenger getMessenger() {
+        return messenger;
     }
 
     public StageManager getStageManager() {

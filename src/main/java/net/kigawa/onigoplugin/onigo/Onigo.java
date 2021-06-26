@@ -2,7 +2,9 @@ package net.kigawa.onigoplugin.onigo;
 
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.StageData;
+import net.kigawa.util.timer.Counter;
 import net.kigawa.util.yaml.YamlData;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,6 +21,7 @@ public class Onigo implements YamlData {
     public Onigo(KigawaPlugin kigawaPlugin,OnigoData onigoData){
         plugin=kigawaPlugin;
         d=onigoData;
+        counter=new Counter("onigo_"+getName(),plugin);
     }
     public void end(){
 
@@ -26,6 +29,7 @@ public class Onigo implements YamlData {
     public void exit(){
 
     }
+    Counter counter;
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
             //sort oni
@@ -36,10 +40,11 @@ public class Onigo implements YamlData {
             List<Player> runPlayer=new ArrayList<>();
             runPlayer.addAll(joinPlayer);
             int randomNumber;
-            if (oniPlayer.size()>d.getOniCount()) {
+            plugin.logger("join player"+joinPlayer.size());
+            if (joinPlayer.size()>d.getOniCount()) {
                 for (int i = 0; i < d.getOniCount(); i++) {
-                    randomNumber=random.nextInt(runPlayer.size());
-                    oniPlayer.add(joinPlayer.get(randomNumber));
+                    randomNumber=random.nextInt(runPlayer.size()-1);
+                    oniPlayer.add(runPlayer.get(randomNumber));
                     runPlayer.remove(randomNumber);
                 }
                 //teleport runner
@@ -59,18 +64,19 @@ public class Onigo implements YamlData {
                             }
                         }
                     }.runTaskLater(plugin,d.getWaitTime()*20);
+                    counter.startSec("鬼ごっこ","onigo",0L,d.getWaitTime(),3,joinPlayer, Color.GREEN +"START");
                     new BukkitRunnable(){
 
                         @Override
                         public void run() {
-
+                        end();
                         }
                     }.runTaskLater(plugin,d.getGameTime()*20*60);
                 }else {
                     sender.sendMessage("stage is not exit");
                 }
             }else {
-                sender.sendMessage("players is not enough");
+                sender.sendMessage("player is not enough");
             }
         }else {
             sender.sendMessage("need waiting room");
