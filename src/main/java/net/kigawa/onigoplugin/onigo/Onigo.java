@@ -21,7 +21,7 @@ public class Onigo implements YamlData {
     public Onigo(KigawaPlugin kigawaPlugin,OnigoData onigoData){
         plugin=kigawaPlugin;
         d=onigoData;
-        counter=new Counter("onigo_"+getName(),plugin);
+        counter=new Counter(plugin);
     }
     public void end(){
 
@@ -64,9 +64,8 @@ public class Onigo implements YamlData {
                             }
                         }
                     }.runTaskLater(plugin,d.getWaitTime()*20);
-                    counter.startSec("鬼ごっこ","onigo",0L,d.getWaitTime(),3,joinPlayer, Color.GREEN +"START");
+                    counter.startSec("鬼ごっこ","onigo",0L,d.getWaitTime(),3,joinPlayer, Color.GREEN +"START",Color.GREEN,Color.GREEN);
                     new BukkitRunnable(){
-
                         @Override
                         public void run() {
                         end();
