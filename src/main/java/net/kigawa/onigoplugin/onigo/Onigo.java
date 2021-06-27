@@ -4,6 +4,7 @@ import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.StageData;
 import net.kigawa.util.timer.Counter;
 import net.kigawa.util.yaml.YamlData;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -21,15 +22,14 @@ public class Onigo implements YamlData {
     public Onigo(KigawaPlugin kigawaPlugin,OnigoData onigoData){
         plugin=kigawaPlugin;
         d=onigoData;
-        counter=new Counter(plugin);
     }
-    public void end(){
-
+    public void end(List<Player> joinPlayer){
+        //send oni name
+        plugin.getMessenger().sendTitle();
     }
     public void exit(){
 
     }
-    Counter counter;
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
             //sort oni
@@ -43,9 +43,9 @@ public class Onigo implements YamlData {
             plugin.logger("join player"+joinPlayer.size());
             if (joinPlayer.size()>d.getOniCount()) {
                 for (int i = 0; i < d.getOniCount(); i++) {
-                    randomNumber=random.nextInt(runPlayer.size()-1);
-                    oniPlayer.add(runPlayer.get(randomNumber));
-                    runPlayer.remove(randomNumber);
+                    randomNumber=random.nextInt(runPlayer.size());
+                    oniPlayer.add(runPlayer.get(randomNumber-1));
+                    runPlayer.remove(randomNumber-1);
                 }
                 //teleport runner
                 StageData stageData=plugin.getStageManager().getRandomStage();
@@ -62,15 +62,18 @@ public class Onigo implements YamlData {
                                 player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]),
                                         Integer.valueOf(stageData.getStartLoc()[1]), Integer.valueOf(stageData.getStartLoc()[2])));
                             }
+                            new BukkitRunnable(){
+                                @Override
+                                public void run() {
+                                    end(joinPlayer);
+                                }
+                            }.runTaskLater(plugin,d.getGameTime()*20*60);
+                            new Counter("鬼ごっこ","onigo",plugin).startMin(0L,d.getGameTime(),3,joinPlayer,ChatColor.RED+"END",ChatColor.GREEN);
                         }
+
                     }.runTaskLater(plugin,d.getWaitTime()*20);
-                    counter.startSec("鬼ごっこ","onigo",0L,d.getWaitTime(),3,joinPlayer, Color.GREEN +"START",Color.GREEN,Color.GREEN);
-                    new BukkitRunnable(){
-                        @Override
-                        public void run() {
-                        end();
-                        }
-                    }.runTaskLater(plugin,d.getGameTime()*20*60);
+                    new Counter("鬼ごっこ","onigo",plugin).startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
+
                 }else {
                     sender.sendMessage("stage is not exit");
                 }
