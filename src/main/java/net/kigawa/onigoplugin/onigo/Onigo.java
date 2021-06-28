@@ -2,15 +2,13 @@ package net.kigawa.onigoplugin.onigo;
 
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.StageData;
-import net.kigawa.util.timer.Counter;
+import net.kigawa.util.plugin.timer.Counter;
 import net.kigawa.util.yaml.YamlData;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.List;

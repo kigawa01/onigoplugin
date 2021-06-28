@@ -1,16 +1,13 @@
-package net.kigawa.util.timer;
+package net.kigawa.util.plugin.timer;
 
-import net.kigawa.onigoplugin.command.Test;
 import net.kigawa.util.plugin.KigawaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
 import java.util.List;
-import java.util.Set;
 
 public class Counter extends BukkitRunnable {
     int count;
