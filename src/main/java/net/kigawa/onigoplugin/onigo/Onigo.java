@@ -52,7 +52,7 @@ public class Onigo implements YamlData {
             plugin.logger("join player"+joinPlayer.size());
             if (joinPlayer.size()>d.getOniCount()) {
                 for (int i = 0; i < d.getOniCount(); i++) {
-                    randomNumber=random.nextInt(runPlayer.size()+1);
+                    randomNumber=random.nextInt(runPlayer.size());
                     oniPlayer.add(runPlayer.get(randomNumber));
                     runPlayer.remove(randomNumber);
                 }
@@ -63,6 +63,8 @@ public class Onigo implements YamlData {
                         player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]),
                                 Integer.valueOf(stageData.getStartLoc()[1]), Integer.valueOf(stageData.getStartLoc()[2])));
                     }
+                    //limiter
+                    Limiter limiter=new Limiter(plugin,runPlayer,stageData);
                     //teleport oni
                     new BukkitRunnable() {
                         @Override
@@ -71,11 +73,15 @@ public class Onigo implements YamlData {
                                 player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]),
                                         Integer.valueOf(stageData.getStartLoc()[1]), Integer.valueOf(stageData.getStartLoc()[2])));
                             }
-                            Limiter limiter=new Limiter(plugin,joinPlayer,stageData);
+                            //cancel limiter
+                            limiter.cancel();
+                            //limiter
+                            Limiter limiter1=new Limiter(plugin,joinPlayer,stageData);
+                            //end
                             new BukkitRunnable(){
                                 @Override
                                 public void run() {
-                                    end(joinPlayer,oniPlayer,stageData,limiter);
+                                    end(joinPlayer,oniPlayer,stageData,limiter1);
                                 }
                             }.runTaskLater(plugin,d.getGameTime()*20*60);
                             new Counter("鬼ごっこ","onigo",plugin).startMin(0L,d.getGameTime(),3,joinPlayer,ChatColor.RED+"END",ChatColor.GREEN);

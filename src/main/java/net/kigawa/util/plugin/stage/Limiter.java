@@ -48,10 +48,10 @@ public class Limiter extends BukkitRunnable {
     public void run() {
         for (Player player:players){
             Location loc=player.getLocation();
-            int[] l=new int[3];
-            l[0]=loc.getBlockX();
-            l[1]=loc.getBlockY();
-            l[2]=loc.getBlockZ();
+            double[] l=new double[3];
+            l[0]=loc.getX();
+            l[1]=loc.getY();
+            l[2]=loc.getZ();
             if (l[0]<stageLoc[0]){
                 player.teleport(new Location(loc.getWorld(),stageLoc[0],l[1],l[2]));
                 player.sendMessage("ステージから出ることはできません");
@@ -72,7 +72,7 @@ public class Limiter extends BukkitRunnable {
                 player.teleport(new Location(loc.getWorld(),l[0],l[1],stageLoc[2]));
                 player.sendMessage("ステージから出ることはできません");
             }
-            if (l[2]<stageLoc[5]){
+            if (l[2]>stageLoc[5]){
                 player.teleport(new Location(loc.getWorld(),l[0],l[1],stageLoc[5]));
                 player.sendMessage("ステージから出ることはできません");
             }
