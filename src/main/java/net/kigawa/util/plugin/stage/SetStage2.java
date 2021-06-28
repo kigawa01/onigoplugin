@@ -38,7 +38,7 @@ public class SetStage2 extends SubCommand {
                     world=((BlockCommandSender)commandSender).getBlock().getWorld();
                 }
                 plugin.getStageManager().setStage2(strings[1], world.getName(),
-                        Integer.valueOf(strings[2]),Integer.valueOf(strings[2]),Integer.valueOf(strings[4]),commandSender);
+                        Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]),commandSender);
                 commandSender.sendMessage("set start point of stage");
             }
 

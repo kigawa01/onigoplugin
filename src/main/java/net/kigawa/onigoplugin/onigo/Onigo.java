@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.onigo;
 
 import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
 import net.kigawa.util.plugin.timer.Counter;
 import net.kigawa.util.yaml.YamlData;
@@ -24,12 +25,14 @@ public class Onigo implements YamlData {
     public void exit(){
 
     }
-    public void end(List<Player> joinPlayer,List<Player> oniPlayer,StageData stageData){
+    public void end(List<Player> joinPlayer,List<Player> oniPlayer,StageData stageData,Limiter limiter){
         //send oni name
         plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"最後に鬼だったプレーヤー");
         for (Player player:oniPlayer){
             plugin.getMessenger().sendMessage(joinPlayer,":"+player.getName());
         }
+        //stop limiter
+        limiter.cancel();
         //teleport players
         plugin.getTeleporter().teleportPlayers(joinPlayer,new Location(plugin.getServer().getWorld(d.getEndWorld()),d.getEndLoc()[0],d.getEndLoc()[1],d.getEndLoc()[2]));
         //return stage
@@ -49,7 +52,7 @@ public class Onigo implements YamlData {
             plugin.logger("join player"+joinPlayer.size());
             if (joinPlayer.size()>d.getOniCount()) {
                 for (int i = 0; i < d.getOniCount(); i++) {
-                    randomNumber=random.nextInt(runPlayer.size());
+                    randomNumber=random.nextInt(runPlayer.size()+1);
                     oniPlayer.add(runPlayer.get(randomNumber));
                     runPlayer.remove(randomNumber);
                 }
@@ -68,10 +71,11 @@ public class Onigo implements YamlData {
                                 player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]),
                                         Integer.valueOf(stageData.getStartLoc()[1]), Integer.valueOf(stageData.getStartLoc()[2])));
                             }
+                            Limiter limiter=new Limiter(plugin,joinPlayer,stageData);
                             new BukkitRunnable(){
                                 @Override
                                 public void run() {
-                                    end(joinPlayer,oniPlayer,stageData);
+                                    end(joinPlayer,oniPlayer,stageData,limiter);
                                 }
                             }.runTaskLater(plugin,d.getGameTime()*20*60);
                             new Counter("鬼ごっこ","onigo",plugin).startMin(0L,d.getGameTime(),3,joinPlayer,ChatColor.RED+"END",ChatColor.GREEN);

@@ -101,7 +101,7 @@ public class StageManager {
         StageData stageData=null;
          if (canUse.size()>0){
              Random random=new Random();
-             int randomNumber= random.nextInt(canUse.size());
+             int randomNumber= random.nextInt(canUse.size()+1);
              stageData=canUse.get(randomNumber);
              notUse.add(stageData);
              canUse.remove(randomNumber);

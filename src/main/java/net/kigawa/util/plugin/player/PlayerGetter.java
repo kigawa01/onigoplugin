@@ -21,24 +21,24 @@ public class PlayerGetter {
         int sz;
         int bz;
         if (x>x1){
-            sx=x1-1;
+            sx=x1;
             bx=x;
         }else{
-            sx=x-1;
+            sx=x;
             bx=x1;
         }
         if (y>y1){
-            sy=y1-1;
+            sy=y1;
             by=y;
         }else{
-            sy=y-1;
+            sy=y;
             by=y1;
         }
         if (z>z1){
-            sz=z1-1;
+            sz=z1;
             bz=z;
         }else{
-            sz=z-1;
+            sz=z;
             bz=z1;
         }
         if (sx<0)sx--;
