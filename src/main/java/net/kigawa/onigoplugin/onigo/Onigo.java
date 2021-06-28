@@ -34,7 +34,7 @@ public class Onigo implements YamlData {
         //stop limiter
         limiter.cancel();
         //teleport players
-        plugin.getTeleporter().teleportPlayers(joinPlayer,new Location(plugin.getServer().getWorld(d.getEndWorld()),d.getEndLoc()[0],d.getEndLoc()[1],d.getEndLoc()[2]));
+        plugin.getTeleporter().teleportPlayers(joinPlayer,new Location(plugin.getServer().getWorld(d.getEndWorld()),d.getEndLoc()[0]+0.5,d.getEndLoc()[1]+0.5,d.getEndLoc()[2]+0.5));
         //return stage
         plugin.getStageManager().returnStage(stageData);
     }
@@ -60,8 +60,8 @@ public class Onigo implements YamlData {
                 StageData stageData=plugin.getStageManager().getRandomStage();
                 if (stageData!=null) {
                     for (Player player : runPlayer) {
-                        player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]),
-                                Integer.valueOf(stageData.getStartLoc()[1]), Integer.valueOf(stageData.getStartLoc()[2])));
+                        player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0])+0.5,
+                                Integer.valueOf(stageData.getStartLoc()[1])+0.5, Integer.valueOf(stageData.getStartLoc()[2])+0.5));
                     }
                     //limiter
                     Limiter limiter=new Limiter(plugin,runPlayer,stageData);
@@ -70,8 +70,8 @@ public class Onigo implements YamlData {
                         @Override
                         public void run() {
                             for (Player player:oniPlayer){
-                                player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]),
-                                        Integer.valueOf(stageData.getStartLoc()[1]), Integer.valueOf(stageData.getStartLoc()[2])));
+                                player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0])+0.5,
+                                        Integer.valueOf(stageData.getStartLoc()[1])+0.5, Integer.valueOf(stageData.getStartLoc()[2])+0.5));
                             }
                             //cancel limiter
                             limiter.cancel();
