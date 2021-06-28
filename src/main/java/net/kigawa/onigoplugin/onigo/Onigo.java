@@ -23,13 +23,21 @@ public class Onigo implements YamlData {
         plugin=kigawaPlugin;
         d=onigoData;
     }
-    public void end(List<Player> joinPlayer){
-        //send oni name
-        plugin.getMessenger().sendTitle();
-    }
     public void exit(){
 
     }
+    public void end(List<Player> joinPlayer,List<Player> oniPlayer,StageData stageData){
+        //send oni name
+        plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"最後に鬼だったプレーヤー");
+        for (Player player:oniPlayer){
+            plugin.getMessenger().sendMessage(joinPlayer,":"+player.getName());
+        }
+        //teleport players
+        plugin.getTeleporter().teleportPlayers(joinPlayer,new Location(plugin.getServer().getWorld(d.getEndWorld()),d.getEndLoc()[0],d.getEndLoc()[1],d.getEndLoc()[2]));
+        //return stage
+        plugin.getStageManager().returnStage(stageData);
+    }
+
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
             //sort oni
@@ -44,8 +52,8 @@ public class Onigo implements YamlData {
             if (joinPlayer.size()>d.getOniCount()) {
                 for (int i = 0; i < d.getOniCount(); i++) {
                     randomNumber=random.nextInt(runPlayer.size());
-                    oniPlayer.add(runPlayer.get(randomNumber-1));
-                    runPlayer.remove(randomNumber-1);
+                    oniPlayer.add(runPlayer.get(randomNumber));
+                    runPlayer.remove(randomNumber);
                 }
                 //teleport runner
                 StageData stageData=plugin.getStageManager().getRandomStage();
@@ -65,12 +73,11 @@ public class Onigo implements YamlData {
                             new BukkitRunnable(){
                                 @Override
                                 public void run() {
-                                    end(joinPlayer);
+                                    end(joinPlayer,oniPlayer,stageData);
                                 }
                             }.runTaskLater(plugin,d.getGameTime()*20*60);
                             new Counter("鬼ごっこ","onigo",plugin).startMin(0L,d.getGameTime(),3,joinPlayer,ChatColor.RED+"END",ChatColor.GREEN);
                         }
-
                     }.runTaskLater(plugin,d.getWaitTime()*20);
                     new Counter("鬼ごっこ","onigo",plugin).startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
 
@@ -83,6 +90,14 @@ public class Onigo implements YamlData {
         }else {
             sender.sendMessage("need waiting room");
         }
+    }
+    public void setEndLoc(String world, int x, int y, int z){
+        int [] loc=d.getEndLoc();
+        loc[0]=x;
+        loc[1]=y;
+        loc[2]=z;
+        d.setEndWorld(world);
+        plugin.getRecorder().save(d);
     }
     public void setGameTime(int gameTime){
         d.setGameTime(gameTime);

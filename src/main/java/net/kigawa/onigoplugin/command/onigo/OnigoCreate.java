@@ -21,6 +21,7 @@ public class OnigoCreate extends MainCommand {
         subCommands.add(new SetOniCount(plugin));
         subCommands.add(new SetWaitTime(plugin));
         subCommands.add(new SetGameTime(plugin));
+        subCommands.add(new SetEndLoc(plugin));
     }
 
     @Override

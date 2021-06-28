@@ -108,4 +108,10 @@ public class StageManager {
          }
          return stageData;
     }
+    public void returnStage(StageData stageData){
+        if (notUse.contains(new EqualsYamlData(stageData.getName()))){
+            canUse.add(stageData);
+            notUse.remove(notUse.indexOf(new EqualsYamlData(stageData.getName())));
+        }
+    }
 }

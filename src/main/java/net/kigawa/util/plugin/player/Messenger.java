@@ -10,4 +10,9 @@ public class Messenger {
             player.sendTitle(title,subTitle,10,20,10);
         }
     }
+    public void sendMessage(List<Player> players,String message){
+        for (Player player: players){
+            player.sendMessage(message);
+        }
+    }
 }

@@ -4,6 +4,24 @@ import net.kigawa.util.plugin.recorder.RecorderData;
 
 public class OnigoData extends RecorderData {
 
+    public void setEndLoc(int[] endLoc) {
+        this.endLoc = endLoc;
+    }
+
+    public int[] getEndLoc() {
+        return endLoc;
+    }
+
+    int[] endLoc=new int[3];
+    public void setEndWorld(String endWorld) {
+        this.endWorld = endWorld;
+    }
+
+    public String getEndWorld() {
+        return endWorld;
+    }
+
+    String endWorld;
     public int getGameTime() {
         return gameTime;
     }

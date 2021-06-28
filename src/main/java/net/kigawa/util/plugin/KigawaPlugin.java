@@ -3,6 +3,7 @@ package net.kigawa.util.plugin;
 import net.kigawa.util.message.Logger;
 import net.kigawa.util.plugin.player.Messenger;
 import net.kigawa.util.plugin.player.PlayerGetter;
+import net.kigawa.util.plugin.player.Teleporter;
 import net.kigawa.util.plugin.recorder.Recorder;
 import net.kigawa.util.plugin.stage.StageManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,6 +16,7 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
     PlayerGetter playerGetter;
     StageManager stageManager;
     Messenger messenger;
+    Teleporter teleporter;
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
@@ -30,8 +32,13 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
         playerGetter=new PlayerGetter(this);
         stageManager=new StageManager(this);
         messenger=new Messenger();
+        teleporter=new Teleporter();
 
         onStart();
+    }
+
+    public Teleporter getTeleporter() {
+        return teleporter;
     }
 
     public Messenger getMessenger() {
