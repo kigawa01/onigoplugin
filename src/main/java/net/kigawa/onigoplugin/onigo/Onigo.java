@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +26,50 @@ public class Onigo implements YamlData {
     public void exit(){
 
     }
-    public void end(List<Player> joinPlayer,List<Player> oniPlayer,StageData stageData,Limiter limiter){
+    List<Player> joinPlayer;
+    List<Player> oniPlayer;
+    StageData stageData;
+    Limiter limiter;
+    Limiter limiter1;
+    Counter counter;
+    Counter counter1;
+    BukkitTask runnable;
+    BukkitTask runnable1;
+    public void end(){
         //send oni name
         plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"最後に鬼だったプレーヤー");
         for (Player player:oniPlayer){
             plugin.getMessenger().sendMessage(joinPlayer,":"+player.getName());
         }
-        //stop limiter
-        limiter.cancel();
         //teleport players
         plugin.getTeleporter().teleportPlayers(joinPlayer,new Location(plugin.getServer().getWorld(d.getEndWorld()),d.getEndLoc()[0]+0.5,d.getEndLoc()[1]+0.5,d.getEndLoc()[2]+0.5));
         //return stage
         plugin.getStageManager().returnStage(stageData);
+        //cancel counter
+        counter.cancel();
+        counter1.cancel();
+        //cancel limiter
+        limiter.cancel();
+        limiter1.cancel();
+        //cancel runnable
+        runnable.cancel();
+        runnable1.cancel();
+        //remove in list
+        while (0<joinPlayer.size()){
+            joinPlayer.remove(0);
+        }
+        while (0<oniPlayer.size()){
+            oniPlayer.remove(0);
+        }
     }
 
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
             //sort oni
-            List<Player> joinPlayer = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
+            joinPlayer = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
                     d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
             Random random=new Random();
-            List<Player> oniPlayer=new ArrayList<>();
+            oniPlayer=new ArrayList<>();
             List<Player> runPlayer=new ArrayList<>();
             runPlayer.addAll(joinPlayer);
             int randomNumber;
@@ -57,16 +81,20 @@ public class Onigo implements YamlData {
                     runPlayer.remove(randomNumber);
                 }
                 //teleport runner
-                StageData stageData=plugin.getStageManager().getRandomStage();
+                stageData=plugin.getStageManager().getRandomStage();
                 if (stageData!=null) {
                     for (Player player : runPlayer) {
                         player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0])+0.5,
                                 Integer.valueOf(stageData.getStartLoc()[1])+0.5, Integer.valueOf(stageData.getStartLoc()[2])+0.5));
                     }
                     //limiter
-                    Limiter limiter=new Limiter(plugin,runPlayer,stageData);
+                    limiter=new Limiter(plugin,runPlayer,stageData);
+                    //counter
+                    Counter counter=new Counter("鬼ごっこ","onigo",plugin);
+                    counter.startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
                     //teleport oni
-                    new BukkitRunnable() {
+                    //count wait time
+                    runnable=new BukkitRunnable() {
                         @Override
                         public void run() {
                             for (Player player:oniPlayer){
@@ -76,19 +104,20 @@ public class Onigo implements YamlData {
                             //cancel limiter
                             limiter.cancel();
                             //limiter
-                            Limiter limiter1=new Limiter(plugin,joinPlayer,stageData);
+                            limiter1=new Limiter(plugin,joinPlayer,stageData);
+                            //counter
+                            counter.cancel();
+                            counter1=new Counter("鬼ごっこ","onigo",plugin);
+                            counter1.startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
                             //end
-                            new BukkitRunnable(){
+                            runnable1=new BukkitRunnable(){
                                 @Override
                                 public void run() {
-                                    end(joinPlayer,oniPlayer,stageData,limiter1);
+                                    end();
                                 }
                             }.runTaskLater(plugin,d.getGameTime()*20*60);
-                            new Counter("鬼ごっこ","onigo",plugin).startMin(0L,d.getGameTime(),3,joinPlayer,ChatColor.RED+"END",ChatColor.GREEN);
                         }
                     }.runTaskLater(plugin,d.getWaitTime()*20);
-                    new Counter("鬼ごっこ","onigo",plugin).startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
-
                 }else {
                     sender.sendMessage("stage is not exit");
                 }
