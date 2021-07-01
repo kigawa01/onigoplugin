@@ -2,7 +2,7 @@
 # onigoplugin
 マイクラで鬼ごっこをするためのプラグイン
 
-## 前提
+## Requirement
 * Spigot-1.16.5
 
 ## Command
