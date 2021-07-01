@@ -1,5 +1,5 @@
 
-#onigoplugin
+# onigoplugin
 マイクラで鬼ごっこをするためのプラグイン
 
 ## 前提
