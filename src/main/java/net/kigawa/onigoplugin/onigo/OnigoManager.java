@@ -29,6 +29,12 @@ public class OnigoManager {
             list.add(new Onigo(plugin,data));
         }
     }
+    public void end(String gameName,CommandSender sender){
+        Onigo onigo=getOnigo(gameName,sender);
+        if (onigo!=null){
+            onigo.end();
+        }
+    }
     public void setEndLoc(String gameName,CommandSender sender,String worldName,int x,int y,int z){
         Onigo onigo=getOnigo(gameName,sender);
             if (onigo!=null){

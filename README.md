@@ -1,0 +1,17 @@
+#onigoplugin
+マイクラで鬼ごっこをするためのプラグイン
+
+## 前提
+* Spigot-1.16.5
+
+## Command
+- **/onigo**
+    - ゲームに関するコマンド
+- **/onigocreate**
+    - ゲームの作成に関するコマンド
+- **/stage**
+    - ステージに関するコマンド
+
+# Author
+* kigawa
+    * kigawa.8390@gmail.com
