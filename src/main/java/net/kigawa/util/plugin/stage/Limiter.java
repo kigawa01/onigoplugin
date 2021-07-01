@@ -44,8 +44,11 @@ public class Limiter extends BukkitRunnable {
         if (stageLoc[5]>0)stageLoc[5]++;
         runTaskTimer(plugin,0,2);
     }
+    public void onRun(){
+    }
     @Override
     public void run() {
+        onRun();
         for (Player player:players){
             Location loc=player.getLocation();
             double[] l=new double[3];

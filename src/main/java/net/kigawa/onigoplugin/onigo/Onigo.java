@@ -1,5 +1,4 @@
 package net.kigawa.onigoplugin.onigo;
-
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
@@ -11,20 +10,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 public class Onigo implements YamlData {
     OnigoData d;
     KigawaPlugin plugin;
+    Onigo onigo=this;
     public Onigo(KigawaPlugin kigawaPlugin,OnigoData onigoData){
         plugin=kigawaPlugin;
         d=onigoData;
     }
     public void exit(){
-
     }
     List<Player> joinPlayer;
     List<Player> oniPlayer;
@@ -33,6 +30,7 @@ public class Onigo implements YamlData {
     Limiter limiter1;
     Counter counter;
     Counter counter1;
+    OnigoLimiter scheduler;
     BukkitTask runnable;
     BukkitTask runnable1;
     public void end(){
@@ -62,7 +60,6 @@ public class Onigo implements YamlData {
             oniPlayer.remove(0);
         }
     }
-
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
             //sort oni
@@ -90,7 +87,7 @@ public class Onigo implements YamlData {
                     //limiter
                     limiter=new Limiter(plugin,runPlayer,stageData);
                     //counter
-                    Counter counter=new Counter("鬼ごっこ","onigo",plugin);
+                    counter=new Counter("鬼ごっこ","onigo",plugin);
                     counter.startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
                     //teleport oni
                     //count wait time
@@ -104,11 +101,11 @@ public class Onigo implements YamlData {
                             //cancel limiter
                             limiter.cancel();
                             //limiter
-                            limiter1=new Limiter(plugin,joinPlayer,stageData);
+                            limiter1=new OnigoLimiter(plugin,stageData,onigo);
                             //counter
                             counter.cancel();
                             counter1=new Counter("鬼ごっこ","onigo",plugin);
-                            counter1.startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
+                            counter1.startMin(0L,d.getGameTime(),3,joinPlayer, ChatColor.RED +"END",ChatColor.GREEN);
                             //end
                             runnable1=new BukkitRunnable(){
                                 @Override
@@ -127,6 +124,14 @@ public class Onigo implements YamlData {
         }else {
             sender.sendMessage("need waiting room");
         }
+    }
+
+    public List<Player> getOniPlayer() {
+        return oniPlayer;
+    }
+
+    public List<Player> getJoinPlayer(){
+        return joinPlayer;
     }
     public void setEndLoc(String world, int x, int y, int z){
         int [] loc=d.getEndLoc();
@@ -148,11 +153,9 @@ public class Onigo implements YamlData {
         d.setOniCount(oniCount);
         plugin.getRecorder().save(d);
     }
-
     public OnigoData getD() {
         return d;
     }
-
     public void setWaitingRoom1(String world, int x, int y, int z){
         int [] loc=d.getWaitRoom();
         loc[0]=x;
@@ -168,12 +171,7 @@ public class Onigo implements YamlData {
         loc[5]=z;
         plugin.getRecorder().save(d);
     }
-    public void start(){
-        start(plugin.getServer().getConsoleSender());
-    }
-
     public String getName(){
         return d.getName();
     }
-
 }

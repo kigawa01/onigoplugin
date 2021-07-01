@@ -53,8 +53,11 @@ public class Counter extends BukkitRunnable {
         unit="min";
         runTaskTimer(plugin,delay,20*60);
     }
+    public void onRun(){
+    }
     @Override
     public void run() {
+        onRun();
         plugin.logger("run");
         score.setScore(count);
         if (unit.equals("sec")) {
