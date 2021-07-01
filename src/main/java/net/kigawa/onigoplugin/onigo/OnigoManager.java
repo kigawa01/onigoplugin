@@ -3,12 +3,17 @@ package net.kigawa.onigoplugin.onigo;
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.yaml.EqualsYamlData;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OnigoManager {
+
+    public boolean changeOni(Player oni,Player runner){
+        return list.contains(new EqualsOniChange(oni,runner));
+    }
     List<Onigo> list=new ArrayList<>();
     KigawaPlugin plugin;
     public OnigoManager(KigawaPlugin kigawaPlugin){

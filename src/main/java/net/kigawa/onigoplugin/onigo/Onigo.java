@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import java.util.ArrayList;
@@ -21,23 +23,40 @@ public class Onigo implements YamlData {
         plugin=kigawaPlugin;
         d=onigoData;
     }
+    public boolean changeOni(Player oni,Player runner){
+        if (oniPlayer.contains(oni)){
+            if (runPlayer.contains(runner)){
+                oniPlayer.add(runner);
+                runPlayer.remove(runner);
+                runPlayer.add(oni);
+                oniPlayer.remove(oni);
+                oni.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,102,2));
+                oni.sendTitle(ChatColor.GREEN+"鬼を交代しました","",5,15,5);
+                runner.sendTitle(ChatColor.RED+"鬼になりました","",5,15,5);
+                plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"鬼が変わりました");
+                plugin.getMessenger().sendMessage(joinPlayer,ChatColor.BLUE+oni.getName()+ChatColor.WHITE+"→"+ChatColor.BLUE+runner.getName());
+            }
+        }
+        return false;
+    }
+
     public void exit(){
     }
     List<Player> joinPlayer;
     List<Player> oniPlayer;
+    List<Player> runPlayer;
     StageData stageData;
     Limiter limiter;
     Limiter limiter1;
     Counter counter;
     Counter counter1;
-    OnigoLimiter scheduler;
     BukkitTask runnable;
     BukkitTask runnable1;
     public void end(){
         //send oni name
         plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"最後に鬼だったプレーヤー");
         for (Player player:oniPlayer){
-            plugin.getMessenger().sendMessage(joinPlayer,":"+player.getName());
+            plugin.getMessenger().sendMessage(joinPlayer,":"+ChatColor.BLUE+player.getName());
         }
         //teleport players
         plugin.getTeleporter().teleportPlayers(joinPlayer,new Location(plugin.getServer().getWorld(d.getEndWorld()),d.getEndLoc()[0]+0.5,d.getEndLoc()[1]+0.5,d.getEndLoc()[2]+0.5));
@@ -59,6 +78,9 @@ public class Onigo implements YamlData {
         while (0<oniPlayer.size()){
             oniPlayer.remove(0);
         }
+        while (0<runPlayer.size()){
+            runPlayer.remove(0);
+        }
     }
     public void start(CommandSender sender){
         if (d.waitRoomWorld!=null) {
@@ -67,7 +89,7 @@ public class Onigo implements YamlData {
                     d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
             Random random=new Random();
             oniPlayer=new ArrayList<>();
-            List<Player> runPlayer=new ArrayList<>();
+            runPlayer=new ArrayList<>();
             runPlayer.addAll(joinPlayer);
             int randomNumber;
             plugin.logger("join player"+joinPlayer.size());
@@ -89,14 +111,17 @@ public class Onigo implements YamlData {
                     //counter
                     counter=new Counter("鬼ごっこ","onigo",plugin);
                     counter.startSec(0L,d.getWaitTime(),3,joinPlayer, ChatColor.GREEN +"START",ChatColor.GREEN);
-                    //teleport oni
                     //count wait time
                     runnable=new BukkitRunnable() {
                         @Override
                         public void run() {
+                            //send message
+                            plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"最初に鬼のプレーヤー");
+                            //teleport oni
                             for (Player player:oniPlayer){
                                 player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0])+0.5,
                                         Integer.valueOf(stageData.getStartLoc()[1])+0.5, Integer.valueOf(stageData.getStartLoc()[2])+0.5));
+                                plugin.getMessenger().sendMessage(joinPlayer,ChatColor.BLUE+player.getName());
                             }
                             //cancel limiter
                             limiter.cancel();
