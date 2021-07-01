@@ -27,7 +27,7 @@ public class OnigoLimiter extends Limiter {
     public void onRun() {
         for (Player player:oniPlayers){
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,4,1));
-
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,4,1));
         }
     }
 }
