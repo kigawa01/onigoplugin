@@ -20,14 +20,19 @@ public class OnigoLimiter extends Limiter {
         counter=new Counter("鬼ごっこ","onigo",kigawaPlugin);
         plugin=kigawaPlugin;
         oniPlayers=onigo.getOniPlayer();
+        joinPlayers=onigo.getJoinPlayer();
     }
     List<Player> oniPlayers;
+    List<Player> joinPlayers;
 
     @Override
     public void onRun() {
         for (Player player:oniPlayers){
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,4,1));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,4,1));
+        }
+        for (Player player:joinPlayers){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,4,5));
         }
     }
 }

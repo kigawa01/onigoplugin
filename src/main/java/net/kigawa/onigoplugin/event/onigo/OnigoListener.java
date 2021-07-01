@@ -16,7 +16,6 @@ public class OnigoListener extends Event {
     }
     @EventHandler
     public void onClickEntity(EntityDamageByEntityEvent event){
-        event.getEntity().sendMessage(event.getEventName()+"a");
         if (event.getEntity() instanceof Player) {
             if (event.getDamager() instanceof Player){
                 plugin.getOnigoManager().changeOni((Player) event.getDamager(),(Player) event.getEntity());

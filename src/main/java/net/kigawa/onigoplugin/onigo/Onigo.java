@@ -6,8 +6,10 @@ import net.kigawa.util.plugin.timer.Counter;
 import net.kigawa.util.yaml.YamlData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -53,6 +55,10 @@ public class Onigo implements YamlData {
     BukkitTask runnable;
     BukkitTask runnable1;
     public void end(){
+        //clear inventory
+        for (Player player:joinPlayer){
+            player.getInventory().clear();
+        }
         //send oni name
         plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"最後に鬼だったプレーヤー");
         for (Player player:oniPlayer){
@@ -98,6 +104,12 @@ public class Onigo implements YamlData {
                     randomNumber=random.nextInt(runPlayer.size());
                     oniPlayer.add(runPlayer.get(randomNumber));
                     runPlayer.remove(randomNumber);
+                }
+                //clear inventory
+                for (Player player:joinPlayer){
+                    player.getInventory().clear();
+                    //add food
+                    player.getInventory().addItem(new ItemStack(Material.BREAD,64));
                 }
                 //teleport runner
                 stageData=plugin.getStageManager().getRandomStage();
