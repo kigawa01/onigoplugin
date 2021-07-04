@@ -6,7 +6,7 @@
 
     <groupId>net.kigawa</groupId>
     <artifactId>onigoplugin</artifactId>
-    <version>1U2b</version>
+    <version>1U3b</version>
     <packaging>jar</packaging>
 
     <name>OnigoPlugin</name>
