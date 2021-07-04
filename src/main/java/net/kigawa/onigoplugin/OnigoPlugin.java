@@ -2,10 +2,9 @@ package net.kigawa.onigoplugin;
 
 import net.kigawa.onigoplugin.command.Stage;
 import net.kigawa.onigoplugin.command.onigo.onigo.Onigo;
-import net.kigawa.onigoplugin.command.Test;
 import net.kigawa.onigoplugin.command.onigo.onigocreate.OnigoCreate;
 import net.kigawa.onigoplugin.event.onigo.OnigoListener;
-import net.kigawa.onigoplugin.onigo.OnigoManager;
+import net.kigawa.onigoplugin.game.onigo.OnigoManager;
 import net.kigawa.util.plugin.KigawaPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 

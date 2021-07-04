@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.onigo;
+package net.kigawa.onigoplugin.game.onigo;
 
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.yaml.EqualsYamlData;

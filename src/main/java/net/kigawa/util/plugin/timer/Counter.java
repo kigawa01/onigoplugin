@@ -67,7 +67,7 @@ public class Counter extends BukkitRunnable {
             }
             //send message
             if (count == 0) {
-                plugin.getMessenger().sendTitle(players,lastMessage, "");
+                sendLastMessage();
                 bord.resetScores("時間(秒)");
                 cancel();
             }
@@ -85,5 +85,8 @@ public class Counter extends BukkitRunnable {
             }
         }
         count--;
+    }
+    public void sendLastMessage(){
+        plugin.getMessenger().sendTitle(players,lastMessage, "");
     }
 }

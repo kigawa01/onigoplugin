@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.onigo;
+package net.kigawa.onigoplugin.game.onigo;
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
@@ -28,13 +28,18 @@ public class Onigo implements YamlData {
     public boolean changeOni(Player oni,Player runner){
         if (oniPlayer.contains(oni)){
             if (runPlayer.contains(runner)){
+                //change list
                 oniPlayer.add(runner);
                 runPlayer.remove(runner);
                 runPlayer.add(oni);
                 oniPlayer.remove(oni);
-                oni.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,102,2));
+                //oni to runner
                 oni.sendTitle(ChatColor.GREEN+"鬼を交代しました","",5,15,5);
+                //runner to oni
                 runner.sendTitle(ChatColor.RED+"鬼になりました","",5,15,5);
+                runner.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,100,1));
+                runner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,1));
+                //send all player
                 plugin.getMessenger().sendMessage(joinPlayer,ChatColor.GREEN+"鬼が変わりました");
                 plugin.getMessenger().sendMessage(joinPlayer,ChatColor.BLUE+oni.getName()+ChatColor.WHITE+"→"+ChatColor.BLUE+runner.getName());
             }
@@ -134,6 +139,8 @@ public class Onigo implements YamlData {
                                 player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0])+0.5,
                                         Integer.valueOf(stageData.getStartLoc()[1])+0.5, Integer.valueOf(stageData.getStartLoc()[2])+0.5));
                                 plugin.getMessenger().sendMessage(joinPlayer,ChatColor.BLUE+player.getName());
+                                //wear gold helmet
+                                player.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
                             }
                             //cancel limiter
                             limiter.cancel();
@@ -142,7 +149,6 @@ public class Onigo implements YamlData {
                             //counter
                             counter.cancel();
                             counter1=new Counter("鬼ごっこ","onigo",plugin);
-                            counter1.startMin(0L,d.getGameTime(),3,joinPlayer, ChatColor.RED +"END",ChatColor.GREEN);
                             //end
                             runnable1=new BukkitRunnable(){
                                 @Override
@@ -210,5 +216,13 @@ public class Onigo implements YamlData {
     }
     public String getName(){
         return d.getName();
+    }
+
+    public KigawaPlugin getPlugin() {
+        return plugin;
+    }
+
+    public List<Player> getRunPlayer() {
+        return runPlayer;
     }
 }

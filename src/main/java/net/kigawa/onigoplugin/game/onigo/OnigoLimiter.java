@@ -1,14 +1,12 @@
-package net.kigawa.onigoplugin.onigo;
+package net.kigawa.onigoplugin.game.onigo;
 
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
 import net.kigawa.util.plugin.timer.Counter;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
