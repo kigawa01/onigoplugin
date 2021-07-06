@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.onigo.create;
+package net.kigawa.onigoplugin.command.change.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;

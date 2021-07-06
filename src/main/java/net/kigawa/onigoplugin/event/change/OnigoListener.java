@@ -1,12 +1,10 @@
-package net.kigawa.onigoplugin.event.onigo;
+package net.kigawa.onigoplugin.event.change;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.event.Event;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.*;
 
 public class OnigoListener extends Event {
     OnigoPlugin plugin;

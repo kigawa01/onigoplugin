@@ -1,8 +1,6 @@
 package net.kigawa.util.yaml;
 
 
-import net.kigawa.onigoplugin.game.onigo.OnigoData;
-import net.kigawa.onigoplugin.game.onigo.OnigoGame;
 import net.kigawa.util.message.Logger;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 

@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.game.onigo;
+package net.kigawa.onigoplugin.game.change;
 
 import net.kigawa.util.plugin.timer.Counter;
 import org.bukkit.ChatColor;

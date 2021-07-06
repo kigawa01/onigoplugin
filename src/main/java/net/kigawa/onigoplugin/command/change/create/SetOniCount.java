@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.onigo.create;
+package net.kigawa.onigoplugin.command.change.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
@@ -7,16 +7,16 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class SetGameTime extends SubCommand {
+public class SetOniCount extends SubCommand {
     OnigoPlugin plugin;
-    public SetGameTime(OnigoPlugin onigoPlugin) {
+    public SetOniCount(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
         plugin=onigoPlugin;
     }
 
     @Override
     public String getCommandStr() {
-        return "setgametime";
+        return "setonicount";
     }
 
     @Override
@@ -27,10 +27,10 @@ public class SetGameTime extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length==3){
-            plugin.getOnigoManager().setGameTime(strings[1],commandSender,Integer.valueOf(strings[2]));
-            commandSender.sendMessage("set game time");
+            plugin.getOnigoManager().setOniCount(strings[1],commandSender,Integer.valueOf(strings[2]));
+            commandSender.sendMessage("oni count is set");
         }else {
-            commandSender.sendMessage("/onigocreate setgametime <game name> <count(minute)>");
+            commandSender.sendMessage("/onigocreate setonicount <game name> <count>");
         }
         return true;
     }

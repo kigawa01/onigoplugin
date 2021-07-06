@@ -1,21 +1,18 @@
-package net.kigawa.onigoplugin.command.onigo.game;
+package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.onigoplugin.game.onigo.OnigoGame;
 import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class List extends SubCommand {
+import java.util.List;
+
+public class End extends SubCommand {
+
     OnigoPlugin plugin;
-    public List(OnigoPlugin onigoPlugin) {
+    public End(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
         plugin=onigoPlugin;
-    }
-
-    @Override
-    public String getCommandStr() {
-        return "list";
     }
 
     @Override
@@ -25,12 +22,13 @@ public class List extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        java.util.List<OnigoGame> onigoList=plugin.getOnigoManager().getOnigoList();
-        for (int i=0;i<onigoList.size();i++){
-            commandSender.sendMessage("name "+onigoList.get(i).getName());
-            commandSender.sendMessage(" world "+onigoList.get(i).getD().getWaitRoomWorld());
+        if (strings.length==2){
+            plugin.getOnigoManager().end(strings[1],commandSender);
+            return true;
+        }else {
+            commandSender.sendMessage("/onigo end <game name>");
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -39,7 +37,12 @@ public class List extends SubCommand {
     }
 
     @Override
-    public java.util.List<SubCommand> getCommandList() {
+    public List<SubCommand> getCommandList() {
         return null;
+    }
+
+    @Override
+    public String getCommandStr() {
+        return "end";
     }
 }
