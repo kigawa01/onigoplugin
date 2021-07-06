@@ -17,11 +17,11 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-public class Onigo implements YamlData {
+public class OnigoGame implements YamlData {
     OnigoData d;
     KigawaPlugin plugin;
-    Onigo onigo=this;
-    public Onigo(KigawaPlugin kigawaPlugin,OnigoData onigoData){
+    OnigoGame onigo=this;
+    public OnigoGame(KigawaPlugin kigawaPlugin, OnigoData onigoData){
         plugin=kigawaPlugin;
         d=onigoData;
     }

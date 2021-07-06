@@ -1,8 +1,7 @@
-package net.kigawa.onigoplugin.command.onigo.onigo;
+package net.kigawa.onigoplugin.command.onigo.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
-import net.kigawa.util.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 

@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.onigo.onigo;
+package net.kigawa.onigoplugin.command.onigo.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.MainCommand;
@@ -9,15 +9,24 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Onigo extends MainCommand {
-    List<SubCommand> subCommands=new ArrayList<SubCommand>();
+public class OnigoCreate extends MainCommand {
+    List<SubCommand> subCommands=new ArrayList<>();
     OnigoPlugin plugin;
-    public Onigo(OnigoPlugin plugin) {
+    public OnigoCreate(OnigoPlugin plugin) {
         super(plugin);
         this.plugin=plugin;
-        subCommands.add(new Start(plugin));
-        subCommands.add(new End(plugin));
-        subCommands.add(new net.kigawa.onigoplugin.command.onigo.onigo.List(plugin));
+        subCommands.add(new CreateGame(plugin));
+        subCommands.add(new SetWaitRoom1(plugin));
+        subCommands.add(new SetWaitRoom2(plugin));
+        subCommands.add(new SetOniCount(plugin));
+        subCommands.add(new SetWaitTime(plugin));
+        subCommands.add(new SetGameTime(plugin));
+        subCommands.add(new SetEndLoc(plugin));
+    }
+
+    @Override
+    public String getCommandStr() {
+        return "onigocreate";
     }
 
     @Override
@@ -33,10 +42,5 @@ public class Onigo extends MainCommand {
     @Override
     public List<SubCommand> getCommandList() {
         return subCommands;
-    }
-
-    @Override
-    public String getCommandStr() {
-        return "onigo";
     }
 }

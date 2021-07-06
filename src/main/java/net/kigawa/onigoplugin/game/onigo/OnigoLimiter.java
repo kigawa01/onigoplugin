@@ -13,7 +13,7 @@ import java.util.List;
 public class OnigoLimiter extends Limiter {
     Counter counter;
     KigawaPlugin plugin;
-    public OnigoLimiter( KigawaPlugin kigawaPlugin, StageData stageData,Onigo onigo) {
+    public OnigoLimiter(KigawaPlugin kigawaPlugin, StageData stageData, OnigoGame onigo) {
         super(kigawaPlugin,onigo.getJoinPlayer(),stageData);
         counter=new Counter("鬼ごっこ","onigo",kigawaPlugin);
         plugin=kigawaPlugin;

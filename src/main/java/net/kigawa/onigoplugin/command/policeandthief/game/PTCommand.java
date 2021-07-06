@@ -1,43 +1,34 @@
-package net.kigawa.onigoplugin.command.onigo.onigocreate;
+package net.kigawa.onigoplugin.command.policeandthief.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.command.MainCommand;
 import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class CreateGame extends SubCommand {
+public class PTCommand extends MainCommand {
     OnigoPlugin plugin;
-    public CreateGame(OnigoPlugin onigoPlugin) {
+    public PTCommand(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        this.plugin=onigoPlugin;
+        plugin=onigoPlugin;
     }
 
     @Override
     public String getCommandStr() {
-        return "create";
+        return "pandt";
     }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==2){
-            plugin.getOnigoManager().createOnigo(commandSender,strings[1]);
-            return true;
-        }else {
-            commandSender.sendMessage("/onigocreate cretate <name>");
-            return true;
-        }
-    }
-
-    @Override
-    public int getWordNumber() {
-        return 0;
+        return false;
     }
 
     @Override

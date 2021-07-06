@@ -11,8 +11,8 @@ public class EqualsOniChange {
 
     }
     public boolean equals(Object o){
-        if (o instanceof Onigo){
-            return  ((Onigo)o).changeOni(oni,runner);
+        if (o instanceof OnigoGame){
+            return  ((OnigoGame)o).changeOni(oni,runner);
         }
         return false;
     }

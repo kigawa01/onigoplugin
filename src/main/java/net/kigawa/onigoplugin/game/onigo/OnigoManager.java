@@ -14,7 +14,7 @@ public class OnigoManager {
     public boolean changeOni(Player oni,Player runner){
         return list.contains(new EqualsOniChange(oni,runner));
     }
-    List<Onigo> list=new ArrayList<>();
+    List<OnigoGame> list=new ArrayList<>();
     KigawaPlugin plugin;
     public OnigoManager(KigawaPlugin kigawaPlugin){
         plugin=kigawaPlugin;
@@ -26,46 +26,46 @@ public class OnigoManager {
             File file=new File(folder,files[i]);
             plugin.logger(files[i]);
             OnigoData data=(OnigoData) plugin.getRecorder().load(OnigoData.class,"onigo",files[i].substring(0, files[i].length()-4));
-            list.add(new Onigo(plugin,data));
+            list.add(new OnigoGame(plugin,data));
         }
     }
     public void end(String gameName,CommandSender sender){
-        Onigo onigo=getOnigo(gameName,sender);
+        OnigoGame onigo=getOnigo(gameName,sender);
         if (onigo!=null){
             onigo.end();
         }
     }
     public void setEndLoc(String gameName,CommandSender sender,String worldName,int x,int y,int z){
-        Onigo onigo=getOnigo(gameName,sender);
+        OnigoGame onigo=getOnigo(gameName,sender);
             if (onigo!=null){
                 onigo.setEndLoc(worldName,x,y,z);
             }
         }
     public void setGameTime(String gameName,CommandSender sender,int gameTime){
-        Onigo onigo=getOnigo(gameName,sender);
+        OnigoGame onigo=getOnigo(gameName,sender);
             if (onigo!=null){
                 onigo.setGameTime(gameTime);
             }
         }
     public void setWaitTime(String gameName,CommandSender sender,int waitTime){
-        Onigo onigo=getOnigo(gameName,sender);
+        OnigoGame onigo=getOnigo(gameName,sender);
         if (onigo!=null){
             onigo.setWaitTime(waitTime);
         }
     }
     public void setOniCount(String gameName,CommandSender sender,int oniCount){
-        Onigo onigo=getOnigo(gameName,sender);
+        OnigoGame onigo=getOnigo(gameName,sender);
         if (onigo!=null){
             onigo.setOniCount(oniCount);
         }
     }
     public void start(String gameName,CommandSender sender){
-        Onigo onigo=getOnigo(gameName,sender);
+        OnigoGame onigo=getOnigo(gameName,sender);
         if (onigo!=null){
             onigo.start(sender);
         }
     }
-    public Onigo getOnigo(String gameName,CommandSender sender){
+    public OnigoGame getOnigo(String gameName, CommandSender sender){
         if (list.contains(new EqualsYamlData(gameName))){
             return list.get(list.indexOf(new EqualsYamlData(gameName)));
         }else{
@@ -95,7 +95,7 @@ public class OnigoManager {
             OnigoData data=new OnigoData();
             data.setFolder("onigo");
             data.setName(name);
-            getOnigoList().add(new Onigo(plugin,data));
+            getOnigoList().add(new OnigoGame(plugin,data));
             plugin.getRecorder().save(data);
         }else {
             sender.sendMessage("this name can't use");
@@ -103,7 +103,7 @@ public class OnigoManager {
 
     }
 
-    public List<Onigo> getOnigoList() {
+    public List<OnigoGame> getOnigoList() {
         return list;
     }
 }
