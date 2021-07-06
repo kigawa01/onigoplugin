@@ -25,7 +25,7 @@ public class OnigoManager {
         for (int i=0;i<files.length;i++){
             File file=new File(folder,files[i]);
             plugin.logger(files[i]);
-            OnigoData data=(OnigoData) plugin.getRecorder().load(OnigoData.class,"onigo",files[i].substring(0, files[i].length()-4));
+            OnigoData data=plugin.getRecorder().load(OnigoData.class,"onigo",files[i].substring(0, files[i].length()-4));
             list.add(new OnigoGame(plugin,data));
         }
     }

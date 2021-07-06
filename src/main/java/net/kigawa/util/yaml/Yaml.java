@@ -48,8 +48,9 @@ public class Yaml {
         }
     }
 
-    public YamlData load(Class<? extends YamlData> type, File file) {
-        YamlData data = null;
+    public <T> T load(Class<T> type, File file) {
+        T data = null;
+
         try {
             data = type.getDeclaredConstructor().newInstance();
         } catch (InstantiationException e) {
@@ -70,15 +71,15 @@ public class Yaml {
         return data;
     }
 
-    public List<YamlData> loadAll(Class<? extends YamlData> type, File dir){
-        List<YamlData> yamlData=new ArrayList<>();
+    public <T> List<T> loadAll(Class<T> type, File dir){
+        List<T> yamlData=new ArrayList<>();
 
 
         dir.mkdir();
         String[] files=dir.list();
         for (int i=0;i<files.length;i++){
             File file=new File(dir,files[i]);
-            YamlData data=load(type,file);
+            T data=load(type,file);
             yamlData.add(data);
         }
 
