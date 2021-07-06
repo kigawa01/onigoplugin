@@ -3,6 +3,7 @@ package net.kigawa.onigoplugin.command.onigo.onigo;
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.onigoplugin.game.onigo.Onigo;
 import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.command.TabList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -12,6 +13,8 @@ public class List extends SubCommand {
         super(onigoPlugin);
         plugin=onigoPlugin;
     }
+
+
 
     @Override
     public String getCommandStr() {

@@ -3,6 +3,7 @@ package net.kigawa.onigoplugin.command.onigo.onigo;
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.command.TabList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -40,6 +41,11 @@ public class End extends SubCommand {
     @Override
     public List<SubCommand> getCommandList() {
         return null;
+    }
+
+    @Override
+    public void addTabLists(List<TabList> tabLists) {
+
     }
 
     @Override

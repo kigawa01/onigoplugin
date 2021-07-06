@@ -2,6 +2,7 @@ package net.kigawa.onigoplugin.command.onigo.onigocreate;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.command.TabList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -12,6 +13,11 @@ public class CreateGame extends SubCommand {
     public CreateGame(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
         this.plugin=onigoPlugin;
+    }
+
+    @Override
+    public void addTabLists(List<TabList> tabLists) {
+
     }
 
     @Override

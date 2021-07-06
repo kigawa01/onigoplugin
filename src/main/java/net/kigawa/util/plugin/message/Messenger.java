@@ -1,4 +1,4 @@
-package net.kigawa.util.plugin.player;
+package net.kigawa.util.plugin.message;
 
 import org.bukkit.entity.Player;
 

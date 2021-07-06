@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin;
 
 import net.kigawa.util.message.Logger;
-import net.kigawa.util.plugin.player.Messenger;
+import net.kigawa.util.plugin.message.Messenger;
 import net.kigawa.util.plugin.player.PlayerGetter;
 import net.kigawa.util.plugin.player.Teleporter;
 import net.kigawa.util.plugin.recorder.Recorder;
@@ -61,9 +61,7 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
         }
     }
     public void logger(boolean message){
-        if(debug) {
-            this.getLogger().info(Boolean.toString(message));
-        }
+        logger(String.valueOf(message));
     }
     public void eventSetter(Listener listener){
         getServer().getPluginManager().registerEvents(listener,this);

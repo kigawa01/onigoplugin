@@ -1,7 +1,7 @@
 package net.kigawa.onigoplugin.command.onigo.onigo;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.command.MainCommand;
+import net.kigawa.util.plugin.command.FirstCommand;
 import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Onigo extends MainCommand {
+public class Onigo extends FirstCommand {
     List<SubCommand> subCommands=new ArrayList<SubCommand>();
     OnigoPlugin plugin;
     public Onigo(OnigoPlugin plugin) {
@@ -38,5 +38,17 @@ public class Onigo extends MainCommand {
     @Override
     public String getCommandStr() {
         return "onigo";
+    }
+
+    @Override
+    public int getWordNumber() {
+        return 0;
+    }
+
+    @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+        subCommands.add(new Start(plugin));
+        subCommands.add(new End(plugin));
+        subCommands.add(new net.kigawa.onigoplugin.command.onigo.onigo.List(plugin));
     }
 }

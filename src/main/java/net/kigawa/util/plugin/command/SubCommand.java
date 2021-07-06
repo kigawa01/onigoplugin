@@ -7,10 +7,11 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SubCommand implements Command {
+public abstract class SubCommand extends TabList {
     KigawaPlugin plugin;
     List<SubCommand> subCommands;
     public SubCommand(KigawaPlugin kigawaPlugin){
+        super(kigawaPlugin);
         plugin=kigawaPlugin;
     }
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings){
@@ -30,6 +31,12 @@ public abstract class SubCommand implements Command {
     public abstract boolean onAlways(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
     public abstract boolean onNotFound(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
 
+    @Override
+    public void addTabLists(java.util.List<TabList> tabLists) {
+        if (getCommandList()!=null) {
+            tabLists.addAll(getCommandList());
+        }
+    }
 
     public abstract int getWordNumber();
     public List<String> getCommandsStr(String[] strings){

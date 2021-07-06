@@ -9,42 +9,24 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MainCommand implements CommandExecutor,Command  {
+public abstract class FirstCommand extends TabList implements CommandExecutor {
     KigawaPlugin plugin;
-    public MainCommand(KigawaPlugin plugin) {
+    List<SubCommand> commandList;
+
+    public FirstCommand(KigawaPlugin plugin) {
+        super(plugin);
         this.plugin=plugin;
 
         plugin.getCommand(getCommandStr()).setExecutor(this);
         plugin.getCommand(getCommandStr()).setTabCompleter(new TabCompleter() {
             @Override
             public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
-                plugin.logger("onTabComplete");
-                plugin.logger("strings.length "+strings.length);
-                List<String> forSend = new ArrayList<>();
-                if (strings.length== 1){
-                    plugin.logger("onTabComplete"+"onLength=0");
-                    if (getCommandList()!=null) {
-                        for (int i = 0; i < getCommandList().size(); i++) {
-                            forSend.add(getCommandList().get(i).getCommandStr());
-                            plugin.logger("onTabComplete" + "onLength=0" + getCommandList().get(i).getCommandStr());
-                        }
-                    }
-                    return forSend;
-                }
-                if (strings.length>1){
-                    plugin.logger("onTabComplete"+"onLength>0");
-                    if (getCommandList()!=null) {
-                        if (getCommandList().contains(new EqualsCommand(strings[0]))) {
-                            SubCommand subCommand = getCommandList().get(getCommandList().indexOf(new EqualsCommand(strings[0])));
-                            return subCommand.getCommandsStr(strings);
-                        }
-                    }
-                }
-                return null;
+                return tabComplete(commandSender,command,s,strings);
             }
         }
         );
     }
+
 
     @Override
     public boolean onCommand(
@@ -68,8 +50,25 @@ public abstract class MainCommand implements CommandExecutor,Command  {
         plugin.logger(getCommandStr()+" onNotFound");
         return onNotFound(commandSender,command,s,strings);
     }
+
+
+    @Override
+    public void addTabLists(java.util.List<TabList> tabLists) {
+        commandList=new ArrayList<>();;
+        addSubcommands(commandList);
+        tabLists.addAll(commandList);
+    }
+
+    @Override
+    public int getWordNumber() {
+        return 0;
+    }
+
+
+    public abstract void addSubcommands(List<SubCommand> subCommands);
+
     public abstract boolean onAlways(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
     public abstract boolean onNotFound(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
-    public abstract List<SubCommand> getCommandList();
 
+    public abstract List<SubCommand> getCommandList();
 }
