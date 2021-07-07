@@ -1,22 +1,19 @@
-package net.kigawa.onigoplugin.command.onigo.onigocreate;
+package net.kigawa.onigoplugin.command.onigo.onigo;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.KigawaPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class SetGameTime extends SubCommand {
+public class End extends SubCommand {
+
     OnigoPlugin plugin;
-    public SetGameTime(OnigoPlugin onigoPlugin) {
+    public End(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
         plugin=onigoPlugin;
-    }
-
-    @Override
-    public String getCommandStr() {
-        return "setgametime";
     }
 
     @Override
@@ -26,13 +23,13 @@ public class SetGameTime extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==3){
-            plugin.getOnigoManager().setGameTime(strings[1],commandSender,Integer.valueOf(strings[2]));
-            commandSender.sendMessage("set game time");
+        if (strings.length==2){
+            plugin.getOnigoManager().end(strings[1],commandSender);
+            return true;
         }else {
-            commandSender.sendMessage("/onigocreate setgametime <game name> <count(minute)>");
+            commandSender.sendMessage("/onigo end <game name>");
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -43,5 +40,10 @@ public class SetGameTime extends SubCommand {
     @Override
     public List<SubCommand> getCommandList() {
         return null;
+    }
+
+    @Override
+    public String getCommandStr() {
+        return "end";
     }
 }

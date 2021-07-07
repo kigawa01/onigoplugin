@@ -1,6 +1,7 @@
-package net.kigawa.onigoplugin.game.onigo;
+package net.kigawa.onigoplugin.game.change;
 
 import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.game.onigo.Game;
 import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
 import net.kigawa.util.plugin.timer.Counter;
@@ -13,12 +14,12 @@ import java.util.List;
 public class OnigoLimiter extends Limiter {
     Counter counter;
     KigawaPlugin plugin;
-    public OnigoLimiter( KigawaPlugin kigawaPlugin, StageData stageData,Onigo onigo) {
-        super(kigawaPlugin,onigo.getJoinPlayer(),stageData);
+    public OnigoLimiter(KigawaPlugin kigawaPlugin, StageData stageData, Game game) {
+        super(kigawaPlugin,game.getJoinPlayer(),stageData);
         counter=new Counter("鬼ごっこ","onigo",kigawaPlugin);
         plugin=kigawaPlugin;
-        oniPlayers=onigo.getOniPlayer();
-        joinPlayers=onigo.getJoinPlayer();
+        oniPlayers=game.getOniPlayer();
+        joinPlayers=game.getJoinPlayer();
     }
     List<Player> oniPlayers;
     List<Player> joinPlayers;

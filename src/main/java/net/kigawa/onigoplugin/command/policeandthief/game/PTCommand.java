@@ -1,14 +1,15 @@
 package net.kigawa.onigoplugin.command.policeandthief.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.command.FirstCommand;
+import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.command.MainCommand;
 import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class PAndT extends FirstCommand {
+public class PAndT extends MainCommand {
     OnigoPlugin plugin;
     public PAndT(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
@@ -18,16 +19,6 @@ public class PAndT extends FirstCommand {
     @Override
     public String getCommandStr() {
         return "pandt";
-    }
-
-    @Override
-    public int getWordNumber() {
-        return 0;
-    }
-
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
     }
 
     @Override

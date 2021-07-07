@@ -1,28 +1,24 @@
-package net.kigawa.onigoplugin.command.onigo.onigocreate;
+package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.onigoplugin.game.change.OnigoGame;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.command.TabList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
-
-public class CreateGame extends SubCommand {
+public class List extends SubCommand {
     OnigoPlugin plugin;
-    public CreateGame(OnigoPlugin onigoPlugin) {
+    public List(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        this.plugin=onigoPlugin;
+        plugin=onigoPlugin;
     }
 
-    @Override
-    public void addTabLists(List<TabList> tabLists) {
 
-    }
 
     @Override
     public String getCommandStr() {
-        return "create";
+        return "list";
     }
 
     @Override
@@ -32,13 +28,12 @@ public class CreateGame extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==2){
-            plugin.getOnigoManager().createOnigo(commandSender,strings[1]);
-            return true;
-        }else {
-            commandSender.sendMessage("/onigocreate cretate <name>");
-            return true;
+        java.util.List<OnigoGame> onigoList=plugin.getOnigoManager().getOnigoList();
+        for (int i=0;i<onigoList.size();i++){
+            commandSender.sendMessage("name "+onigoList.get(i).getName());
+            commandSender.sendMessage(" world "+onigoList.get(i).getD().getWaitRoomWorld());
         }
+        return true;
     }
 
     @Override
@@ -47,7 +42,7 @@ public class CreateGame extends SubCommand {
     }
 
     @Override
-    public List<SubCommand> getCommandList() {
+    public java.util.List<SubCommand> getCommandList() {
         return null;
     }
 }

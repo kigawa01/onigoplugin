@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.onigo.onigo;
+package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.FirstCommand;
@@ -17,7 +17,7 @@ public class Onigo extends FirstCommand {
         this.plugin=plugin;
         subCommands.add(new Start(plugin));
         subCommands.add(new End(plugin));
-        subCommands.add(new net.kigawa.onigoplugin.command.onigo.onigo.List(plugin));
+        subCommands.add(new net.kigawa.onigoplugin.command.change.game.List(plugin));
     }
 
     @Override

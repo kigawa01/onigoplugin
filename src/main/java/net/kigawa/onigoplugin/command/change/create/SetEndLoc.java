@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.onigo.onigocreate;
+package net.kigawa.onigoplugin.command.change.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
@@ -10,16 +10,16 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SetWaitRoom1 extends SubCommand {
+public class SetEndLoc extends SubCommand {
     OnigoPlugin plugin;
-    public SetWaitRoom1(OnigoPlugin plugin) {
+    public SetEndLoc(OnigoPlugin plugin) {
         super(plugin);
         this.plugin=plugin;
     }
 
     @Override
     public String getCommandStr() {
-        return "setwaitroom1";
+        return "setendloc";
     }
 
     @Override
@@ -30,7 +30,7 @@ public class SetWaitRoom1 extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length!=5){
-            commandSender.sendMessage("/onigocreate setwaitroom2 <game name> <x> <y> <z>");
+            commandSender.sendMessage("/onigocreate setendloc <game name> <x> <y> <z>");
         }else {
             if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
                 World world = null;
@@ -40,8 +40,8 @@ public class SetWaitRoom1 extends SubCommand {
                 if (commandSender instanceof BlockCommandSender) {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
-                plugin.getOnigoManager().setWaitRoom1(strings[1], world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
-                commandSender.sendMessage("start point of wait room is set");
+                plugin.getOnigoManager().setEndLoc(strings[1],commandSender,world.getName(),Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]));
+                commandSender.sendMessage("set end end loc");
             } else {
                 commandSender.sendMessage("this command can use by player or commandBlock");
             }

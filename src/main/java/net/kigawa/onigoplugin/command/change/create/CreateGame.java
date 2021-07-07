@@ -1,22 +1,28 @@
-package net.kigawa.onigoplugin.command.onigo.onigocreate;
+package net.kigawa.onigoplugin.command.change.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.command.TabList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class SetOniCount extends SubCommand {
+public class CreateGame extends SubCommand {
     OnigoPlugin plugin;
-    public SetOniCount(OnigoPlugin onigoPlugin) {
+    public CreateGame(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        plugin=onigoPlugin;
+        this.plugin=onigoPlugin;
+    }
+
+    @Override
+    public void addTabLists(List<TabList> tabLists) {
+
     }
 
     @Override
     public String getCommandStr() {
-        return "setonicount";
+        return "create";
     }
 
     @Override
@@ -26,13 +32,13 @@ public class SetOniCount extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==3){
-            plugin.getOnigoManager().setOniCount(strings[1],commandSender,Integer.valueOf(strings[2]));
-            commandSender.sendMessage("oni count is set");
+        if (strings.length==2){
+            plugin.getOnigoManager().createOnigo(commandSender,strings[1]);
+            return true;
         }else {
-            commandSender.sendMessage("/onigocreate setonicount <game name> <count>");
+            commandSender.sendMessage("/onigocreate cretate <name>");
+            return true;
         }
-        return true;
     }
 
     @Override

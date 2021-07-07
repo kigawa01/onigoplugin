@@ -1,5 +1,6 @@
 package net.kigawa.util.plugin.recorder;
 
+import com.sun.tools.example.debug.tty.TTY;
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.yaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
@@ -25,12 +26,12 @@ public class Recorder {
             yaml.save(data,file);
         }
     }
-    public RecorderData load(Class<? extends RecorderData> type,String folderName,String name){
-        RecorderData data = null;
+    public <T> T load(Class<T> type,String folderName,String name){
+        T data = null;
         if (!useDB) {
             File folder = new File(plugin.getDataFolder(), folderName);
             File file = new File(folder, name+".yml");
-            data = (RecorderData) yaml.load(type, file);
+            data =yaml.load(type, file);
         }
         return data;
     }

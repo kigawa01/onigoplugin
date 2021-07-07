@@ -1,9 +1,8 @@
-package net.kigawa.onigoplugin.game.onigo;
+package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.util.plugin.recorder.RecorderData;
 
-public class OnigoData extends RecorderData {
-
+public class GameData extends RecorderData {
     public void setEndLoc(int[] endLoc) {
         this.endLoc = endLoc;
     }
@@ -12,7 +11,8 @@ public class OnigoData extends RecorderData {
         return endLoc;
     }
 
-    int[] endLoc=new int[3];
+    int[] endLoc = new int[3];
+
     public void setEndWorld(String endWorld) {
         this.endWorld = endWorld;
     }
@@ -22,6 +22,7 @@ public class OnigoData extends RecorderData {
     }
 
     String endWorld;
+
     public int getGameTime() {
         return gameTime;
     }
@@ -31,6 +32,7 @@ public class OnigoData extends RecorderData {
     }
 
     int gameTime;
+
     public int getWaitTime() {
         return waitTime;
     }
@@ -41,7 +43,7 @@ public class OnigoData extends RecorderData {
 
     int waitTime;
 
-    String waitRoomWorld=null;
+    String waitRoomWorld = null;
     int oniCount;
 
     public int getOniCount() {
@@ -51,11 +53,10 @@ public class OnigoData extends RecorderData {
     public void setOniCount(int oniCount) {
         this.oniCount = oniCount;
     }
-    int[] waitRoom=new int[6];
 
-    public OnigoData() {
-        setFolder("onigo");
-    }
+    int[] waitRoom = new int[6];
+
+
     public int[] getWaitRoom() {
         return waitRoom;
     }
@@ -71,6 +72,4 @@ public class OnigoData extends RecorderData {
     public void setWaitRoomWorld(String waitRoomWorld) {
         this.waitRoomWorld = waitRoomWorld;
     }
-
-
 }

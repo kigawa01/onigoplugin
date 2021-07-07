@@ -2,7 +2,7 @@ package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.onigoplugin.game.onigo.OnigoData;
-import net.kigawa.util.plugin.command.FirstCommand;
+import net.kigawa.util.plugin.command.MainCommand;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.recorder.RecorderData;
 import net.kigawa.util.plugin.list.EqualsCommand;
@@ -18,7 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-public class Test extends FirstCommand {
+public class Test extends MainCommand {
     OnigoPlugin plugin;
     public Test(OnigoPlugin plugin) {
         super(plugin);
@@ -28,16 +28,6 @@ public class Test extends FirstCommand {
     @Override
     public String getCommandStr() {
         return "test";
-    }
-
-    @Override
-    public int getWordNumber() {
-        return 0;
-    }
-
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
     }
 
     @Override

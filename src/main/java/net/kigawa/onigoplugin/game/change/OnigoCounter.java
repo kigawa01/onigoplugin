@@ -1,13 +1,12 @@
-package net.kigawa.onigoplugin.game.onigo;
+package net.kigawa.onigoplugin.game.change;
 
-import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.timer.Counter;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class OnigoCounter extends Counter {
-    Onigo onigo;
-    public OnigoCounter(String bordName, String bordID,Onigo onigo) {
+    OnigoGame onigo;
+    public OnigoCounter(String bordName, String bordID, OnigoGame onigo) {
         super(bordName, bordID, onigo.getPlugin());
         //replace variable
         this.onigo=onigo;
