@@ -11,7 +11,12 @@ import java.util.List;
 
 public abstract class FirstCommand extends SubCommand implements CommandExecutor {
     KigawaPlugin plugin;
-    List<SubCommand> commandList;
+    List<SubCommand> subCommands=new ArrayList<>();
+
+    public void addSubcommands(SubCommand subCommand) {
+        subCommands.add(subCommand);
+        addTabLists(subCommand);
+    }
 
     public FirstCommand(KigawaPlugin plugin) {
         super(plugin);
@@ -39,10 +44,10 @@ public abstract class FirstCommand extends SubCommand implements CommandExecutor
 
             plugin.logger(getCommandStr()+" onIsContain");
 
-            if (commandList!=null) {
-                if (commandList.contains(new EqualsCommand(strings[0]))) {
+            if (subCommands!=null) {
+                if (subCommands.contains(new EqualsCommand(strings[0]))) {
                     plugin.logger(getCommandStr() + " onGetSubCommand");
-                    SubCommand subCommand = commandList.get(commandList.indexOf(new EqualsCommand(strings[0])));
+                    SubCommand subCommand = subCommands.get(subCommands.indexOf(new EqualsCommand(strings[0])));
                     return subCommand.onCommand(commandSender, command, s, strings);
                 }
             }

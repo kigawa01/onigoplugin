@@ -5,6 +5,8 @@ import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
 import net.kigawa.util.plugin.timer.Counter;
+import net.kigawa.util.yaml.EqualsYamlData;
+import net.kigawa.util.yaml.YamlData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Game {
+public abstract class Game implements YamlData {
     GameData d;
     KigawaPlugin plugin;
     Game game;
