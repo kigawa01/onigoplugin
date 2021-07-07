@@ -17,10 +17,6 @@ public class End extends SubCommand {
         plugin = onigoPlugin;
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

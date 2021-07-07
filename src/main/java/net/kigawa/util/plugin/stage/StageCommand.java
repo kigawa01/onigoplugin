@@ -16,14 +16,12 @@ public abstract class StageCommand extends FirstCommand {
     public StageCommand(KigawaPlugin plugin) {
         super(plugin);
         this.plugin=plugin;
+        addSubcommands(new CreateCommand(plugin));
+        addSubcommands(new SetStage1(plugin));
+        addSubcommands(new SetStage2(plugin));
+        addSubcommands(new SetStartLoc(plugin));
     }
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands){
-        subCommands.add(new CreateCommand(plugin));
-        subCommands.add(new SetStage1(plugin));
-        subCommands.add(new SetStage2(plugin));
-        subCommands.add(new SetStartLoc(plugin));
-    }
+
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

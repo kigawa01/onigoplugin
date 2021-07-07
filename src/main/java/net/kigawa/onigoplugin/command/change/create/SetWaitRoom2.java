@@ -22,10 +22,7 @@ public class SetWaitRoom2 extends SubCommand {
         return "setwaitroom2";
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
 
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

@@ -52,12 +52,7 @@ public abstract class FirstCommand extends SubCommand implements CommandExecutor
     }
 
 
-    @Override
-    public void addTabLists(java.util.List<TabList> tabLists) {
-        commandList=new ArrayList<>();;
-        addSubcommands(commandList);
-        tabLists.addAll(commandList);
-    }
+
 
     @Override
     public int getWordNumber() {
@@ -65,7 +60,7 @@ public abstract class FirstCommand extends SubCommand implements CommandExecutor
     }
 
 
-    public abstract void addSubcommands(List<SubCommand> subCommands);
+
 
     public abstract boolean onAlways(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
     public abstract boolean onNotFound(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);

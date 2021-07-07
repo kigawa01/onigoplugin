@@ -36,10 +36,6 @@ public class Test extends FirstCommand {
         return 0;
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

@@ -10,18 +10,16 @@ import java.util.List;
 public class CreateCommand extends SubCommand {
     public CreateCommand(KigawaPlugin kigawaPlugin) {
         super(kigawaPlugin);
-        plugin=kigawaPlugin;
+        plugin = kigawaPlugin;
     }
-KigawaPlugin plugin;
+
+    KigawaPlugin plugin;
+
     @Override
     public String getCommandStr() {
         return "create";
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -30,10 +28,10 @@ KigawaPlugin plugin;
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==2){
+        if (strings.length == 2) {
             //set stage
-            plugin.getStageManager().setStage(strings[1],commandSender);
-        }else {
+            plugin.getStageManager().setStage(strings[1], commandSender);
+        } else {
             //send error
             commandSender.sendMessage("/stage create <name>");
         }

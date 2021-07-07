@@ -12,9 +12,10 @@ import java.util.List;
 
 public class SetStage2 extends SubCommand {
     KigawaPlugin plugin;
+
     public SetStage2(KigawaPlugin kigawaPlugin) {
         super(kigawaPlugin);
-        plugin=kigawaPlugin;
+        plugin = kigawaPlugin;
     }
 
     @Override
@@ -22,10 +23,6 @@ public class SetStage2 extends SubCommand {
         return "setstage2";
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -34,20 +31,20 @@ public class SetStage2 extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==5){
-            if (commandSender instanceof Player|commandSender instanceof BlockCommandSender){
+        if (strings.length == 5) {
+            if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
                 World world;
-                if (commandSender instanceof Player){
-                    world= ((Player)commandSender).getWorld();
-                }else {
-                    world=((BlockCommandSender)commandSender).getBlock().getWorld();
+                if (commandSender instanceof Player) {
+                    world = ((Player) commandSender).getWorld();
+                } else {
+                    world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
                 plugin.getStageManager().setStage2(strings[1], world.getName(),
-                        Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]),commandSender);
+                        Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
                 commandSender.sendMessage("set start point of stage");
             }
 
-        }else {
+        } else {
             commandSender.sendMessage("/stage setstage2 <stage name> <x> <y> <z>");
         }
         return true;

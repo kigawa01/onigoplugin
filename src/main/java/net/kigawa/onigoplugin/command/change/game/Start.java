@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,10 +16,6 @@ public class Start extends SubCommand {
         plugin = onigoPlugin;
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

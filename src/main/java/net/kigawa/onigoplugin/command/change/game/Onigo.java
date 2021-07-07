@@ -6,20 +6,19 @@ import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Onigo extends FirstCommand {
-    List<SubCommand> subCommands = new ArrayList<SubCommand>();
     OnigoPlugin plugin;
 
     public Onigo(OnigoPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
-        subCommands.add(new Start(plugin));
-        subCommands.add(new End(plugin));
-        subCommands.add(new net.kigawa.onigoplugin.command.change.game.List(plugin));
+        addSubcommands(new Start(plugin));
+        addSubcommands(new End(plugin));
+        addSubcommands(new net.kigawa.onigoplugin.command.change.game.List(plugin));
     }
+
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -42,10 +41,5 @@ public class Onigo extends FirstCommand {
         return 0;
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-        subCommands.add(new Start(plugin));
-        subCommands.add(new End(plugin));
-        subCommands.add(new net.kigawa.onigoplugin.command.change.game.List(plugin));
-    }
+
 }

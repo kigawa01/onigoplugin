@@ -20,10 +20,7 @@ public class SetGameTime extends SubCommand {
         return "setgametime";
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
 
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

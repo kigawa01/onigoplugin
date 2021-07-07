@@ -15,13 +15,13 @@ public class OnigoCreate extends FirstCommand {
     public OnigoCreate(OnigoPlugin plugin) {
         super(plugin);
         this.plugin=plugin;
-        subCommands.add(new CreateGame(plugin));
-        subCommands.add(new SetWaitRoom1(plugin));
-        subCommands.add(new SetWaitRoom2(plugin));
-        subCommands.add(new SetOniCount(plugin));
-        subCommands.add(new SetWaitTime(plugin));
-        subCommands.add(new SetGameTime(plugin));
-        subCommands.add(new SetEndLoc(plugin));
+        addSubcommands(new CreateGame(plugin));
+        addSubcommands(new SetWaitRoom1(plugin));
+        addSubcommands(new SetWaitRoom2(plugin));
+        addSubcommands(new SetOniCount(plugin));
+        addSubcommands(new SetWaitTime(plugin));
+        addSubcommands(new SetGameTime(plugin));
+        addSubcommands(new SetEndLoc(plugin));
     }
 
     @Override
@@ -34,16 +34,7 @@ public class OnigoCreate extends FirstCommand {
         return 0;
     }
 
-    @Override
-    public void addSubcommands(List<SubCommand> subCommands) {
-        subCommands.add(new CreateGame(plugin));
-        subCommands.add(new SetWaitRoom1(plugin));
-        subCommands.add(new SetWaitRoom2(plugin));
-        subCommands.add(new SetOniCount(plugin));
-        subCommands.add(new SetWaitTime(plugin));
-        subCommands.add(new SetGameTime(plugin));
-        subCommands.add(new SetEndLoc(plugin));
-    }
+
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

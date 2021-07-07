@@ -21,10 +21,6 @@ public class List extends SubCommand {
         return "list";
     }
 
-    @Override
-    public void addSubcommands(java.util.List<SubCommand> subCommands) {
-
-    }
 
     @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {

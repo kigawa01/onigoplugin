@@ -11,16 +11,17 @@ import java.util.List;
 public abstract class TabList extends PluginLogger {
     List<TabList> tabLists;
 
-    public abstract void addTabLists(List<TabList> tabLists);
-
     public abstract String getCommandStr();
     public abstract int getWordNumber();
+
+    public void addTabLists(TabList tabList){
+        tabLists.add(tabList);
+    }
 
     public TabList(KigawaPlugin kigawaPlugin){
         super(kigawaPlugin);
         List<TabList> tabLists;
         tabLists= new ArrayList<>();
-        addTabLists(tabLists);
         this.tabLists=tabLists;
     }
 
