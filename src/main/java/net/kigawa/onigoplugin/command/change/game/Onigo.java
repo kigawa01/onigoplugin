@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Onigo extends FirstCommand {
-    List<SubCommand> subCommands=new ArrayList<SubCommand>();
+    List<SubCommand> subCommands = new ArrayList<SubCommand>();
     OnigoPlugin plugin;
+
     public Onigo(OnigoPlugin plugin) {
         super(plugin);
-        this.plugin=plugin;
+        this.plugin = plugin;
         subCommands.add(new Start(plugin));
         subCommands.add(new End(plugin));
         subCommands.add(new net.kigawa.onigoplugin.command.change.game.List(plugin));
@@ -30,10 +31,6 @@ public class Onigo extends FirstCommand {
         return false;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return subCommands;
-    }
 
     @Override
     public String getCommandStr() {
@@ -49,6 +46,6 @@ public class Onigo extends FirstCommand {
     public void addSubcommands(List<SubCommand> subCommands) {
         subCommands.add(new Start(plugin));
         subCommands.add(new End(plugin));
-        subCommands.add(new net.kigawa.onigoplugin.command.onigo.onigo.List(plugin));
+        subCommands.add(new net.kigawa.onigoplugin.command.change.game.List(plugin));
     }
 }

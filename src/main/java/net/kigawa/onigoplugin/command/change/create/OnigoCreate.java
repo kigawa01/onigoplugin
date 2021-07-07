@@ -54,9 +54,4 @@ public class OnigoCreate extends FirstCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         return false;
     }
-
-    @Override
-    public List<SubCommand> getCommandList() {
-        return subCommands;
-    }
 }

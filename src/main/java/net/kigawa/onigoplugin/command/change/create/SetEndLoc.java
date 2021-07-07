@@ -12,14 +12,20 @@ import java.util.List;
 
 public class SetEndLoc extends SubCommand {
     OnigoPlugin plugin;
+
     public SetEndLoc(OnigoPlugin plugin) {
         super(plugin);
-        this.plugin=plugin;
+        this.plugin = plugin;
     }
 
     @Override
     public String getCommandStr() {
         return "setendloc";
+    }
+
+    @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
     }
 
     @Override
@@ -29,9 +35,9 @@ public class SetEndLoc extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length!=5){
+        if (strings.length != 5) {
             commandSender.sendMessage("/onigocreate setendloc <game name> <x> <y> <z>");
-        }else {
+        } else {
             if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
                 World world = null;
                 if (commandSender instanceof Player) {
@@ -40,7 +46,7 @@ public class SetEndLoc extends SubCommand {
                 if (commandSender instanceof BlockCommandSender) {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
-                plugin.getOnigoManager().setEndLoc(strings[1],commandSender,world.getName(),Integer.valueOf(strings[2]),Integer.valueOf(strings[3]),Integer.valueOf(strings[4]));
+                plugin.getOnigoManager().setEndLoc(strings[1], commandSender, world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]));
                 commandSender.sendMessage("set end end loc");
             } else {
                 commandSender.sendMessage("this command can use by player or commandBlock");
@@ -54,8 +60,4 @@ public class SetEndLoc extends SubCommand {
         return 0;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
-    }
 }

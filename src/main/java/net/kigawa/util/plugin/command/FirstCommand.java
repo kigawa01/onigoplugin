@@ -9,7 +9,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FirstCommand extends TabList implements CommandExecutor {
+public abstract class FirstCommand extends SubCommand implements CommandExecutor {
     KigawaPlugin plugin;
     List<SubCommand> commandList;
 
@@ -39,10 +39,10 @@ public abstract class FirstCommand extends TabList implements CommandExecutor {
 
             plugin.logger(getCommandStr()+" onIsContain");
 
-            if (getCommandList()!=null) {
-                if (getCommandList().contains(new EqualsCommand(strings[0]))) {
+            if (commandList!=null) {
+                if (commandList.contains(new EqualsCommand(strings[0]))) {
                     plugin.logger(getCommandStr() + " onGetSubCommand");
-                    SubCommand subCommand = getCommandList().get(getCommandList().indexOf(new EqualsCommand(strings[0])));
+                    SubCommand subCommand = commandList.get(commandList.indexOf(new EqualsCommand(strings[0])));
                     return subCommand.onCommand(commandSender, command, s, strings);
                 }
             }
@@ -69,6 +69,4 @@ public abstract class FirstCommand extends TabList implements CommandExecutor {
 
     public abstract boolean onAlways(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
     public abstract boolean onNotFound(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings);
-
-    public abstract List<SubCommand> getCommandList();
 }

@@ -12,7 +12,12 @@ public class Start extends SubCommand {
 
     public Start(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        plugin=onigoPlugin;
+        plugin = onigoPlugin;
+    }
+
+    @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
     }
 
     @Override
@@ -22,9 +27,9 @@ public class Start extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==2){
-            plugin.getOnigoManager().start(strings[1],commandSender);
-        }else {
+        if (strings.length == 2) {
+            plugin.getOnigoManager().start(strings[1], commandSender);
+        } else {
             commandSender.sendMessage("/onigo start <game name>");
         }
         return true;
@@ -35,10 +40,6 @@ public class Start extends SubCommand {
         return 0;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
-    }
 
     @Override
     public String getCommandStr() {

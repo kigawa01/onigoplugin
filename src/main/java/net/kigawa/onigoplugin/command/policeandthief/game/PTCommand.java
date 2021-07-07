@@ -1,24 +1,29 @@
-package net.kigawa.onigoplugin.command.policeandthief.create;
+package net.kigawa.onigoplugin.command.policeandthief.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.KigawaPlugin;
-import net.kigawa.util.plugin.command.MainCommand;
+import net.kigawa.util.plugin.command.FirstCommand;
 import net.kigawa.util.plugin.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class PAndT extends MainCommand {
+public class PTCommand extends FirstCommand {
     OnigoPlugin plugin;
-    public PAndT(OnigoPlugin onigoPlugin) {
-        super(onigoPlugin);
-        plugin=onigoPlugin;
+
+    public PTCommand(OnigoPlugin plugin) {
+        super(plugin);
+        this.plugin = plugin;
     }
 
     @Override
     public String getCommandStr() {
         return "pandt";
+    }
+
+    @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
     }
 
     @Override
@@ -31,8 +36,4 @@ public class PAndT extends MainCommand {
         return false;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
-    }
 }

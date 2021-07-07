@@ -9,14 +9,20 @@ import java.util.List;
 
 public class SetOniCount extends SubCommand {
     OnigoPlugin plugin;
+
     public SetOniCount(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        plugin=onigoPlugin;
+        plugin = onigoPlugin;
     }
 
     @Override
     public String getCommandStr() {
         return "setonicount";
+    }
+
+    @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
     }
 
     @Override
@@ -26,10 +32,10 @@ public class SetOniCount extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==3){
-            plugin.getOnigoManager().setOniCount(strings[1],commandSender,Integer.valueOf(strings[2]));
+        if (strings.length == 3) {
+            plugin.getOnigoManager().setOniCount(strings[1], commandSender, Integer.valueOf(strings[2]));
             commandSender.sendMessage("oni count is set");
-        }else {
+        } else {
             commandSender.sendMessage("/onigocreate setonicount <game name> <count>");
         }
         return true;
@@ -40,8 +46,5 @@ public class SetOniCount extends SubCommand {
         return 0;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
-    }
+
 }

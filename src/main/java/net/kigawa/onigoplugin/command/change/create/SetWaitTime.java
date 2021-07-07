@@ -9,14 +9,20 @@ import java.util.List;
 
 public class SetWaitTime extends SubCommand {
     OnigoPlugin plugin;
+
     public SetWaitTime(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        plugin=onigoPlugin;
+        plugin = onigoPlugin;
     }
 
     @Override
     public String getCommandStr() {
         return "setwaittime";
+    }
+
+    @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
     }
 
     @Override
@@ -27,8 +33,8 @@ public class SetWaitTime extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         //check length
-        if (strings.length==3) {
-            plugin.getOnigoManager().setWaitTime(strings[1],commandSender,Integer.valueOf(strings[2]));
+        if (strings.length == 3) {
+            plugin.getOnigoManager().setWaitTime(strings[1], commandSender, Integer.valueOf(strings[2]));
             //send message
             commandSender.sendMessage("set wait time");
         }
@@ -44,8 +50,5 @@ public class SetWaitTime extends SubCommand {
         return 0;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
-    }
+
 }

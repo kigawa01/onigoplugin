@@ -23,6 +23,11 @@ public class SetStage2 extends SubCommand {
     }
 
     @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
+    }
+
+    @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
         return true;
     }
@@ -51,10 +56,5 @@ public class SetStage2 extends SubCommand {
     @Override
     public int getWordNumber() {
         return 0;
-    }
-
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
     }
 }

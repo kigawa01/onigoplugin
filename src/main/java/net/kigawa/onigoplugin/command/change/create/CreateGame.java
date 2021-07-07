@@ -10,9 +10,10 @@ import java.util.List;
 
 public class CreateGame extends SubCommand {
     OnigoPlugin plugin;
+
     public CreateGame(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
-        this.plugin=onigoPlugin;
+        this.plugin = onigoPlugin;
     }
 
     @Override
@@ -26,16 +27,21 @@ public class CreateGame extends SubCommand {
     }
 
     @Override
+    public void addSubcommands(List<SubCommand> subCommands) {
+
+    }
+
+    @Override
     public boolean onAlways(CommandSender commandSender, Command command, String s, String[] strings) {
         return true;
     }
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length==2){
-            plugin.getOnigoManager().createOnigo(commandSender,strings[1]);
+        if (strings.length == 2) {
+            plugin.getOnigoManager().createOnigo(commandSender, strings[1]);
             return true;
-        }else {
+        } else {
             commandSender.sendMessage("/onigocreate cretate <name>");
             return true;
         }
@@ -46,8 +52,5 @@ public class CreateGame extends SubCommand {
         return 0;
     }
 
-    @Override
-    public List<SubCommand> getCommandList() {
-        return null;
-    }
+
 }
