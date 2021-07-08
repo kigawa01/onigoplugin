@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.game.change;
+package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
@@ -11,10 +11,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-public class OnigoLimiter extends Limiter {
+public class GameLimiter extends Limiter {
     Counter counter;
     KigawaPlugin plugin;
-    public OnigoLimiter(KigawaPlugin kigawaPlugin, StageData stageData, Game game) {
+    public GameLimiter(KigawaPlugin kigawaPlugin, StageData stageData, Game game) {
         super(kigawaPlugin,game.getJoinPlayer(),stageData);
         counter=new Counter("鬼ごっこ","onigo",kigawaPlugin);
         plugin=kigawaPlugin;

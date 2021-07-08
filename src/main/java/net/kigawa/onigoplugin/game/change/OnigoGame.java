@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class OnigoGame extends Game {
 
@@ -49,5 +50,15 @@ public class OnigoGame extends Game {
         for (Player player : getOniPlayer()) {
             getPlugin().getMessenger().sendMessage(getJoinPlayer(), ":" + ChatColor.BLUE + player.getName());
         }
+        //send title
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                //send lose
+                getPlugin().getMessenger().sendTitle(getOniPlayer(),ChatColor.RED+"LOSE","");
+                //send win
+                getPlugin().getMessenger().sendTitle(getRunPlayer(),ChatColor.RED+"WIN","");
+            }
+        }.runTaskLater(getPlugin(), 40);
     }
 }

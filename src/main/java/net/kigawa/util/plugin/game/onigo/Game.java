@@ -1,11 +1,9 @@
 package net.kigawa.util.plugin.game.onigo;
 
-import net.kigawa.onigoplugin.game.change.OnigoLimiter;
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.stage.Limiter;
 import net.kigawa.util.plugin.stage.StageData;
 import net.kigawa.util.plugin.timer.Counter;
-import net.kigawa.util.yaml.EqualsYamlData;
 import net.kigawa.util.yaml.YamlData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,8 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -101,7 +97,7 @@ public abstract class Game implements YamlData {
                             //cancel limiter
                             limiter.cancel();
                             //limiter
-                            limiter1 = new OnigoLimiter(plugin, stageData, game);
+                            limiter1 = new GameLimiter(plugin, stageData, game);
                             //counter
                             counter.cancel();
                             counter1 = new Counter(getBordName(), "onigo", plugin);
