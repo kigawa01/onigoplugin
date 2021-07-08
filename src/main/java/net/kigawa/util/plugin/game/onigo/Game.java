@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Game implements YamlData {
+public abstract class Game implements YamlData ,Onigo{
     GameData d;
     KigawaPlugin plugin;
     Game game;

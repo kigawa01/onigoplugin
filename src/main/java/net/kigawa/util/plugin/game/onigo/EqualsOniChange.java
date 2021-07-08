@@ -12,9 +12,9 @@ public class EqualsOniChange {
 
     }
     @Override
-    public boolean equals(Object o){
-        if (o instanceof OnigoGame){
-            return  ((OnigoGame)o).changeOni(oni,runner);
+    public boolean equals(Object onigo){
+        if (onigo instanceof Onigo){
+            return  ((Onigo)onigo).changeOni(oni,runner);
         }
         return false;
     }

@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GameManager {
+public abstract class GameManager implements Onigo{
     List<Game> games = new ArrayList<>();
     KigawaPlugin plugin;
     String managerName;

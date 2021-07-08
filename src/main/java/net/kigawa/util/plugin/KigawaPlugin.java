@@ -1,6 +1,7 @@
 package net.kigawa.util.plugin;
 
 import net.kigawa.util.message.Logger;
+import net.kigawa.util.plugin.game.onigo.GameManager;
 import net.kigawa.util.plugin.message.Messenger;
 import net.kigawa.util.plugin.player.PlayerGetter;
 import net.kigawa.util.plugin.player.Teleporter;
@@ -10,6 +11,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+
 public abstract class KigawaPlugin extends JavaPlugin implements Logger {
     boolean debug;
     Recorder recorder;
@@ -17,6 +20,16 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
     StageManager stageManager;
     Messenger messenger;
     Teleporter teleporter;
+    List<GameManager> gameManagers;
+
+    public List<GameManager> getGameManagers() {
+        return gameManagers;
+    }
+
+    public void addGameManager(GameManager gameManager){
+        gameManagers.add(gameManager);
+    }
+
     @Override
     public void onEnable() {
         this.saveDefaultConfig();

@@ -3,7 +3,7 @@ package net.kigawa.onigoplugin;
 import net.kigawa.onigoplugin.command.Stage;
 import net.kigawa.onigoplugin.command.change.create.OnigoCreate;
 import net.kigawa.onigoplugin.command.change.game.Onigo;
-import net.kigawa.onigoplugin.event.change.OnigoListener;
+import net.kigawa.util.plugin.event.onigo.OnigoListener;
 import net.kigawa.onigoplugin.game.change.ChangeManager;
 import net.kigawa.onigoplugin.game.increase.IncreaseManager;
 import net.kigawa.util.plugin.KigawaPlugin;
@@ -21,6 +21,8 @@ public final class OnigoPlugin extends KigawaPlugin {
         changeGame = new ChangeManager(this, "change");
         onigo = new Onigo(this);
         increaseGame = new IncreaseManager(this, "increase");
+        addGameManager(changeGame);
+        addGameManager(increaseGame);
         //new Test(this);
         new OnigoCreate(this);
         new Stage(this);
@@ -32,7 +34,8 @@ public final class OnigoPlugin extends KigawaPlugin {
         return increaseGame;
     }
 
-    public GameManager getChangeGame() {
+    public GameManager getChangeGame()
+    {
         return changeGame;
     }
 
