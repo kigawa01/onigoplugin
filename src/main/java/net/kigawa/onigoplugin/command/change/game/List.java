@@ -4,6 +4,7 @@ import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.onigoplugin.game.change.OnigoGame;
 import net.kigawa.util.plugin.command.SubCommand;
 import net.kigawa.util.plugin.command.TabList;
+import net.kigawa.util.plugin.game.onigo.Game;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -29,10 +30,10 @@ public class List extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        java.util.List<OnigoGame> onigoList = plugin.getOnigoManager().getOnigoList();
-        for (int i = 0; i < onigoList.size(); i++) {
-            commandSender.sendMessage("name " + onigoList.get(i).getName());
-            commandSender.sendMessage(" world " + onigoList.get(i).getD().getWaitRoomWorld());
+        java.util.List<Game> games = plugin.getOnigoManager().getGames();
+        for (int i = 0; i < games.size(); i++) {
+            commandSender.sendMessage("name " + games.get(i).getName());
+            commandSender.sendMessage(" world " + games.get(i).getD().getWaitRoomWorld());
         }
         return true;
     }
