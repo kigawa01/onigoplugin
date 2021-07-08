@@ -2,7 +2,8 @@ package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.onigoplugin.game.change.OnigoData;
 import net.kigawa.onigoplugin.game.change.OnigoGame;
-import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.util.plugin.game.onigo.ist.EqualsOniChange;
 import net.kigawa.util.yaml.EqualsYamlData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GameManager implements Onigo{
+public abstract class GameManager implements Onigo {
     List<Game> games = new ArrayList<>();
     KigawaPlugin plugin;
     String managerName;

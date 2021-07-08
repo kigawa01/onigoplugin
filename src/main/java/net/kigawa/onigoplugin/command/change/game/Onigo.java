@@ -1,12 +1,9 @@
 package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.command.FirstCommand;
-import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.all.command.FirstCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import java.util.List;
 
 public class Onigo extends FirstCommand {
     OnigoPlugin plugin;

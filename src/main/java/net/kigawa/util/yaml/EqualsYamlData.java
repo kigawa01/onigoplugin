@@ -1,7 +1,5 @@
 package net.kigawa.util.yaml;
 
-import net.kigawa.util.plugin.recorder.RecorderData;
-
 public class EqualsYamlData {
     String name;
     public EqualsYamlData(String name){

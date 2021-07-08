@@ -1,9 +1,10 @@
 package net.kigawa.util.plugin.game.onigo;
 
-import net.kigawa.util.plugin.KigawaPlugin;
-import net.kigawa.util.plugin.stage.Limiter;
-import net.kigawa.util.plugin.stage.StageData;
-import net.kigawa.util.plugin.timer.Counter;
+import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.util.plugin.game.onigo.runnable.GameLimiter;
+import net.kigawa.util.plugin.game.stage.runnable.Limiter;
+import net.kigawa.util.plugin.game.stage.StageData;
+import net.kigawa.util.plugin.all.timer.Counter;
 import net.kigawa.util.yaml.YamlData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Game implements YamlData ,Onigo{
+public abstract class Game implements YamlData , Onigo {
     GameData d;
     KigawaPlugin plugin;
     Game game;

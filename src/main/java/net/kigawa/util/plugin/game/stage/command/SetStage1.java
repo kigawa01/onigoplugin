@@ -1,6 +1,6 @@
-package net.kigawa.onigoplugin.command.change.create;
+package net.kigawa.util.plugin.game.stage.command;
 
-import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
@@ -8,19 +8,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetEndLoc extends SubCommand {
-    OnigoPlugin plugin;
+public class SetStage1 extends SubCommand {
+    KigawaPlugin plugin;
 
-    public SetEndLoc(OnigoPlugin plugin) {
-        super(plugin);
-        this.plugin = plugin;
+    public SetStage1(KigawaPlugin kigawaPlugin) {
+        super(kigawaPlugin);
+        plugin = kigawaPlugin;
     }
 
     @Override
     public String getCommandStr() {
-        return "setendloc";
+        return "setstage1";
     }
-
 
 
     @Override
@@ -30,22 +29,21 @@ public class SetEndLoc extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length != 5) {
-            commandSender.sendMessage("/onigocreate setendloc <game name> <x> <y> <z>");
-        } else {
+        if (strings.length == 5) {
             if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
-                World world = null;
+                World world;
                 if (commandSender instanceof Player) {
                     world = ((Player) commandSender).getWorld();
-                }
-                if (commandSender instanceof BlockCommandSender) {
+                } else {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
-                plugin.getChangeGame().setEndLoc(strings[1], commandSender, world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]));
-                commandSender.sendMessage("set end end loc");
-            } else {
-                commandSender.sendMessage("this command can use by player or commandBlock");
+                plugin.getStageManager().setStage1(strings[1], world.getName(),
+                        Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
+                commandSender.sendMessage("set start point of stage");
             }
+
+        } else {
+            commandSender.sendMessage("/stage setstage1 <stage name> <x> <y> <z>");
         }
         return true;
     }
@@ -54,5 +52,4 @@ public class SetEndLoc extends SubCommand {
     public int getWordNumber() {
         return 0;
     }
-
 }

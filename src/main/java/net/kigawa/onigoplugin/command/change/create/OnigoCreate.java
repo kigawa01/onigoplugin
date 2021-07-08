@@ -1,8 +1,8 @@
 package net.kigawa.onigoplugin.command.change.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.command.FirstCommand;
-import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.all.command.FirstCommand;
+import net.kigawa.util.plugin.all.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 

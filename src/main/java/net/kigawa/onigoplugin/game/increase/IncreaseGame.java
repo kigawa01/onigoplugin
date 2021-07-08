@@ -1,7 +1,6 @@
 package net.kigawa.onigoplugin.game.increase;
 
-import net.kigawa.onigoplugin.game.change.OnigoData;
-import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.ChatColor;

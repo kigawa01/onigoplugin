@@ -1,25 +1,22 @@
-package net.kigawa.onigoplugin.command.change.create;
+package net.kigawa.util.plugin.game.stage.command;
 
-import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class CreateGame extends SubCommand {
-    OnigoPlugin plugin;
-
-    public CreateGame(OnigoPlugin onigoPlugin) {
-        super(onigoPlugin);
-        this.plugin = onigoPlugin;
+public class CreateCommand extends SubCommand {
+    public CreateCommand(KigawaPlugin kigawaPlugin) {
+        super(kigawaPlugin);
+        plugin = kigawaPlugin;
     }
 
-
+    KigawaPlugin plugin;
 
     @Override
     public String getCommandStr() {
         return "create";
     }
-
 
 
     @Override
@@ -30,18 +27,17 @@ public class CreateGame extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            plugin.getChangeGame().createGame(commandSender, strings[1]);
-            return true;
+            //set stage
+            plugin.getStageManager().setStage(strings[1], commandSender);
         } else {
-            commandSender.sendMessage("/onigocreate cretate <name>");
-            return true;
+            //send error
+            commandSender.sendMessage("/stage create <name>");
         }
+        return true;
     }
 
     @Override
     public int getWordNumber() {
         return 0;
     }
-
-
 }

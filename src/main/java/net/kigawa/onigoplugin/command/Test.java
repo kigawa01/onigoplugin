@@ -2,11 +2,9 @@ package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.onigoplugin.game.change.OnigoData;
-import net.kigawa.util.plugin.command.FirstCommand;
-import net.kigawa.util.plugin.command.SubCommand;
-import net.kigawa.util.plugin.recorder.RecorderData;
-import net.kigawa.util.plugin.list.EqualsCommand;
-import net.kigawa.util.plugin.KigawaPlugin;
+import net.kigawa.util.plugin.all.command.FirstCommand;
+import net.kigawa.util.plugin.all.recorder.RecorderData;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.yaml.Yaml;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,7 +14,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 
 public class Test extends FirstCommand {
     OnigoPlugin plugin;

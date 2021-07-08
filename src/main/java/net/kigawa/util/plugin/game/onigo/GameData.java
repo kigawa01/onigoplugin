@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.game.onigo;
 
-import net.kigawa.util.plugin.recorder.RecorderData;
+import net.kigawa.util.plugin.all.recorder.RecorderData;
 
 public class GameData extends RecorderData {
     public void setEndLoc(int[] endLoc) {

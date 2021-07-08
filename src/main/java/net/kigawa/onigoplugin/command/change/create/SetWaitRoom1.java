@@ -1,14 +1,12 @@
 package net.kigawa.onigoplugin.command.change.create;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.command.SubCommand;
+import net.kigawa.util.plugin.all.command.SubCommand;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.List;
 
 public class SetWaitRoom1 extends SubCommand {
     OnigoPlugin plugin;

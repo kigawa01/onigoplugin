@@ -1,9 +1,7 @@
 package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.onigoplugin.game.change.OnigoGame;
-import net.kigawa.util.plugin.command.SubCommand;
-import net.kigawa.util.plugin.command.TabList;
+import net.kigawa.util.plugin.all.command.SubCommand;
 import net.kigawa.util.plugin.game.onigo.Game;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
