@@ -1,18 +1,28 @@
-package net.kigawa.onigoplugin.command.change.game;
+package net.kigawa.util.plugin.game.onigo.command.crate;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
+import net.kigawa.util.plugin.game.onigo.GameManager;
+import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class End extends SubCommand {
-
+public class Create extends SecondCommand {
     OnigoPlugin plugin;
+    GameManager manager;
 
-    public End(OnigoPlugin onigoPlugin) {
-        super(onigoPlugin);
-        plugin = onigoPlugin;
+    public Create(OnigoPlugin onigoPlugin, GameManager manager) {
+        super(onigoPlugin,manager);
+        this.plugin = onigoPlugin;
     }
+
+
+
+    @Override
+    public String getCommandStr() {
+        return "create";
+    }
+
 
 
     @Override
@@ -23,12 +33,12 @@ public class End extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            plugin.getChangeGame().end(strings[1], commandSender);
+            getManager().createGame(commandSender, strings[1]);
             return true;
         } else {
-            commandSender.sendMessage("/onigo end <game name>");
+            commandSender.sendMessage("/onigocreate cretate <name>");
+            return true;
         }
-        return false;
     }
 
     @Override
@@ -37,8 +47,4 @@ public class End extends SubCommand {
     }
 
 
-    @Override
-    public String getCommandStr() {
-        return "end";
-    }
 }

@@ -1,14 +1,15 @@
-package net.kigawa.onigoplugin.command.change.game;
+package net.kigawa.util.plugin.game.onigo.command.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class Start extends SubCommand {
+public class End extends SubCommand {
+
     OnigoPlugin plugin;
 
-    public Start(OnigoPlugin onigoPlugin) {
+    public End(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
         plugin = onigoPlugin;
     }
@@ -22,11 +23,12 @@ public class Start extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            plugin.getChangeGame().start(strings[1], commandSender);
+            plugin.getChangeGame().end(strings[1], commandSender);
+            return true;
         } else {
-            commandSender.sendMessage("/onigo start <game name>");
+            commandSender.sendMessage("/onigo end <game name>");
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -37,7 +39,6 @@ public class Start extends SubCommand {
 
     @Override
     public String getCommandStr() {
-        return "start";
+        return "end";
     }
-
 }

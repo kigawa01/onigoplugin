@@ -1,15 +1,17 @@
-package net.kigawa.onigoplugin.command.change.create;
+package net.kigawa.util.plugin.game.onigo.command.crate;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
+import net.kigawa.util.plugin.game.onigo.GameManager;
+import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class SetWaitTime extends SubCommand {
+public class SetWaitTime extends SecondCommand {
     OnigoPlugin plugin;
 
-    public SetWaitTime(OnigoPlugin onigoPlugin) {
-        super(onigoPlugin);
+    public SetWaitTime(OnigoPlugin onigoPlugin, GameManager manager) {
+        super(onigoPlugin,manager);
         plugin = onigoPlugin;
     }
 

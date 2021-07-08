@@ -1,24 +1,25 @@
-package net.kigawa.onigoplugin.command.change.game;
+package net.kigawa.util.plugin.game.onigo.command.crate;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
-import net.kigawa.util.plugin.game.onigo.Game;
+import net.kigawa.util.plugin.game.onigo.GameManager;
+import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class List extends SubCommand {
+public class SetGameTime extends SecondCommand {
     OnigoPlugin plugin;
 
-    public List(OnigoPlugin onigoPlugin) {
-        super(onigoPlugin);
+    public SetGameTime(OnigoPlugin onigoPlugin, GameManager manager) {
+        super(onigoPlugin,manager);
         plugin = onigoPlugin;
     }
 
-
     @Override
     public String getCommandStr() {
-        return "list";
+        return "setgametime";
     }
+
 
 
     @Override
@@ -28,10 +29,11 @@ public class List extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        java.util.List<Game> games = plugin.getChangeGame().getGames();
-        for (int i = 0; i < games.size(); i++) {
-            commandSender.sendMessage("name " + games.get(i).getName());
-            commandSender.sendMessage(" world " + games.get(i).getD().getWaitRoomWorld());
+        if (strings.length == 3) {
+            getManager().setGameTime(strings[1], commandSender, Integer.valueOf(strings[2]));
+            commandSender.sendMessage("set game time");
+        } else {
+            commandSender.sendMessage("/onigocreate setgametime <game name> <count(minute)>");
         }
         return true;
     }

@@ -1,15 +1,17 @@
-package net.kigawa.onigoplugin.command.change.create;
+package net.kigawa.util.plugin.game.onigo.command.crate;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
+import net.kigawa.util.plugin.game.onigo.GameManager;
+import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class SetOniCount extends SubCommand {
+public class SetOniCount extends SecondCommand {
     OnigoPlugin plugin;
 
-    public SetOniCount(OnigoPlugin onigoPlugin) {
-        super(onigoPlugin);
+    public SetOniCount(OnigoPlugin onigoPlugin, GameManager manager) {
+        super(onigoPlugin,manager);
         plugin = onigoPlugin;
     }
 
@@ -27,7 +29,7 @@ public class SetOniCount extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 3) {
-            plugin.getChangeGame().setOniCount(strings[1], commandSender, Integer.valueOf(strings[2]));
+            getManager().setOniCount(strings[1], commandSender, Integer.valueOf(strings[2]));
             commandSender.sendMessage("oni count is set");
         } else {
             commandSender.sendMessage("/onigocreate setonicount <game name> <count>");

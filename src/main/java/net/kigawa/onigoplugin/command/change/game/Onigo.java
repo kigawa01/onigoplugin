@@ -2,6 +2,9 @@ package net.kigawa.onigoplugin.command.change.game;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.FirstCommand;
+import net.kigawa.util.plugin.game.onigo.command.game.End;
+import net.kigawa.util.plugin.game.onigo.command.game.List;
+import net.kigawa.util.plugin.game.onigo.command.game.Start;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -13,7 +16,7 @@ public class Onigo extends FirstCommand {
         this.plugin = plugin;
         addSubcommands(new Start(plugin));
         addSubcommands(new End(plugin));
-        addSubcommands(new net.kigawa.onigoplugin.command.change.game.List(plugin));
+        addSubcommands(new List(plugin));
     }
 
 

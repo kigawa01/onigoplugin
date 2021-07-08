@@ -1,18 +1,20 @@
-package net.kigawa.onigoplugin.command.change.create;
+package net.kigawa.util.plugin.game.onigo.command.crate;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
+import net.kigawa.util.plugin.game.onigo.GameManager;
+import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetEndLoc extends SubCommand {
+public class SetEndLoc extends SecondCommand {
     OnigoPlugin plugin;
 
-    public SetEndLoc(OnigoPlugin plugin) {
-        super(plugin);
+    public SetEndLoc(OnigoPlugin plugin, GameManager manager) {
+        super(plugin,manager);
         this.plugin = plugin;
     }
 
@@ -41,7 +43,7 @@ public class SetEndLoc extends SubCommand {
                 if (commandSender instanceof BlockCommandSender) {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
-                plugin.getChangeGame().setEndLoc(strings[1], commandSender, world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]));
+                getManager().setEndLoc(strings[1], commandSender, world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]));
                 commandSender.sendMessage("set end end loc");
             } else {
                 commandSender.sendMessage("this command can use by player or commandBlock");

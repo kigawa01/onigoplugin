@@ -24,7 +24,7 @@ public final class OnigoPlugin extends KigawaPlugin {
         addGameManager(changeGame);
         addGameManager(increaseGame);
         //new Test(this);
-        new OnigoCreate(this);
+        new OnigoCreate(this,changeGame);
         new Stage(this);
         new OnigoListener(this);
 
