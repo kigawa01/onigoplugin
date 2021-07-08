@@ -4,6 +4,8 @@ import net.kigawa.onigoplugin.command.Stage;
 import net.kigawa.onigoplugin.command.change.create.OnigoCreate;
 import net.kigawa.onigoplugin.command.change.game.Onigo;
 import net.kigawa.onigoplugin.event.change.OnigoListener;
+import net.kigawa.onigoplugin.game.change.ChangeManager;
+import net.kigawa.onigoplugin.game.increase.IncreaseManager;
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,9 +18,9 @@ public final class OnigoPlugin extends KigawaPlugin {
     @Override
     public void onStart() {
         //initialize
-        changeGame = new GameManager(this, "change");
+        changeGame = new ChangeManager(this, "change");
         onigo = new Onigo(this);
-        increaseGame = new GameManager(this, "increase");
+        increaseGame = new IncreaseManager(this, "increase");
         //new Test(this);
         new OnigoCreate(this);
         new Stage(this);

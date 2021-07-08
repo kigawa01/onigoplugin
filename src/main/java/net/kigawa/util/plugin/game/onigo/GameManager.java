@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameManager {
+public abstract class GameManager {
     List<Game> games = new ArrayList<>();
     KigawaPlugin plugin;
     String managerName;
@@ -28,6 +28,10 @@ public class GameManager {
             OnigoData data = plugin.getRecorder().load(OnigoData.class, name, files[i].substring(0, files[i].length() - 4));
             games.add(new OnigoGame(plugin, data,this));
         }
+    }
+
+    public KigawaPlugin getPlugin() {
+        return plugin;
     }
 
     public String getManagerName() {
@@ -105,17 +109,7 @@ public class GameManager {
         }
     }
 
-    public void createGame(CommandSender sender, String name) {
-        if (!games.contains(new EqualsYamlData(name))) {
-            OnigoData data = new OnigoData();
-            data.setName(name);
-            getGames().add(new OnigoGame(plugin, data,this));
-            plugin.getRecorder().save(data,name);
-        } else {
-            sender.sendMessage("this name can't use");
-        }
-
-    }
+    public abstract void createGame(CommandSender sender, String name) ;
 
     public List<Game> getGames() {
         return games;
