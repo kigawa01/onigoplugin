@@ -8,8 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class IncreaseGame extends Game {
-    public IncreaseGame(KigawaPlugin kigawaPlugin, OnigoData onigoData, GameManager manager) {
-        super(kigawaPlugin, onigoData,manager);
+    public IncreaseGame(KigawaPlugin kigawaPlugin, IncreaseData increaseData, GameManager manager) {
+        super(kigawaPlugin, increaseData,manager);
     }
 
     @Override

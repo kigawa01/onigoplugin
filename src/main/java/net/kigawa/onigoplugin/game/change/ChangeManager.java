@@ -16,7 +16,7 @@ public class ChangeManager extends GameManager {
             OnigoData data = new OnigoData();
             data.setName(name);
             getGames().add(new OnigoGame(getPlugin(), data,this));
-            getPlugin().getRecorder().save(data,name);
+            getPlugin().getRecorder().save(data,getManagerName());
         } else {
             sender.sendMessage("this name can't use");
         }
