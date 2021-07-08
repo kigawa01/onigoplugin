@@ -25,7 +25,7 @@ public class Start extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            plugin.getOnigoManager().start(strings[1], commandSender);
+            plugin.getChangeGame().start(strings[1], commandSender);
         } else {
             commandSender.sendMessage("/onigo start <game name>");
         }

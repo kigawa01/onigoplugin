@@ -26,7 +26,7 @@ public class End extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            plugin.getOnigoManager().end(strings[1], commandSender);
+            plugin.getChangeGame().end(strings[1], commandSender);
             return true;
         } else {
             commandSender.sendMessage("/onigo end <game name>");

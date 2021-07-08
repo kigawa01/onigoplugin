@@ -30,7 +30,7 @@ public class List extends SubCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        java.util.List<Game> games = plugin.getOnigoManager().getGames();
+        java.util.List<Game> games = plugin.getChangeGame().getGames();
         for (int i = 0; i < games.size(); i++) {
             commandSender.sendMessage("name " + games.get(i).getName());
             commandSender.sendMessage(" world " + games.get(i).getD().getWaitRoomWorld());

@@ -13,25 +13,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
-    public boolean changeOni(Player oni, Player runner) {
-        return games.contains(new EqualsOniChange(oni, runner));
-    }
-
     List<Game> games = new ArrayList<>();
     KigawaPlugin plugin;
 
-    public GameManager(KigawaPlugin kigawaPlugin) {
+    public GameManager(KigawaPlugin kigawaPlugin,String name) {
         plugin = kigawaPlugin;
 
-        File folder = new File(plugin.getDataFolder(), "onigo");
+        File folder = new File(plugin.getDataFolder(), name);
         folder.mkdir();
         String[] files = folder.list();
         for (int i = 0; i < files.length; i++) {
             File file = new File(folder, files[i]);
             plugin.logger(files[i]);
-            OnigoData data = plugin.getRecorder().load(OnigoData.class, "onigo", files[i].substring(0, files[i].length() - 4));
+            OnigoData data = plugin.getRecorder().load(OnigoData.class, name, files[i].substring(0, files[i].length() - 4));
             games.add(new OnigoGame(plugin, data));
         }
+    }
+
+    public boolean changeOni(Player oni, Player runner) {
+        return games.contains(new EqualsOniChange(oni, runner));
     }
 
     public void end(String gameName, CommandSender sender) {
@@ -104,7 +104,7 @@ public class GameManager {
     public void createGame(CommandSender sender, String name) {
         if (!games.contains(new EqualsYamlData(name))) {
             OnigoData data = new OnigoData();
-            data.setFolder("onigo");
+            data.setFolder(name);
             data.setName(name);
             getGames().add(new OnigoGame(plugin, data));
             plugin.getRecorder().save(data);

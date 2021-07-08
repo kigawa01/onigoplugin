@@ -29,7 +29,7 @@ public class SetOniCount extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 3) {
-            plugin.getOnigoManager().setOniCount(strings[1], commandSender, Integer.valueOf(strings[2]));
+            plugin.getChangeGame().setOniCount(strings[1], commandSender, Integer.valueOf(strings[2]));
             commandSender.sendMessage("oni count is set");
         } else {
             commandSender.sendMessage("/onigocreate setonicount <game name> <count>");

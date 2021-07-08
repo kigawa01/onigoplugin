@@ -33,7 +33,7 @@ public class CreateGame extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            plugin.getOnigoManager().createGame(commandSender, strings[1]);
+            plugin.getChangeGame().createGame(commandSender, strings[1]);
             return true;
         } else {
             commandSender.sendMessage("/onigocreate cretate <name>");

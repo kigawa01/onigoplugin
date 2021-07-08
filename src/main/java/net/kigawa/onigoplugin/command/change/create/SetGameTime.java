@@ -30,7 +30,7 @@ public class SetGameTime extends SubCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 3) {
-            plugin.getOnigoManager().setGameTime(strings[1], commandSender, Integer.valueOf(strings[2]));
+            plugin.getChangeGame().setGameTime(strings[1], commandSender, Integer.valueOf(strings[2]));
             commandSender.sendMessage("set game time");
         } else {
             commandSender.sendMessage("/onigocreate setgametime <game name> <count(minute)>");

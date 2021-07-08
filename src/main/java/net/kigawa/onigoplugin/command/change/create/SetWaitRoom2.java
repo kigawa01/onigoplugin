@@ -35,7 +35,7 @@ public class SetWaitRoom2 extends SubCommand {
             commandSender.sendMessage("/onigocreate setwaitroom2 <game name> <x> <y> <z>");
         } else {
             if (commandSender instanceof Player | commandSender instanceof BlockCommandSender) {
-                plugin.getOnigoManager().setWaitRoom2(strings[1], Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
+                plugin.getChangeGame().setWaitRoom2(strings[1], Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
                 commandSender.sendMessage("end point of wait room is set");
             } else {
                 commandSender.sendMessage("this command can use by player or commandBlock");

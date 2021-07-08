@@ -43,7 +43,7 @@ public class SetEndLoc extends SubCommand {
                 if (commandSender instanceof BlockCommandSender) {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
-                plugin.getOnigoManager().setEndLoc(strings[1], commandSender, world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]));
+                plugin.getChangeGame().setEndLoc(strings[1], commandSender, world.getName(), Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]));
                 commandSender.sendMessage("set end end loc");
             } else {
                 commandSender.sendMessage("this command can use by player or commandBlock");

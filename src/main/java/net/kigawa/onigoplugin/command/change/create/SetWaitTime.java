@@ -30,7 +30,7 @@ public class SetWaitTime extends SubCommand {
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         //check length
         if (strings.length == 3) {
-            plugin.getOnigoManager().setWaitTime(strings[1], commandSender, Integer.valueOf(strings[2]));
+            plugin.getChangeGame().setWaitTime(strings[1], commandSender, Integer.valueOf(strings[2]));
             //send message
             commandSender.sendMessage("set wait time");
         }
