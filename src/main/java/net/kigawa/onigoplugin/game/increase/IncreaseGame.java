@@ -3,12 +3,13 @@ package net.kigawa.onigoplugin.game.increase;
 import net.kigawa.onigoplugin.game.change.OnigoData;
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
+import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class IncreaseGame extends Game {
-    public IncreaseGame(KigawaPlugin kigawaPlugin, OnigoData onigoData) {
-        super(kigawaPlugin, onigoData);
+    public IncreaseGame(KigawaPlugin kigawaPlugin, OnigoData onigoData, GameManager manager) {
+        super(kigawaPlugin, onigoData,manager);
     }
 
     @Override

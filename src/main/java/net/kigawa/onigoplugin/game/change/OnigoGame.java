@@ -2,6 +2,7 @@ package net.kigawa.onigoplugin.game.change;
 
 import net.kigawa.util.plugin.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
+import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -10,8 +11,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class OnigoGame extends Game {
 
-    public OnigoGame(KigawaPlugin kigawaPlugin, OnigoData onigoData) {
-        super(kigawaPlugin, onigoData);
+    public OnigoGame(KigawaPlugin kigawaPlugin, OnigoData onigoData, GameManager manager) {
+        super(kigawaPlugin, onigoData,manager);
     }
 
     @Override

@@ -12,10 +12,7 @@ public class StageData extends RecorderData {
         this.startLoc = startLoc;
     }
 
-    int[] startLoc=new int[3];
-    public StageData(){
-        setFolder("stage");
-    }
+    int[] startLoc = new int[3];
 
     public int[] getStageLoc() {
         return stageLoc;
@@ -25,7 +22,7 @@ public class StageData extends RecorderData {
         this.stageLoc = stageLoc;
     }
 
-    int[] stageLoc=new int[6];
+    int[] stageLoc = new int[6];
     String stageWorld;
 
     public String getStageWorld() {

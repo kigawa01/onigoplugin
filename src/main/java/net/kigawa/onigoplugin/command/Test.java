@@ -88,8 +88,7 @@ public class Test extends FirstCommand {
         plugin.logger("save");
         OnigoData save = new OnigoData();
         save.setName("test");
-        save.setFolder("test");
-        plugin.getRecorder().save(save);
+        plugin.getRecorder().save(save,"test");
         plugin.logger("load");
         OnigoData load = (OnigoData) plugin.getRecorder().load(OnigoData.class, "test", "test");
         plugin.logger(load.getName());

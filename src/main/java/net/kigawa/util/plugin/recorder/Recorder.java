@@ -18,9 +18,9 @@ public class Recorder {
             yaml=new Yaml(new CustomClassLoaderConstructor(KigawaPlugin.class.getClassLoader()),plugin);
         }
     }
-    public void save(RecorderData data){
+    public void save(RecorderData data,String dir){
         if (!useDB){
-            File folder=new File(plugin.getDataFolder(),data.getFolder());
+            File folder=new File(plugin.getDataFolder(),dir);
             folder.mkdir();
             File file=new File(folder,data.getName()+".yml");
             yaml.save(data,file);

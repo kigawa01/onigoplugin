@@ -1,6 +1,5 @@
 package net.kigawa.util.plugin.game.onigo;
 
-import net.kigawa.onigoplugin.game.change.EqualsOniChange;
 import net.kigawa.onigoplugin.game.change.OnigoData;
 import net.kigawa.onigoplugin.game.change.OnigoGame;
 import net.kigawa.util.plugin.KigawaPlugin;
@@ -15,6 +14,7 @@ import java.util.List;
 public class GameManager {
     List<Game> games = new ArrayList<>();
     KigawaPlugin plugin;
+    String managerName;
 
     public GameManager(KigawaPlugin kigawaPlugin,String name) {
         plugin = kigawaPlugin;
@@ -26,8 +26,12 @@ public class GameManager {
             File file = new File(folder, files[i]);
             plugin.logger(files[i]);
             OnigoData data = plugin.getRecorder().load(OnigoData.class, name, files[i].substring(0, files[i].length() - 4));
-            games.add(new OnigoGame(plugin, data));
+            games.add(new OnigoGame(plugin, data,this));
         }
+    }
+
+    public String getManagerName() {
+        return managerName;
     }
 
     public boolean changeOni(Player oni, Player runner) {
@@ -104,10 +108,9 @@ public class GameManager {
     public void createGame(CommandSender sender, String name) {
         if (!games.contains(new EqualsYamlData(name))) {
             OnigoData data = new OnigoData();
-            data.setFolder(name);
             data.setName(name);
-            getGames().add(new OnigoGame(plugin, data));
-            plugin.getRecorder().save(data);
+            getGames().add(new OnigoGame(plugin, data,this));
+            plugin.getRecorder().save(data,name);
         } else {
             sender.sendMessage("this name can't use");
         }

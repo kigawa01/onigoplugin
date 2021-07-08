@@ -38,7 +38,7 @@ public class StageManager {
             //logger
             plugin.logger("stage manager startLoc "+stageData.getStartLoc()[0]);
             plugin.logger("length "+stageData.getStartLoc().length);
-            plugin.getRecorder().save(stageData);
+            plugin.getRecorder().save(stageData,"stage");
         }
     }
     public void setStage2(String name,String world,int x,int y,int z,CommandSender sender){
@@ -49,7 +49,7 @@ public class StageManager {
             i[3]=x;
             i[4]=y;
             i[5]=z;
-            plugin.getRecorder().save(stageData);
+            plugin.getRecorder().save(stageData,"stage");
         }
     }
     public void setStage1(String name,String world,int x,int y,int z,CommandSender sender){
@@ -60,7 +60,7 @@ public class StageManager {
             i[0]=x;
             i[1]=y;
             i[2]=z;
-            plugin.getRecorder().save(stageData);
+            plugin.getRecorder().save(stageData,"stage");
         }
     }
     public StageData getStage(String name,CommandSender sender){
@@ -83,7 +83,7 @@ public class StageManager {
             canUse.add(stageData);
             allStage.add(stageData);
             //save
-            plugin.getRecorder().save(stageData);
+            plugin.getRecorder().save(stageData,"stage");
             //send message
             sender.sendMessage("create "+name);
         }else {

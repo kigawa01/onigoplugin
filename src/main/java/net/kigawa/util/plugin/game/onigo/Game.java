@@ -22,6 +22,7 @@ public abstract class Game implements YamlData {
     GameData d;
     KigawaPlugin plugin;
     Game game;
+    GameManager manager;
     List<Player> joinPlayer;
     List<Player> oniPlayer;
     List<Player> runPlayer;
@@ -39,7 +40,7 @@ public abstract class Game implements YamlData {
 
     public abstract void sendEndMessage();
 
-    public Game(KigawaPlugin kigawaPlugin, GameData gameData) {
+    public Game(KigawaPlugin kigawaPlugin, GameData gameData,GameManager gameManager) {
         plugin = kigawaPlugin;
         d = gameData;
     }
@@ -168,22 +169,22 @@ public abstract class Game implements YamlData {
         loc[1] = y;
         loc[2] = z;
         d.setEndWorld(world);
-        plugin.getRecorder().save(d);
+        plugin.getRecorder().save(d, manager.getManagerName());
     }
 
     public void setGameTime(int gameTime) {
         d.setGameTime(gameTime);
-        plugin.getRecorder().save(d);
+        plugin.getRecorder().save(d, manager.getManagerName());
     }
 
     public void setWaitTime(int waitTime) {
         d.setWaitTime(waitTime);
-        plugin.getRecorder().save(d);
+        plugin.getRecorder().save(d, manager.getManagerName());
     }
 
     public void setOniCount(int oniCount) {
         d.setOniCount(oniCount);
-        plugin.getRecorder().save(d);
+        plugin.getRecorder().save(d,manager.getManagerName());
     }
 
     public GameData getD() {
@@ -196,7 +197,7 @@ public abstract class Game implements YamlData {
         loc[1] = y;
         loc[2] = z;
         d.setWaitRoomWorld(world);
-        plugin.getRecorder().save(d);
+        plugin.getRecorder().save(d, manager.getManagerName());
     }
 
     public void setWaitingRoom2(int x, int y, int z) {
@@ -204,7 +205,7 @@ public abstract class Game implements YamlData {
         loc[3] = x;
         loc[4] = y;
         loc[5] = z;
-        plugin.getRecorder().save(d);
+        plugin.getRecorder().save(d, manager.getManagerName());
     }
 
     public String getName() {
@@ -217,5 +218,9 @@ public abstract class Game implements YamlData {
 
     public List<Player> getRunPlayer() {
         return runPlayer;
+    }
+
+    public void save(GameData data){
+        plugin.getRecorder().save(data, manager.getManagerName());
     }
 }
