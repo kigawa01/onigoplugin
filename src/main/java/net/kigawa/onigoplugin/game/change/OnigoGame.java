@@ -36,6 +36,8 @@ public class OnigoGame extends Game {
                 //send all player
                 getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
                 getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
+                //return
+                return true;
             }
         }
         return false;

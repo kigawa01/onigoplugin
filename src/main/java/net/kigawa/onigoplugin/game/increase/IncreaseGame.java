@@ -17,7 +17,16 @@ public class IncreaseGame extends Game {
 
     @Override
     public boolean changeOni(Player oni, Player runner) {
-        return false;
+        //check player
+        if (getOniPlayer().contains(oni)) {
+            if (getRunPlayer().contains(runner)) {
+                //change list
+                getOniPlayer().add(runner);
+                getRunPlayer().remove(runner);
+
+            }
+        }
+        return true;
     }
 
     @Override
