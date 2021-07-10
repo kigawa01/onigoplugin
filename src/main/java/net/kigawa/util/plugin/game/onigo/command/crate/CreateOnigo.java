@@ -35,6 +35,6 @@ public abstract class CreateOnigo extends FirstCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        return false;
+        return true;
     }
 }

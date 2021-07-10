@@ -15,20 +15,21 @@ public abstract class GameManager implements Onigo {
     KigawaPlugin plugin;
     String managerName;
 
-    public abstract Game initializeGame(GameData data);
-
-    public GameManager(KigawaPlugin kigawaPlugin,String name) {
+    public GameManager(KigawaPlugin kigawaPlugin, String managerName) {
         plugin = kigawaPlugin;
+        this.managerName = managerName;
 
-        File folder = new File(plugin.getDataFolder(), name);
+        File folder = new File(plugin.getDataFolder(), managerName);
         folder.mkdir();
         String[] files = folder.list();
         for (int i = 0; i < files.length; i++) {
             plugin.logger(files[i]);
-            GameData data = plugin.getRecorder().load(GameData.class, name, files[i].substring(0, files[i].length() - 4));
+            GameData data = plugin.getRecorder().load(GameData.class, managerName, files[i].substring(0, files[i].length() - 4));
             games.add(initializeGame(data));
         }
     }
+
+    public abstract Game initializeGame(GameData data);
 
     public KigawaPlugin getPlugin() {
         return plugin;
@@ -109,7 +110,7 @@ public abstract class GameManager implements Onigo {
         }
     }
 
-    public abstract void createGame(CommandSender sender, String name) ;
+    public abstract void createGame(CommandSender sender, String name);
 
     public List<Game> getGames() {
         return games;

@@ -44,6 +44,7 @@ public abstract class Game implements YamlData , Onigo {
     public Game(KigawaPlugin kigawaPlugin, GameData gameData,GameManager gameManager) {
         plugin = kigawaPlugin;
         d = gameData;
+        manager=gameManager;
     }
 
     public void start(CommandSender sender) {
