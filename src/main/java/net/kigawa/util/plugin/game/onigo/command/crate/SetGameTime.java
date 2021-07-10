@@ -1,17 +1,16 @@
 package net.kigawa.util.plugin.game.onigo.command.crate;
 
-import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.all.command.SubCommand;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
-import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
+import net.kigawa.util.plugin.game.onigo.command.OnigoCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class SetGameTime extends SecondCommand {
-    OnigoPlugin plugin;
+public class SetGameTime extends OnigoCommand {
+    KigawaPlugin plugin;
 
-    public SetGameTime(OnigoPlugin onigoPlugin, GameManager manager) {
-        super(onigoPlugin,manager);
+    public SetGameTime(KigawaPlugin onigoPlugin, GameManager manager) {
+        super(onigoPlugin, manager);
         plugin = onigoPlugin;
     }
 
@@ -19,7 +18,6 @@ public class SetGameTime extends SecondCommand {
     public String getCommandStr() {
         return "setgametime";
     }
-
 
 
     @Override

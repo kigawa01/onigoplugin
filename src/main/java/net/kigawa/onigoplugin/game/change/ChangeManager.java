@@ -1,11 +1,18 @@
 package net.kigawa.onigoplugin.game.change;
 
 import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.util.plugin.game.onigo.Game;
+import net.kigawa.util.plugin.game.onigo.GameData;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import net.kigawa.util.yaml.EqualsYamlData;
 import org.bukkit.command.CommandSender;
 
 public class ChangeManager extends GameManager {
+    @Override
+    public Game initializeGame(GameData data) {
+        return null;
+    }
+
     public ChangeManager(KigawaPlugin kigawaPlugin, String name) {
         super(kigawaPlugin, name);
     }

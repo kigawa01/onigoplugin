@@ -48,33 +48,36 @@ public class Yaml {
 
     public <T> T load(Class<T> type, File file) {
         T data = null;
-
-        try {
-            data = type.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        try {
-            FileReader reader = new FileReader(file);
-            data = yaml.loadAs(reader, type);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        //check file exists
+        if (file.exists()) {
+            try {
+                data = type.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            try {
+                FileReader reader = new FileReader(file);
+                data = yaml.loadAs(reader, type);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         return data;
     }
 
     public <T> List<T> loadAll(Class<T> type, File dir){
         List<T> yamlData=new ArrayList<>();
-
-
+        //make dir
         dir.mkdir();
+        //get files name
         String[] files=dir.list();
+        //load and add data
         for (int i=0;i<files.length;i++){
             File file=new File(dir,files[i]);
             T data=load(type,file);

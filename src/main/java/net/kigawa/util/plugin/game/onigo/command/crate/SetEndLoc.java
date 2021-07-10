@@ -1,20 +1,19 @@
 package net.kigawa.util.plugin.game.onigo.command.crate;
 
-import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.all.command.SubCommand;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
-import net.kigawa.util.plugin.game.onigo.command.SecondCommand;
+import net.kigawa.util.plugin.game.onigo.command.OnigoCommand;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetEndLoc extends SecondCommand {
-    OnigoPlugin plugin;
+public class SetEndLoc extends OnigoCommand {
+    KigawaPlugin plugin;
 
-    public SetEndLoc(OnigoPlugin plugin, GameManager manager) {
-        super(plugin,manager);
+    public SetEndLoc(KigawaPlugin plugin, GameManager manager) {
+        super(plugin, manager);
         this.plugin = plugin;
     }
 
@@ -22,7 +21,6 @@ public class SetEndLoc extends SecondCommand {
     public String getCommandStr() {
         return "setendloc";
     }
-
 
 
     @Override

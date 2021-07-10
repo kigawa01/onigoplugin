@@ -3,6 +3,7 @@ package net.kigawa.onigoplugin;
 import net.kigawa.onigoplugin.command.Stage;
 import net.kigawa.onigoplugin.command.change.create.OnigoCreate;
 import net.kigawa.onigoplugin.command.change.game.Onigo;
+import net.kigawa.onigoplugin.command.increase.game.Increase;
 import net.kigawa.util.plugin.game.onigo.evnt.OnigoListener;
 import net.kigawa.onigoplugin.game.change.ChangeManager;
 import net.kigawa.onigoplugin.game.increase.IncreaseManager;
@@ -12,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public final class OnigoPlugin extends KigawaPlugin {
     Onigo onigo;
+    Increase increase;
     GameManager changeGame;
     GameManager increaseGame;
 
@@ -19,8 +21,9 @@ public final class OnigoPlugin extends KigawaPlugin {
     public void onStart() {
         //initialize
         changeGame = new ChangeManager(this, "change");
-        onigo = new Onigo(this);
+        onigo = new Onigo(this,changeGame);
         increaseGame = new IncreaseManager(this, "increase");
+        increase = new Increase(this,increaseGame);
         addGameManager(changeGame);
         addGameManager(increaseGame);
         //new Test(this);

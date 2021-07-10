@@ -1,7 +1,5 @@
 package net.kigawa.util.plugin.game.onigo;
 
-import net.kigawa.onigoplugin.game.change.OnigoData;
-import net.kigawa.onigoplugin.game.change.OnigoGame;
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.ist.EqualsOniChange;
 import net.kigawa.util.yaml.EqualsYamlData;
@@ -17,6 +15,8 @@ public abstract class GameManager implements Onigo {
     KigawaPlugin plugin;
     String managerName;
 
+    public abstract Game initializeGame(GameData data);
+
     public GameManager(KigawaPlugin kigawaPlugin,String name) {
         plugin = kigawaPlugin;
 
@@ -24,10 +24,9 @@ public abstract class GameManager implements Onigo {
         folder.mkdir();
         String[] files = folder.list();
         for (int i = 0; i < files.length; i++) {
-            File file = new File(folder, files[i]);
             plugin.logger(files[i]);
-            OnigoData data = plugin.getRecorder().load(OnigoData.class, name, files[i].substring(0, files[i].length() - 4));
-            games.add(new OnigoGame(plugin, data,this));
+            GameData data = plugin.getRecorder().load(GameData.class, name, files[i].substring(0, files[i].length() - 4));
+            games.add(initializeGame(data));
         }
     }
 
