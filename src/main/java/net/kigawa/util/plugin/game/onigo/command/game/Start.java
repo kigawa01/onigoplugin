@@ -37,7 +37,7 @@ public class Start extends OnigoCommand {
 
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "start";
     }
 

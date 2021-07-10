@@ -10,7 +10,7 @@ public class Stage extends StageCommand {
 
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "stage";
     }
 }

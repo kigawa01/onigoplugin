@@ -4,7 +4,7 @@ import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
 import net.kigawa.util.plugin.game.onigo.GameData;
 import net.kigawa.util.plugin.game.onigo.GameManager;
-import net.kigawa.util.yaml.EqualsYamlData;
+import net.kigawa.util.all.EqualsNamed;
 import org.bukkit.command.CommandSender;
 
 public class IncreaseManager extends GameManager {
@@ -19,7 +19,7 @@ public class IncreaseManager extends GameManager {
 
     @Override
     public void createGame(CommandSender sender, String name) {
-        if (!getGames().contains(new EqualsYamlData(name))) {
+        if (!getGames().contains(new EqualsNamed(name))) {
             IncreaseData data = new IncreaseData();
             data.setName(name);
             getGames().add(new IncreaseGame(getPlugin(), data, this));

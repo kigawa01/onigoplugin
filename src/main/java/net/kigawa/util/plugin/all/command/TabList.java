@@ -37,7 +37,7 @@ public abstract class TabList extends PluginLogger implements Named {
                 if (strings.length == getWordNumber() + 1) {
                     logger("when send here");
                     for (TabList tabList : tabLists) {
-                        tabListStr.add(tabList.getCommandStr());
+                        tabListStr.add(tabList.getName());
                     }
                 }
 

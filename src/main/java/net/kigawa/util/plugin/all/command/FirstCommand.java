@@ -16,8 +16,8 @@ public abstract class FirstCommand extends SubCommand implements CommandExecutor
         super(plugin);
         this.plugin = plugin;
 
-        plugin.getCommand(getCommandStr()).setExecutor(this);
-        plugin.getCommand(getCommandStr()).setTabCompleter(this);
+        plugin.getCommand(getName()).setExecutor(this);
+        plugin.getCommand(getName()).setTabCompleter(this);
     }
 
     @Override
@@ -33,23 +33,23 @@ public abstract class FirstCommand extends SubCommand implements CommandExecutor
     @Override
     public boolean onCommand(
             CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
-        plugin.logger(getCommandStr() + " onAlways");
+        plugin.logger(getName() + " onAlways");
         if (!onAlways(commandSender, command, s, strings)) {
             return false;
         }
         if (strings.length > 0) {
 
-            plugin.logger(getCommandStr() + " onIsContain");
+            plugin.logger(getName() + " onIsContain");
 
             if (subCommands != null) {
                 if (subCommands.contains(new EqualsCommand(strings[0]))) {
-                    plugin.logger(getCommandStr() + " onGetSubCommand");
+                    plugin.logger(getName() + " onGetSubCommand");
                     SubCommand subCommand = subCommands.get(subCommands.indexOf(new EqualsCommand(strings[0])));
                     return subCommand.onCommand(commandSender, command, s, strings);
                 }
             }
         }
-        plugin.logger(getCommandStr() + " onNotFound");
+        plugin.logger(getName() + " onNotFound");
         return onNotFound(commandSender, command, s, strings);
     }
 

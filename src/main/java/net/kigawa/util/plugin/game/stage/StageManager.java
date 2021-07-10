@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.game.stage;
 
 import net.kigawa.util.plugin.all.KigawaPlugin;
-import net.kigawa.util.yaml.EqualsYamlData;
+import net.kigawa.util.all.EqualsNamed;
 import org.bukkit.command.CommandSender;
 
 import java.io.File;
@@ -65,8 +65,8 @@ public class StageManager {
     }
     public StageData getStage(String name,CommandSender sender){
         StageData stageData=null;
-        if (allStage.contains(new EqualsYamlData(name))){
-            stageData= allStage.get(allStage.indexOf(new EqualsYamlData(name)));
+        if (allStage.contains(new EqualsNamed(name))){
+            stageData= allStage.get(allStage.indexOf(new EqualsNamed(name)));
         }else {
             sender.sendMessage(name+" is not exit");
         }
@@ -92,8 +92,8 @@ public class StageManager {
     }
     public StageData getStage(String name){
         StageData stageData=null;
-        if (allStage.contains(new EqualsYamlData(name))){
-            stageData= allStage.get(allStage.indexOf(new EqualsYamlData(name)));
+        if (allStage.contains(new EqualsNamed(name))){
+            stageData= allStage.get(allStage.indexOf(new EqualsNamed(name)));
         }
         return stageData;
     }
@@ -109,9 +109,9 @@ public class StageManager {
          return stageData;
     }
     public void returnStage(StageData stageData){
-        if (notUse.contains(new EqualsYamlData(stageData.getName()))){
+        if (notUse.contains(new EqualsNamed(stageData.getName()))){
             canUse.add(stageData);
-            notUse.remove(notUse.indexOf(new EqualsYamlData(stageData.getName())));
+            notUse.remove(notUse.indexOf(new EqualsNamed(stageData.getName())));
         }
     }
 }

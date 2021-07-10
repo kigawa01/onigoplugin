@@ -15,7 +15,7 @@ public class SetOniCount extends OnigoCommand {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "setonicount";
     }
 

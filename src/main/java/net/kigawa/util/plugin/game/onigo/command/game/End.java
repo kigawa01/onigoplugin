@@ -40,7 +40,7 @@ public class End extends OnigoCommand {
 
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "end";
     }
 }

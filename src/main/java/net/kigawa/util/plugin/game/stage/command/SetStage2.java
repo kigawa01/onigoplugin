@@ -17,7 +17,7 @@ public class SetStage2 extends SubCommand {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "setstage2";
     }
 

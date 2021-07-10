@@ -9,6 +9,6 @@ public class EqualsCommand {
     }
     @Override
     public  boolean equals(Object o){
-        return  ((SubCommand)o).getCommandStr().equals(command);
+        return  ((SubCommand)o).getName().equals(command);
     }
 }

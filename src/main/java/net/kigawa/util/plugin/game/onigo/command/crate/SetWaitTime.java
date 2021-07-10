@@ -15,7 +15,7 @@ public class SetWaitTime extends OnigoCommand {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "setwaittime";
     }
 

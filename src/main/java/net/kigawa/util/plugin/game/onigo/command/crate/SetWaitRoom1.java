@@ -19,7 +19,7 @@ public class SetWaitRoom1 extends OnigoCommand {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "setwaitroom1";
     }
 

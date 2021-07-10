@@ -49,4 +49,6 @@ public class IncreaseGame extends Game {
             getPlugin().getMessenger().sendMessage(getJoinPlayer(),"逃走者の勝利");
         }
     }
+
+
 }

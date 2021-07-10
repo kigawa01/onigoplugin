@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.increase.game;
+package net.kigawa.onigoplugin.command.increase;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
@@ -10,7 +10,7 @@ public class Increase extends Onigo {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "increase";
     }
 }

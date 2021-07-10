@@ -17,7 +17,7 @@ public class Create extends OnigoCommand {
 
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "create";
     }
 

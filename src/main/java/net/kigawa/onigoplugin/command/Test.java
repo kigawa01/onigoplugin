@@ -24,7 +24,7 @@ public class Test extends FirstCommand {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "test";
     }
 

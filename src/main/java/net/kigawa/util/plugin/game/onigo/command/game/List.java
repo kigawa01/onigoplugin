@@ -18,7 +18,7 @@ public class List extends OnigoCommand {
 
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "list";
     }
 

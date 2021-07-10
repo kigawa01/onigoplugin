@@ -2,7 +2,7 @@ package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.ist.EqualsOniChange;
-import net.kigawa.util.yaml.EqualsYamlData;
+import net.kigawa.util.all.EqualsNamed;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -86,8 +86,8 @@ public abstract class GameManager implements Onigo {
     }
 
     public Game getGame(String gameName, CommandSender sender) {
-        if (games.contains(new EqualsYamlData(gameName))) {
-            return games.get(games.indexOf(new EqualsYamlData(gameName)));
+        if (games.contains(new EqualsNamed(gameName))) {
+            return games.get(games.indexOf(new EqualsNamed(gameName)));
         } else {
             sender.sendMessage(gameName + " is not exit");
             return null;
@@ -95,16 +95,16 @@ public abstract class GameManager implements Onigo {
     }
 
     public void setWaitRoom2(String gameName, int x, int y, int z, CommandSender sender) {
-        if (games.contains(new EqualsYamlData(gameName))) {
-            games.get(games.indexOf(new EqualsYamlData(gameName))).setWaitingRoom2(x, y, z);
+        if (games.contains(new EqualsNamed(gameName))) {
+            games.get(games.indexOf(new EqualsNamed(gameName))).setWaitingRoom2(x, y, z);
         } else {
             sender.sendMessage(gameName + " is not exit");
         }
     }
 
     public void setWaitRoom1(String gameName, String worldName, int x, int y, int z, CommandSender sender) {
-        if (games.contains(new EqualsYamlData(gameName))) {
-            games.get(games.indexOf(new EqualsYamlData(gameName))).setWaitingRoom1(worldName, x, y, z);
+        if (games.contains(new EqualsNamed(gameName))) {
+            games.get(games.indexOf(new EqualsNamed(gameName))).setWaitingRoom1(worldName, x, y, z);
         } else {
             sender.sendMessage(gameName + " is not exit");
         }

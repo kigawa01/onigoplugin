@@ -14,7 +14,7 @@ public class CreateCommand extends SubCommand {
     KigawaPlugin plugin;
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "create";
     }
 

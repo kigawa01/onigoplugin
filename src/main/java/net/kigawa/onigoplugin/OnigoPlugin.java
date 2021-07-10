@@ -1,9 +1,9 @@
 package net.kigawa.onigoplugin;
 
 import net.kigawa.onigoplugin.command.Stage;
-import net.kigawa.onigoplugin.command.change.create.OnigoCreate;
-import net.kigawa.onigoplugin.command.change.game.Onigo;
-import net.kigawa.onigoplugin.command.increase.game.Increase;
+import net.kigawa.onigoplugin.command.change.OnigoCreate;
+import net.kigawa.onigoplugin.command.change.Onigo;
+import net.kigawa.onigoplugin.command.increase.Increase;
 import net.kigawa.util.plugin.game.onigo.evnt.OnigoListener;
 import net.kigawa.onigoplugin.game.change.ChangeManager;
 import net.kigawa.onigoplugin.game.increase.IncreaseManager;

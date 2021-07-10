@@ -1,5 +1,5 @@
 package net.kigawa.util.all;
 
 public interface Named {
-    public String getCommandStr();
+    public String getName();
 }

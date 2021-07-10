@@ -35,7 +35,7 @@ public abstract class SubCommand extends TabList {
 
 
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
-        plugin.logger(getCommandStr() + " onAlways");
+        plugin.logger(getName() + " onAlways");
         if (!onAlways(commandSender, command, s, strings)) {
             return false;
         }
@@ -49,7 +49,7 @@ public abstract class SubCommand extends TabList {
         }
 
 
-        plugin.logger(getCommandStr() + " onNotFound");
+        plugin.logger(getName() + " onNotFound");
         return onNotFound(commandSender, command, s, strings);
     }
 
@@ -59,7 +59,7 @@ public abstract class SubCommand extends TabList {
         if (strings.length == getWordNumber() + 1) {
             if (subCommands != null) {
                 for (int i = 0; i < subCommands.size(); i++) {
-                    forSend.add(subCommands.get(i).getCommandStr());
+                    forSend.add(subCommands.get(i).getName());
                 }
             }
             return forSend;

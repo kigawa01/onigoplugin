@@ -1,5 +1,6 @@
 package net.kigawa.util.plugin.game.onigo;
 
+import net.kigawa.util.all.Named;
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.runnable.GameLimiter;
 import net.kigawa.util.plugin.game.stage.runnable.Limiter;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Game implements YamlData , Onigo {
+public abstract class Game implements Named, Onigo {
     GameData d;
     KigawaPlugin plugin;
     Game game;

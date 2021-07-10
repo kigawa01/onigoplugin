@@ -14,7 +14,7 @@ public class SetStartLoc extends SubCommand {
     }
 
     @Override
-    public String getCommandStr() {
+    public String getName() {
         return "setstartloc";
     }
 
