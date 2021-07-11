@@ -2,11 +2,10 @@ package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.util.all.Named;
 import net.kigawa.util.plugin.all.KigawaPlugin;
-import net.kigawa.util.plugin.game.onigo.runnable.GameLimiter;
-import net.kigawa.util.plugin.game.stage.runnable.Limiter;
-import net.kigawa.util.plugin.game.stage.StageData;
 import net.kigawa.util.plugin.all.timer.Counter;
-import net.kigawa.util.yaml.YamlData;
+import net.kigawa.util.plugin.game.onigo.runnable.GameLimiter;
+import net.kigawa.util.plugin.game.stage.StageData;
+import net.kigawa.util.plugin.game.stage.runnable.Limiter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +22,7 @@ import java.util.Random;
 public abstract class Game implements Named, Onigo {
     GameData d;
     KigawaPlugin plugin;
-    Game game;
+    Game game = this;
     GameManager manager;
     List<Player> joinPlayer;
     List<Player> oniPlayer;
@@ -32,21 +31,21 @@ public abstract class Game implements Named, Onigo {
     Limiter limiter;
     Limiter limiter1;
     Counter counter;
-    Counter counter1;
+
     BukkitTask runnable;
     BukkitTask runnable1;
+
+    public Game(KigawaPlugin kigawaPlugin, GameData gameData, GameManager gameManager) {
+        plugin = kigawaPlugin;
+        d = gameData;
+        manager = gameManager;
+    }
 
     public abstract String getBordName();
 
     public abstract boolean changeOni(Player oni, Player runner);
 
     public abstract void sendEndMessage();
-
-    public Game(KigawaPlugin kigawaPlugin, GameData gameData,GameManager gameManager) {
-        plugin = kigawaPlugin;
-        d = gameData;
-        manager=gameManager;
-    }
 
     public void start(CommandSender sender) {
         if (d.getWaitRoomWorld() != null) {
@@ -104,7 +103,6 @@ public abstract class Game implements Named, Onigo {
                             limiter1 = new GameLimiter(plugin, stageData, game);
                             //counter
                             counter.cancel();
-                            counter1 = new Counter(getBordName(), "onigo", plugin);
                             //end
                             runnable1 = new BukkitRunnable() {
                                 @Override
@@ -138,7 +136,6 @@ public abstract class Game implements Named, Onigo {
         plugin.getStageManager().returnStage(stageData);
         //cancel counter
         counter.cancel();
-        counter1.cancel();
         //cancel limiter
         limiter.cancel();
         limiter1.cancel();
@@ -187,7 +184,7 @@ public abstract class Game implements Named, Onigo {
 
     public void setOniCount(int oniCount) {
         d.setOniCount(oniCount);
-        plugin.getRecorder().save(d,manager.getName());
+        plugin.getRecorder().save(d, manager.getName());
     }
 
     public GameData getD() {
@@ -223,7 +220,7 @@ public abstract class Game implements Named, Onigo {
         return runPlayer;
     }
 
-    public void save(GameData data){
+    public void save(GameData data) {
         plugin.getRecorder().save(data, manager.getName());
     }
 }
