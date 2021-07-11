@@ -2,7 +2,7 @@ package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.util.all.EqualsNamed;
 import net.kigawa.util.plugin.all.KigawaPlugin;
-import net.kigawa.util.plugin.game.onigo.ist.EqualsOniChange;
+import net.kigawa.util.plugin.game.onigo.list.EqualsOniChange;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,7 +38,10 @@ public abstract class GameManager implements Onigo {
 
 
     public boolean changeOni(Player oni, Player runner) {
-        return games.contains(new EqualsOniChange(oni, runner));
+        if (games!=null) {
+            return games.contains(new EqualsOniChange(oni, runner));
+        }
+        return false;
     }
 
     public void end(String gameName, CommandSender sender) {

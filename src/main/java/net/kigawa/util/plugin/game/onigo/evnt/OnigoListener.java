@@ -2,7 +2,7 @@ package net.kigawa.util.plugin.game.onigo.evnt;
 
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.event.Event;
-import net.kigawa.util.plugin.game.onigo.ist.EqualsOniChange;
+import net.kigawa.util.plugin.game.onigo.list.EqualsOniChange;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

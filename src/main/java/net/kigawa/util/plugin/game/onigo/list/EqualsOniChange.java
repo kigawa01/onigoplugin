@@ -1,4 +1,4 @@
-package net.kigawa.util.plugin.game.onigo.ist;
+package net.kigawa.util.plugin.game.onigo.list;
 
 import net.kigawa.util.plugin.game.onigo.Onigo;
 import org.bukkit.entity.Player;
