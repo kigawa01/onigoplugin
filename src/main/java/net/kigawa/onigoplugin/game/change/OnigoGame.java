@@ -5,7 +5,9 @@ import net.kigawa.util.plugin.game.onigo.Game;
 import net.kigawa.util.plugin.game.onigo.GameData;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,10 +34,12 @@ public class OnigoGame extends Game {
                 getOniPlayer().remove(oni);
                 //oni to runner
                 oni.sendTitle(ChatColor.GREEN + "鬼を交代しました", "", 5, 15, 5);
+                oni.getInventory().setHelmet(null);
                 //runner to oni
                 runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
                 runner.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
                 runner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
+                runner.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
                 //send all player
                 getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
                 getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
