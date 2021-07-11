@@ -55,5 +55,10 @@ public class IncreaseGame extends Game {
 
     }
 
+    @Override
+    public void onStart() {
+
+    }
+
 
 }

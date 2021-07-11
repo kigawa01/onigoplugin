@@ -14,6 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class OnigoGame extends Game {
 
+
+    ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
+
     public OnigoGame(KigawaPlugin kigawaPlugin, GameData gameData, GameManager manager) {
         super(kigawaPlugin, gameData, manager);
     }
@@ -39,7 +42,6 @@ public class OnigoGame extends Game {
                 runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
                 runner.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
                 runner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
-                runner.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
                 //send all player
                 getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
                 getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
@@ -71,6 +73,12 @@ public class OnigoGame extends Game {
 
     @Override
     public void alwaysEffect() {
+        for (Player player : getOniPlayer()) {
+            player.getInventory().setHelmet(helmet);
+        }
+    }
 
+    @Override
+    public void onStart() {
     }
 }

@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -49,6 +50,14 @@ public abstract class Game implements Named, Onigo {
     public abstract void sendEndMessage();
 
     public abstract void alwaysEffect();
+
+    public abstract void onStart();
+
+    @Override
+    public boolean contain(HumanEntity player) {
+        if (joinPlayer != null) return joinPlayer.contains(player);
+        return false;
+    }
 
     public void start(CommandSender sender) {
         if (d.getWaitRoomWorld() != null) {
@@ -106,7 +115,7 @@ public abstract class Game implements Named, Onigo {
                             limiter1 = new GameLimiter(plugin, stageData, game);
                             //counter
                             counter.cancel();
-                            gameCounter=new GameCounter(getBordName(),getName(),game);
+                            gameCounter = new GameCounter(getBordName(), getName(), game);
                             //end
                             runnable1 = new BukkitRunnable() {
                                 @Override
@@ -116,6 +125,7 @@ public abstract class Game implements Named, Onigo {
                             }.runTaskLater(plugin, d.getGameTime() * 20 * 60);
                         }
                     }.runTaskLater(plugin, d.getWaitTime() * 20);
+                    onStart();
                 } else {
                     sender.sendMessage("stage is not exit");
                 }

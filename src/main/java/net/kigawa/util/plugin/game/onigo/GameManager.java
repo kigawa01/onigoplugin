@@ -2,8 +2,9 @@ package net.kigawa.util.plugin.game.onigo;
 
 import net.kigawa.util.all.EqualsNamed;
 import net.kigawa.util.plugin.all.KigawaPlugin;
-import net.kigawa.util.plugin.game.onigo.list.EqualsOniChange;
+import net.kigawa.util.plugin.game.onigo.list.EqualsOnigoManager;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -25,21 +26,28 @@ public abstract class GameManager implements Onigo {
         games = initializeGame(plugin.getRecorder().loadAll(GameData.class, getName()));
     }
 
+    public abstract List<Game> initializeGame(List<GameData> data);
+
     @Override
     public String getName() {
         return Name;
     }
 
-    public abstract List<Game> initializeGame(List<GameData> data);
 
     public KigawaPlugin getPlugin() {
         return plugin;
     }
 
+    @Override
+    public boolean contain(HumanEntity player) {
+        if (games != null) return games.contains(new EqualsOnigoManager(player));
+        return false;
+    }
+
 
     public boolean changeOni(Player oni, Player runner) {
-        if (games!=null) {
-            return games.contains(new EqualsOniChange(oni, runner));
+        if (games != null) {
+            return games.contains(new EqualsOnigoManager(oni, runner));
         }
         return false;
     }
