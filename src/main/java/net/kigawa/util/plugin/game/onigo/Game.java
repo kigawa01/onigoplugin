@@ -48,6 +48,8 @@ public abstract class Game implements Named, Onigo {
 
     public abstract void sendEndMessage();
 
+    public abstract void alwaysEffect();
+
     public void start(CommandSender sender) {
         if (d.getWaitRoomWorld() != null) {
             //sort player

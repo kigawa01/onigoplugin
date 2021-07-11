@@ -68,4 +68,9 @@ public class OnigoGame extends Game {
             }
         }.runTaskLater(getPlugin(), 40);
     }
+
+    @Override
+    public void alwaysEffect() {
+
+    }
 }
