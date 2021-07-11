@@ -7,14 +7,18 @@ import net.kigawa.util.plugin.game.onigo.GameManager;
 import net.kigawa.util.all.EqualsNamed;
 import org.bukkit.command.CommandSender;
 
+import java.util.List;
+
+
 public class IncreaseManager extends GameManager {
-    @Override
-    public Game initializeGame(GameData data) {
-        return null;
-    }
 
     public IncreaseManager(KigawaPlugin kigawaPlugin, String name) {
         super(kigawaPlugin, name);
+    }
+
+    @Override
+    public List<Game> initializeGame(List<GameData> data) {
+        return null;
     }
 
     @Override
@@ -23,7 +27,7 @@ public class IncreaseManager extends GameManager {
             IncreaseData data = new IncreaseData();
             data.setName(name);
             getGames().add(new IncreaseGame(getPlugin(), data, this));
-            getPlugin().getRecorder().save(data, getManagerName());
+            getPlugin().getRecorder().save(data, getName());
         } else {
             sender.sendMessage("this name can't use");
         }

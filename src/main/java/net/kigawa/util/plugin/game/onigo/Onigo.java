@@ -1,7 +1,10 @@
 package net.kigawa.util.plugin.game.onigo;
 
+import net.kigawa.util.all.Named;
 import org.bukkit.entity.Player;
 
-public interface Onigo {
+import javax.naming.Name;
+
+public interface Onigo extends Named {
     public boolean changeOni(Player oni, Player runner);
 }

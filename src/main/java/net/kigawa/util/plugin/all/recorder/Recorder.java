@@ -5,6 +5,7 @@ import net.kigawa.util.yaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
 import java.io.File;
+import java.util.List;
 
 public class Recorder {
     KigawaPlugin plugin;
@@ -25,13 +26,16 @@ public class Recorder {
             yaml.save(data,file);
         }
     }
-    public <T> T load(Class<T> type,String folderName,String name){
+    public <T> T load(Class<T> type,String dir,String name){
         T data = null;
         if (!useDB) {
-            File folder = new File(plugin.getDataFolder(), folderName);
+            File folder = new File(plugin.getDataFolder(), dir);
             File file = new File(folder, name+".yml");
             data =yaml.load(type, file);
         }
         return data;
+    }
+    public <T> List<T> loadAll(Class<T> type,String dir){
+        return yaml.loadAll(type,new File(plugin.getDataFolder(),dir));
     }
 }

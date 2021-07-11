@@ -1,8 +1,8 @@
 package net.kigawa.util.plugin.game.onigo;
 
+import net.kigawa.util.all.EqualsNamed;
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.ist.EqualsOniChange;
-import net.kigawa.util.all.EqualsNamed;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,31 +13,29 @@ import java.util.List;
 public abstract class GameManager implements Onigo {
     List<Game> games = new ArrayList<>();
     KigawaPlugin plugin;
-    String managerName;
+    String Name;
 
-    public GameManager(KigawaPlugin kigawaPlugin, String managerName) {
+    public GameManager(KigawaPlugin kigawaPlugin, String name) {
         plugin = kigawaPlugin;
-        this.managerName = managerName;
+        this.Name = name;
 
-        File folder = new File(plugin.getDataFolder(), managerName);
+        File folder = new File(plugin.getDataFolder(), getName());
         folder.mkdir();
         String[] files = folder.list();
-        for (int i = 0; i < files.length; i++) {
-            plugin.logger(files[i]);
-            GameData data = plugin.getRecorder().load(GameData.class, managerName, files[i].substring(0, files[i].length() - 4));
-            games.add(initializeGame(data));
-        }
+        games = initializeGame(plugin.getRecorder().loadAll(GameData.class, getName()));
     }
 
-    public abstract Game initializeGame(GameData data);
+    @Override
+    public String getName() {
+        return Name;
+    }
+
+    public abstract List<Game> initializeGame(List<GameData> data);
 
     public KigawaPlugin getPlugin() {
         return plugin;
     }
 
-    public String getManagerName() {
-        return managerName;
-    }
 
     public boolean changeOni(Player oni, Player runner) {
         return games.contains(new EqualsOniChange(oni, runner));

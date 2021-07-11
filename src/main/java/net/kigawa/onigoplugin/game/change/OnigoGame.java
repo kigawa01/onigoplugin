@@ -2,6 +2,7 @@ package net.kigawa.onigoplugin.game.change;
 
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
+import net.kigawa.util.plugin.game.onigo.GameData;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,8 +12,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class OnigoGame extends Game {
 
-    public OnigoGame(KigawaPlugin kigawaPlugin, OnigoData onigoData, GameManager manager) {
-        super(kigawaPlugin, onigoData,manager);
+    public OnigoGame(KigawaPlugin kigawaPlugin, GameData gameData, GameManager manager) {
+        super(kigawaPlugin, gameData, manager);
     }
 
     @Override
@@ -44,8 +45,9 @@ public class OnigoGame extends Game {
         }
         return false;
     }
+
     @Override
-    public void sendEndMessage(){
+    public void sendEndMessage() {
         //send oni name
         getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "最後に鬼だったプレーヤー");
         for (Player player : getOniPlayer()) {
@@ -56,9 +58,9 @@ public class OnigoGame extends Game {
             @Override
             public void run() {
                 //send lose
-                getPlugin().getMessenger().sendTitle(getOniPlayer(),ChatColor.RED+"LOSE","");
+                getPlugin().getMessenger().sendTitle(getOniPlayer(), ChatColor.RED + "LOSE", "");
                 //send win
-                getPlugin().getMessenger().sendTitle(getRunPlayer(),ChatColor.RED+"WIN","");
+                getPlugin().getMessenger().sendTitle(getRunPlayer(), ChatColor.RED + "WIN", "");
             }
         }.runTaskLater(getPlugin(), 40);
     }

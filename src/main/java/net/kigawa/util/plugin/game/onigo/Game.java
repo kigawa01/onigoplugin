@@ -172,22 +172,22 @@ public abstract class Game implements Named, Onigo {
         loc[1] = y;
         loc[2] = z;
         d.setEndWorld(world);
-        plugin.getRecorder().save(d, manager.getManagerName());
+        plugin.getRecorder().save(d, manager.getName());
     }
 
     public void setGameTime(int gameTime) {
         d.setGameTime(gameTime);
-        plugin.getRecorder().save(d, manager.getManagerName());
+        plugin.getRecorder().save(d, manager.getName());
     }
 
     public void setWaitTime(int waitTime) {
         d.setWaitTime(waitTime);
-        plugin.getRecorder().save(d, manager.getManagerName());
+        plugin.getRecorder().save(d, manager.getName());
     }
 
     public void setOniCount(int oniCount) {
         d.setOniCount(oniCount);
-        plugin.getRecorder().save(d,manager.getManagerName());
+        plugin.getRecorder().save(d,manager.getName());
     }
 
     public GameData getD() {
@@ -200,7 +200,7 @@ public abstract class Game implements Named, Onigo {
         loc[1] = y;
         loc[2] = z;
         d.setWaitRoomWorld(world);
-        plugin.getRecorder().save(d, manager.getManagerName());
+        plugin.getRecorder().save(d, manager.getName());
     }
 
     public void setWaitingRoom2(int x, int y, int z) {
@@ -208,7 +208,7 @@ public abstract class Game implements Named, Onigo {
         loc[3] = x;
         loc[4] = y;
         loc[5] = z;
-        plugin.getRecorder().save(d, manager.getManagerName());
+        plugin.getRecorder().save(d, manager.getName());
     }
 
     public String getName() {
@@ -224,6 +224,6 @@ public abstract class Game implements Named, Onigo {
     }
 
     public void save(GameData data){
-        plugin.getRecorder().save(data, manager.getManagerName());
+        plugin.getRecorder().save(data, manager.getName());
     }
 }
