@@ -5,12 +5,12 @@ import net.kigawa.util.plugin.game.onigo.Game;
 import org.bukkit.ChatColor;
 
 public class GameCounter extends Counter {
-    Game onigo;
+    Game game;
 
     public GameCounter(String bordName, String bordID, Game onigo) {
         super(bordName, bordID, onigo.getPlugin());
         //replace variable
-        this.onigo = onigo;
+        this.game = onigo;
 
         //start count
         startMin(0L, onigo.getD().getGameTime(), 3, onigo.getJoinPlayer(), ChatColor.RED + "END", ChatColor.GREEN);
@@ -19,6 +19,6 @@ public class GameCounter extends Counter {
     @Override
     public void sendLastMessage() {
         //send end
-        onigo.getPlugin().getMessenger().sendTitle(onigo.getJoinPlayer(), ChatColor.RED + "END", "");
+        game.getPlugin().getMessenger().sendTitle(game.getJoinPlayer(), ChatColor.RED + "END", "");
     }
 }

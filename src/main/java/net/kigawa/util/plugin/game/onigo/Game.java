@@ -3,6 +3,7 @@ package net.kigawa.util.plugin.game.onigo;
 import net.kigawa.util.all.Named;
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.timer.Counter;
+import net.kigawa.util.plugin.game.onigo.runnable.GameCounter;
 import net.kigawa.util.plugin.game.onigo.runnable.GameLimiter;
 import net.kigawa.util.plugin.game.stage.StageData;
 import net.kigawa.util.plugin.game.stage.runnable.Limiter;
@@ -31,7 +32,7 @@ public abstract class Game implements Named, Onigo {
     Limiter limiter;
     Limiter limiter1;
     Counter counter;
-
+    Counter gameCounter;
     BukkitTask runnable;
     BukkitTask runnable1;
 
@@ -103,6 +104,7 @@ public abstract class Game implements Named, Onigo {
                             limiter1 = new GameLimiter(plugin, stageData, game);
                             //counter
                             counter.cancel();
+                            gameCounter=new GameCounter(getBordName(),getName(),game);
                             //end
                             runnable1 = new BukkitRunnable() {
                                 @Override
@@ -135,7 +137,8 @@ public abstract class Game implements Named, Onigo {
         //return stage
         plugin.getStageManager().returnStage(stageData);
         //cancel counter
-        counter.cancel();
+        counter.end();
+        gameCounter.end();
         //cancel limiter
         limiter.cancel();
         limiter1.cancel();

@@ -5,7 +5,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.List;
 
@@ -20,41 +23,57 @@ public class Counter extends BukkitRunnable {
     String lastMessage;
     ChatColor countdownColor;
     String unit;
-    public Counter(String bordName, String bordID,KigawaPlugin kigawaPlugin){
-        bord= Bukkit.getScoreboardManager().getNewScoreboard();
-        plugin=kigawaPlugin;
-        objective=bord.registerNewObjective(bordID,"dummy",bordName);
+    Counter oneMinCounter;
+
+    public Counter(String bordName, String bordID, KigawaPlugin kigawaPlugin) {
+        bord = Bukkit.getScoreboardManager().getNewScoreboard();
+        plugin = kigawaPlugin;
+        objective = bord.registerNewObjective(bordID, "dummy", bordName);
     }
-    public void startSec( Long delay, int count, int titleCount, List<Player> players, String lastMessage, ChatColor countdownColor){
-        this.count=count;
+
+    public void startSec(Long delay, int count, int titleCount, List<Player> players, String lastMessage, ChatColor countdownColor) {
+        this.count = count;
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        score= objective.getScore("時間(秒)");
-        this.titleCount=titleCount;
-        this.players=players;
-        this.lastMessage=lastMessage;
-        this.countdownColor=countdownColor;
-        for (Player player:players){
+        score = objective.getScore("時間(秒)");
+        this.titleCount = titleCount;
+        this.players = players;
+        this.lastMessage = lastMessage;
+        this.countdownColor = countdownColor;
+        for (Player player : players) {
             player.setScoreboard(bord);
         }
-        unit="sec";
-        runTaskTimer(plugin,delay,20);
+        unit = "sec";
+        runTaskTimer(plugin, delay, 20);
     }
-    public void startMin( Long delay, int count, int titleCount, List<Player> players, String lastMessage, ChatColor countdownColor){
-        this.count=count;
+
+    public void startMin(Long delay, int count, int titleCount, List<Player> players, String lastMessage, ChatColor countdownColor) {
+        this.count = count;
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        score= objective.getScore("時間(分)");
-        this.titleCount=titleCount;
-        this.players=players;
-        this.lastMessage=lastMessage;
-        this.countdownColor=countdownColor;
-        for (Player player:players){
+        score = objective.getScore("時間(分)");
+        this.titleCount = titleCount;
+        this.players = players;
+        this.lastMessage = lastMessage;
+        this.countdownColor = countdownColor;
+        for (Player player : players) {
             player.setScoreboard(bord);
         }
-        unit="min";
-        runTaskTimer(plugin,delay,20*60);
+        unit = "min";
+        runTaskTimer(plugin, delay, 20 * 60);
+
     }
-    public void onRun(){
+
+    public void onRun() {
     }
+    public void end(){
+        //reset
+        bord.resetScores("時間(分)");
+        if (oneMinCounter!=null)oneMinCounter.end();
+        for (Player player:players){
+            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        }
+        cancel();
+    }
+
     @Override
     public void run() {
         onRun();
@@ -69,24 +88,30 @@ public class Counter extends BukkitRunnable {
             if (count == 0) {
                 sendLastMessage();
                 bord.resetScores("時間(秒)");
-                cancel();
+                end();
             }
-        }else {
-            if (unit.equals("min")){
-                if (count==1){
-                    plugin.getMessenger().sendTitle(players,countdownColor+Integer.toString(count)+"分","");
+        } else {
+            if (unit.equals("min")) {
+                if (count == 1) {
+                    plugin.getMessenger().sendTitle(players, countdownColor + Integer.toString(count) + "分", "");
                     bord.resetScores("時間(分)");
-                    score= objective.getScore("時間(秒)");
-                    count=60;
-                    unit="sec";
-                    new Counter(objective.getDisplayName(),objective.getName(),plugin).startSec(0L,60,titleCount,players,lastMessage,countdownColor);
+                    //reset
+                    bord.resetScores("時間(分)");
+                    if (oneMinCounter!=null)oneMinCounter.end();
+                    for (Player player:players){
+                        player.setScoreboard(player.getScoreboard());
+                    }
+                    //create new counter
+                    oneMinCounter=new Counter(objective.getDisplayName(), objective.getName(), plugin);
+                    oneMinCounter.startSec(0L, 60, titleCount, players, lastMessage, countdownColor);
                     cancel();
                 }
             }
         }
         count--;
     }
-    public void sendLastMessage(){
-        plugin.getMessenger().sendTitle(players,lastMessage, "");
+
+    public void sendLastMessage() {
+        plugin.getMessenger().sendTitle(players, lastMessage, "");
     }
 }
