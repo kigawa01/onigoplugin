@@ -1,7 +1,7 @@
 package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.onigoplugin.game.change.OnigoData;
+import net.kigawa.onigoplugin.game.OnigoData;
 import net.kigawa.util.plugin.all.command.FirstCommand;
 import net.kigawa.util.plugin.all.recorder.RecorderData;
 import net.kigawa.util.plugin.all.KigawaPlugin;

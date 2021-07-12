@@ -5,7 +5,7 @@ import net.kigawa.onigoplugin.command.change.OnigoCreate;
 import net.kigawa.onigoplugin.command.change.Onigo;
 import net.kigawa.onigoplugin.command.increase.Increase;
 import net.kigawa.util.plugin.game.onigo.evnt.OnigoListener;
-import net.kigawa.onigoplugin.game.change.ChangeManager;
+import net.kigawa.onigoplugin.game.ChangeManager;
 import net.kigawa.onigoplugin.game.increase.IncreaseManager;
 import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;

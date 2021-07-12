@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.game.change;
+package net.kigawa.onigoplugin.game;
 
 import net.kigawa.util.all.EqualsNamed;
 import net.kigawa.util.plugin.all.KigawaPlugin;
