@@ -233,7 +233,7 @@ public abstract class Game implements Named, Onigo {
     }
 
     public String getGameType() {
-        return gameType;
+        return d.getGameType();
     }
 
     public void setGameType(String gameType) {

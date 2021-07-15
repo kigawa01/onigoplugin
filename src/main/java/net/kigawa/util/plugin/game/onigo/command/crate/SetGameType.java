@@ -29,7 +29,7 @@ public class SetGameType extends OnigoCommand {
         } else {
             commandSender.sendMessage("/onigocreate setgametime <game name> <change/increase>");
         }
-        return false;
+        return true;
     }
 
     @Override
