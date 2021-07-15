@@ -89,9 +89,9 @@ public class OnigoGame extends Game {
                     @Override
                     public void run() {
                         //send lose
-                        getPlugin().getMessenger().sendTitle(players, ChatColor.RED + "LOSE", "");
+                        getPlugin().getMessenger().sendTitle(players, ChatColor.RED + "敗北", "");
                         //send win
-                        getPlugin().getMessenger().sendTitle(players, ChatColor.RED + "WIN", "");
+                        getPlugin().getMessenger().sendTitle(players, ChatColor.RED + "勝利", "");
                     }
                 }.runTaskLater(getPlugin(), 40);
                 break;
