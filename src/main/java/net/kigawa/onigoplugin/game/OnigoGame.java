@@ -12,6 +12,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OnigoGame extends Game {
 
 
@@ -71,6 +74,8 @@ public class OnigoGame extends Game {
 
     @Override
     public void sendEndMessage() {
+        //new list
+        List<Player> players = new ArrayList<>(getJoinPlayer());
         //check game type
         switch (getGameType()) {
             case "change":
@@ -84,20 +89,21 @@ public class OnigoGame extends Game {
                     @Override
                     public void run() {
                         //send lose
-                        getPlugin().getMessenger().sendTitle(getOniPlayer(), ChatColor.RED + "LOSE", "");
+                        getPlugin().getMessenger().sendTitle(players, ChatColor.RED + "LOSE", "");
                         //send win
-                        getPlugin().getMessenger().sendTitle(getRunPlayer(), ChatColor.RED + "WIN", "");
+                        getPlugin().getMessenger().sendTitle(players, ChatColor.RED + "WIN", "");
                     }
                 }.runTaskLater(getPlugin(), 40);
                 break;
             case "increase":
+
                 //runner win
                 if (getRunPlayer().size() > 0) {
-                    getPlugin().getMessenger().sendTitleLater(getJoinPlayer(), ChatColor.GREEN + "逃走者の勝利", 40L);
+                    getPlugin().getMessenger().sendTitleLater(players, ChatColor.GREEN + "逃走者の勝利", 40L);
                 }
                 //oni win
                 if (getRunPlayer().size() == 0) {
-                    getPlugin().getMessenger().sendTitleLater(getJoinPlayer(), ChatColor.RED + "鬼の勝利", 40L);
+                    getPlugin().getMessenger().sendTitleLater(players, ChatColor.RED + "鬼の勝利", 40L);
                 }
                 break;
         }
