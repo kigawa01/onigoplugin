@@ -61,6 +61,11 @@ public abstract class GameManager implements Onigo {
             game.end();
         }
     }
+    public void endAll(){
+        for (Game game:games){
+            game.end();
+        }
+    }
 
     public void setEndLoc(String gameName, CommandSender sender, String worldName, int x, int y, int z) {
         Game game = getGame(gameName, sender);

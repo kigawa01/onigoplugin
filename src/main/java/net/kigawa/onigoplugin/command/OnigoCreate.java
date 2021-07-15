@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.command.FirstCommand;
 import net.kigawa.util.plugin.all.command.SubCommand;
 import net.kigawa.util.plugin.game.onigo.GameManager;
@@ -20,5 +21,10 @@ public class OnigoCreate extends CreateOnigo {
     @Override
     public String getName() {
         return "onigocreate";
+    }
+
+    @Override
+    public SetGameType getSetGameTypeCommand(KigawaPlugin plugin, GameManager manager) {
+        return new OnigoGameType(plugin,manager);
     }
 }

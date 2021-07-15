@@ -19,6 +19,7 @@ public class OnigoGame extends Game {
 
 
     ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
+    List<Player> caughtPlayer = new ArrayList<>();
 
     public OnigoGame(KigawaPlugin kigawaPlugin, GameData gameData, GameManager manager) {
         super(kigawaPlugin, gameData, manager);
@@ -30,43 +31,79 @@ public class OnigoGame extends Game {
     }
 
     @Override
-    public boolean changeOni(Player oni, Player runner) {
-        if (getOniPlayer().contains(oni)) {
-            if (getRunPlayer().contains(runner)) {
-                //check game type
-                switch (getGameType()) {
-                    case "change":
-                        //change runner list
-                        getOniPlayer().add(runner);
-                        getRunPlayer().remove(runner);
-                        //change oni list
-                        getRunPlayer().add(oni);
-                        getOniPlayer().remove(oni);
-                        //oni to runner
-                        oni.sendTitle(ChatColor.GREEN + "鬼を交代しました", "", 5, 15, 5);
-                        oni.getInventory().setHelmet(null);
-                        //runner to oni
-                        runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
-                        runner.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
-                        runner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
-                        //send all player
-                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
-                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
-                        break;
-                    case "increase":
-                        //changed runner list
-                        getOniPlayer().add(runner);
-                        getRunPlayer().remove(runner);
-                        //send title
-                        runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
-                        oni.sendTitle(ChatColor.GREEN + "逃走車を捕まえました", "", 5, 15, 5);
-                        //send message
-                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
-                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
-                        break;
-                }
-                //return
-                return true;
+    public boolean changeOni(Player attacker, Player receiver) {
+        if (getOniPlayer().contains(attacker) && getRunPlayer().contains(receiver)) {
+
+            //check game type
+            switch (getGameType()) {
+                //when change
+                case "change":
+                    //change runner list
+                    getOniPlayer().add(receiver);
+                    getRunPlayer().remove(receiver);
+                    //change oni list
+                    getRunPlayer().add(attacker);
+                    getOniPlayer().remove(attacker);
+                    //oni to runner
+                    attacker.sendTitle(ChatColor.GREEN + "鬼を交代しました", "", 5, 15, 5);
+                    attacker.getInventory().setHelmet(null);
+                    //runner to oni
+                    receiver.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
+                    receiver.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
+                    receiver.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
+                    //send all player
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+                    break;
+                //when increase
+                case "increase":
+                    //changed runner list
+                    getOniPlayer().add(receiver);
+                    getRunPlayer().remove(receiver);
+                    //send title
+                    receiver.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
+                    attacker.sendTitle(ChatColor.GREEN + "逃走車を捕まえました", "", 5, 15, 5);
+                    //send message
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+                    break;
+                //when ice
+                case "ice":
+                    //change runner list
+                    caughtPlayer.add(receiver);
+                    getRunPlayer().remove(receiver);
+                    //send title
+                    receiver.sendTitle(ChatColor.RED + "鬼につかまりました", "", 5, 15, 5);
+                    attacker.sendTitle(ChatColor.GREEN + "逃走車を捕まえました", "", 5, 15, 5);
+                    //send message
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者がつかまりました");
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+                    //change walk speed
+                    receiver.setWalkSpeed(0F);
+                    receiver.setFlySpeed(0F);
+                    break;
+            }
+            //return
+            return true;
+
+        }
+        //release caught player
+        if (getRunPlayer().contains(attacker) && caughtPlayer.contains(receiver)) {
+            switch (getGameType()) {
+                case "ice":
+                    //change caught player
+                    getRunPlayer().add(receiver);
+                    caughtPlayer.remove(receiver);
+                    //send title
+                    receiver.sendTitle(ChatColor.GREEN + "救出されました", "", 5, 15, 5);
+                    attacker.sendTitle(ChatColor.GREEN + "救出しました", "", 5, 15, 5);
+                    //send message
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者が救出されました");
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+                    //change walk speed
+                    receiver.setWalkSpeed(0.2F);
+                    receiver.setFlySpeed(0.2F);
+                    break;
             }
         }
         return false;
@@ -95,7 +132,13 @@ public class OnigoGame extends Game {
                     }
                 }.runTaskLater(getPlugin(), 40);
                 break;
+            case "ice":
+                for (Player player:caughtPlayer){
+                    player.setWalkSpeed(0.2F);
+                    player.setFlySpeed(0.2F);
+                }
             case "increase":
+
 
                 //runner win
                 if (getRunPlayer().size() > 0) {
@@ -116,8 +159,9 @@ public class OnigoGame extends Game {
         }
         switch (getGameType()) {
             case "increase":
+            case "ice":
                 //check runner
-                if (getRunPlayer().size()==0){
+                if (getRunPlayer().size() == 0) {
                     end();
                 }
                 break;

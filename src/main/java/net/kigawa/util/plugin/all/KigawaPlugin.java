@@ -50,6 +50,12 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
 
         onStart();
     }
+    @Override
+    public void onDisable(){
+        for (GameManager manager:gameManagers){
+            manager.endAll();
+        }
+    }
 
     public Teleporter getTeleporter() {
         return teleporter;

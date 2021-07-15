@@ -19,9 +19,11 @@ public abstract class CreateOnigo extends FirstCommand {
         addSubcommands(new SetWaitTime(plugin, manager));
         addSubcommands(new SetGameTime(plugin, manager));
         addSubcommands(new SetEndLoc(plugin, manager));
-        addSubcommands(new SetGameType(plugin,manager));
+        addSubcommands(getSetGameTypeCommand(plugin,manager));
     }
 
+
+    public abstract SetGameType getSetGameTypeCommand(KigawaPlugin plugin,GameManager manager);
 
     @Override
     public int getWordNumber() {
