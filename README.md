@@ -29,4 +29,4 @@
 * 鬼を選択できるように
 * 増やし鬼と代わり鬼のテスト(進行中)
 * ゲームタイプ機能
-* add setgametime
+* add setgametime(進行中)

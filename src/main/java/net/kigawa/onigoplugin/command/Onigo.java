@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.change;
+package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
@@ -12,6 +12,6 @@ public class Onigo extends net.kigawa.util.plugin.game.onigo.command.game.Onigo 
 
     @Override
     public String getName() {
-        return "change";
+        return "onigo";
     }
 }

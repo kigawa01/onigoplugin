@@ -19,6 +19,7 @@ public abstract class CreateOnigo extends FirstCommand {
         addSubcommands(new SetWaitTime(plugin, manager));
         addSubcommands(new SetGameTime(plugin, manager));
         addSubcommands(new SetEndLoc(plugin, manager));
+        addSubcommands(new SetGameType(plugin,manager));
     }
 
 

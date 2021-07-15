@@ -45,7 +45,7 @@ public abstract class KigawaPlugin extends JavaPlugin implements Logger {
         recorder = new Recorder(this);
         playerGetter = new PlayerGetter(this);
         stageManager = new StageManager(this);
-        messenger = new Messenger();
+        messenger = new Messenger(this);
         teleporter = new Teleporter();
 
         onStart();

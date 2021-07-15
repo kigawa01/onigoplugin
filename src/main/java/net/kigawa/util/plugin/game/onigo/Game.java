@@ -36,11 +36,13 @@ public abstract class Game implements Named, Onigo {
     Counter gameCounter;
     BukkitTask runnable;
     BukkitTask runnable1;
+    String gameType;
 
     public Game(KigawaPlugin kigawaPlugin, GameData gameData, GameManager gameManager) {
         plugin = kigawaPlugin;
         d = gameData;
         manager = gameManager;
+        gameType = d.getGameType();
     }
 
     public abstract String getBordName();
@@ -49,7 +51,7 @@ public abstract class Game implements Named, Onigo {
 
     public abstract void sendEndMessage();
 
-    public abstract void alwaysEffect();
+    public abstract void runnable();
 
     public abstract void onStart();
 
@@ -137,6 +139,9 @@ public abstract class Game implements Named, Onigo {
         }
     }
 
+    public void save(GameData data) {
+        plugin.getRecorder().save(data, manager.getName());
+    }
 
     public void end() {
         //clear inventory
@@ -170,14 +175,6 @@ public abstract class Game implements Named, Onigo {
     }
 
 
-    public List<Player> getOniPlayer() {
-        return oniPlayer;
-    }
-
-    public List<Player> getJoinPlayer() {
-        return joinPlayer;
-    }
-
     public void setEndLoc(String world, int x, int y, int z) {
         int[] loc = d.getEndLoc();
         loc[0] = x;
@@ -200,10 +197,6 @@ public abstract class Game implements Named, Onigo {
     public void setOniCount(int oniCount) {
         d.setOniCount(oniCount);
         plugin.getRecorder().save(d, manager.getName());
-    }
-
-    public GameData getD() {
-        return d;
     }
 
     public void setWaitingRoom1(String world, int x, int y, int z) {
@@ -235,7 +228,24 @@ public abstract class Game implements Named, Onigo {
         return runPlayer;
     }
 
-    public void save(GameData data) {
-        plugin.getRecorder().save(data, manager.getName());
+    public GameData getD() {
+        return d;
+    }
+
+    public String getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(String gameType) {
+        d.setGameType(gameType);
+        plugin.getRecorder().save(d, manager.getName());
+    }
+
+    public List<Player> getOniPlayer() {
+        return oniPlayer;
+    }
+
+    public List<Player> getJoinPlayer() {
+        return joinPlayer;
     }
 }

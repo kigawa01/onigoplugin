@@ -37,6 +37,9 @@ public abstract class GameManager implements Onigo {
     public KigawaPlugin getPlugin() {
         return plugin;
     }
+    public List<Game> getGames() {
+        return games;
+    }
 
     @Override
     public boolean contain(HumanEntity player) {
@@ -72,6 +75,12 @@ public abstract class GameManager implements Onigo {
             game.setGameTime(gameTime);
         }
     }
+    public void setGameType(String gameName, CommandSender sender, String gameType) {
+        Game game = getGame(gameName, sender);
+        if (game != null) {
+            game.setGameType(gameType);
+        }
+    }
 
     public void setWaitTime(String gameName, CommandSender sender, int waitTime) {
         Game game = getGame(gameName, sender);
@@ -87,12 +96,7 @@ public abstract class GameManager implements Onigo {
         }
     }
 
-    public void start(String gameName, CommandSender sender) {
-        Game game = getGame(gameName, sender);
-        if (game != null) {
-            game.start(sender);
-        }
-    }
+
 
     public Game getGame(String gameName, CommandSender sender) {
         if (games.contains(new EqualsNamed(gameName))) {
@@ -121,7 +125,11 @@ public abstract class GameManager implements Onigo {
 
     public abstract void createGame(CommandSender sender, String name);
 
-    public List<Game> getGames() {
-        return games;
+
+    public void start(String gameName, CommandSender sender) {
+        Game game = getGame(gameName, sender);
+        if (game != null) {
+            game.start(sender);
+        }
     }
 }

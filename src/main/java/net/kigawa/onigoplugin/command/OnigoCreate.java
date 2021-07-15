@@ -1,4 +1,4 @@
-package net.kigawa.onigoplugin.command.change;
+package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.FirstCommand;
@@ -19,6 +19,6 @@ public class OnigoCreate extends CreateOnigo {
 
     @Override
     public String getName() {
-        return "changecreate";
+        return "onigocreate";
     }
 }

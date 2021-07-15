@@ -16,6 +16,6 @@ public class GameLimiter extends Limiter {
 
     @Override
     public void onRun() {
-        game.alwaysEffect();
+        game.runnable();
     }
 }

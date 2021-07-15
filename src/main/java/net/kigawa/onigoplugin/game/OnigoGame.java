@@ -30,21 +30,38 @@ public class OnigoGame extends Game {
     public boolean changeOni(Player oni, Player runner) {
         if (getOniPlayer().contains(oni)) {
             if (getRunPlayer().contains(runner)) {
-                //change list
-                getOniPlayer().add(runner);
-                getRunPlayer().remove(runner);
-                getRunPlayer().add(oni);
-                getOniPlayer().remove(oni);
-                //oni to runner
-                oni.sendTitle(ChatColor.GREEN + "鬼を交代しました", "", 5, 15, 5);
-                oni.getInventory().setHelmet(null);
-                //runner to oni
-                runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
-                runner.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
-                runner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
-                //send all player
-                getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
-                getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
+                //check game type
+                switch (getGameType()) {
+                    case "change":
+                        //change runner list
+                        getOniPlayer().add(runner);
+                        getRunPlayer().remove(runner);
+                        //change oni list
+                        getRunPlayer().add(oni);
+                        getOniPlayer().remove(oni);
+                        //oni to runner
+                        oni.sendTitle(ChatColor.GREEN + "鬼を交代しました", "", 5, 15, 5);
+                        oni.getInventory().setHelmet(null);
+                        //runner to oni
+                        runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
+                        runner.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
+                        runner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
+                        //send all player
+                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
+                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
+                        break;
+                    case "increase":
+                        //changed runner list
+                        getOniPlayer().add(runner);
+                        getRunPlayer().remove(runner);
+                        //send title
+                        runner.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
+                        oni.sendTitle(ChatColor.GREEN + "逃走車を捕まえました", "", 5, 15, 5);
+                        //send message
+                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
+                        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.BLUE + oni.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + runner.getName());
+                        break;
+                }
                 //return
                 return true;
             }
@@ -54,27 +71,50 @@ public class OnigoGame extends Game {
 
     @Override
     public void sendEndMessage() {
-        //send oni name
-        getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "最後に鬼だったプレーヤー");
-        for (Player player : getOniPlayer()) {
-            getPlugin().getMessenger().sendMessage(getJoinPlayer(), ":" + ChatColor.BLUE + player.getName());
+        //check game type
+        switch (getGameType()) {
+            case "change":
+                //send oni name
+                getPlugin().getMessenger().sendMessage(getJoinPlayer(), ChatColor.GREEN + "最後に鬼だったプレーヤー");
+                for (Player player : getOniPlayer()) {
+                    getPlugin().getMessenger().sendMessage(getJoinPlayer(), ":" + ChatColor.BLUE + player.getName());
+                }
+                //send title
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        //send lose
+                        getPlugin().getMessenger().sendTitle(getOniPlayer(), ChatColor.RED + "LOSE", "");
+                        //send win
+                        getPlugin().getMessenger().sendTitle(getRunPlayer(), ChatColor.RED + "WIN", "");
+                    }
+                }.runTaskLater(getPlugin(), 40);
+                break;
+            case "increase":
+                //runner win
+                if (getRunPlayer().size() > 0) {
+                    getPlugin().getMessenger().sendTitleLater(getJoinPlayer(), ChatColor.GREEN + "逃走者の勝利", 40L);
+                }
+                //oni win
+                if (getRunPlayer().size() == 0) {
+                    getPlugin().getMessenger().sendTitleLater(getJoinPlayer(), ChatColor.RED + "鬼の勝利", 40L);
+                }
+                break;
         }
-        //send title
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                //send lose
-                getPlugin().getMessenger().sendTitle(getOniPlayer(), ChatColor.RED + "LOSE", "");
-                //send win
-                getPlugin().getMessenger().sendTitle(getRunPlayer(), ChatColor.RED + "WIN", "");
-            }
-        }.runTaskLater(getPlugin(), 40);
     }
 
     @Override
-    public void alwaysEffect() {
+    public void runnable() {
         for (Player player : getOniPlayer()) {
             player.getInventory().setHelmet(helmet);
+        }
+        switch (getGameType()) {
+            case "increase":
+                //check runner
+                if (getRunPlayer().size()==0){
+                    end();
+                }
+                break;
         }
     }
 
