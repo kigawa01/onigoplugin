@@ -72,8 +72,8 @@ public abstract class Game implements Named, Onigo {
             int randomNumber;
             plugin.logger("join player" + joinPlayer.size());
             if (joinPlayer.size() > d.getOniCount()) {
-                while (d.getOniCount() == oniPlayer.size()) {
-                    if (d.getOniCount() < oniPlayer.size()) {
+                while (d.getOniCount() != oniPlayer.size()) {
+                    if (d.getOniCount() > oniPlayer.size()) {
                         randomNumber = random.nextInt(runPlayer.size());
                         oniPlayer.add(runPlayer.get(randomNumber));
                         runPlayer.remove(randomNumber);
