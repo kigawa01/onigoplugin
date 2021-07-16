@@ -15,7 +15,7 @@ public class SetOniWait2 extends OnigoCommand {
 
     @Override
     public String getName() {
-        return "setoniwait";
+        return "setoniwait2";
     }
 
     @Override
