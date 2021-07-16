@@ -57,27 +57,27 @@ public class Limiter extends BukkitRunnable {
             l[1]=loc.getY();
             l[2]=loc.getZ();
             if (l[0]<stageLoc[0]){
-                player.teleport(new Location(loc.getWorld(),stageLoc[0],l[1],l[2]));
+                player.teleport(new Location(loc.getWorld(),stageLoc[0],l[1],l[2],loc.getYaw(),loc.getPitch()));
                 player.sendMessage("ステージから出ることはできません");
             }
             if (l[0]>stageLoc[3]){
-                player.teleport(new Location(loc.getWorld(),stageLoc[3],l[1],l[2]));
+                player.teleport(new Location(loc.getWorld(),stageLoc[3],l[1],l[2],loc.getYaw(),loc.getPitch()));
                 player.sendMessage("ステージから出ることはできません");
             }
             if (l[1]<stageLoc[1]){
-                player.teleport(new Location(loc.getWorld(),l[0],stageLoc[1],l[2]));
+                player.teleport(new Location(loc.getWorld(),l[0],stageLoc[1],l[2],loc.getYaw(),loc.getPitch()));
                 player.sendMessage("ステージから出ることはできません");
             }
             if (l[1]>stageLoc[4]){
-                player.teleport(new Location(loc.getWorld(),l[0],stageLoc[4],l[2]));
+                player.teleport(new Location(loc.getWorld(),l[0],stageLoc[4],l[2],loc.getYaw(),loc.getPitch()));
                 player.sendMessage("ステージから出ることはできません");
             }
             if (l[2]<stageLoc[2]){
-                player.teleport(new Location(loc.getWorld(),l[0],l[1],stageLoc[2]));
+                player.teleport(new Location(loc.getWorld(),l[0],l[1],stageLoc[2],loc.getYaw(),loc.getPitch()));
                 player.sendMessage("ステージから出ることはできません");
             }
             if (l[2]>stageLoc[5]){
-                player.teleport(new Location(loc.getWorld(),l[0],l[1],stageLoc[5]));
+                player.teleport(new Location(loc.getWorld(),l[0],l[1],stageLoc[5],loc.getYaw(),loc.getPitch()));
                 player.sendMessage("ステージから出ることはできません");
             }
         }
