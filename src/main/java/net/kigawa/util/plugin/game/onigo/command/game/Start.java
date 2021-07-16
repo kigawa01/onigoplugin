@@ -22,10 +22,16 @@ public class Start extends OnigoCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length == 2) {
-            getManager().start(strings[1], commandSender);
+        if (strings.length == 3 | strings.length == 2) {
+            switch (strings.length) {
+                case 3:
+                    getManager().start(strings[1], commandSender, strings[2]);
+                    break;
+                case 2:
+                    getManager().start(strings[1], commandSender, null);
+            }
         } else {
-            commandSender.sendMessage("/onigo start <game name>");
+            commandSender.sendMessage("/onigo start <game name> (stage name)");
         }
         return true;
     }

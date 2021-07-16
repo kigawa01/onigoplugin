@@ -131,10 +131,10 @@ public abstract class GameManager implements Onigo {
     public abstract void createGame(CommandSender sender, String name);
 
 
-    public void start(String gameName, CommandSender sender) {
+    public void start(String gameName, CommandSender sender,String stageName) {
         Game game = getGame(gameName, sender);
         if (game != null) {
-            game.start(sender);
+            game.start(sender,stageName);
         }
     }
 }

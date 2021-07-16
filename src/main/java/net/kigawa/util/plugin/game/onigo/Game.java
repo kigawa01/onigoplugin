@@ -61,7 +61,7 @@ public abstract class Game implements Named, Onigo {
         return false;
     }
 
-    public void start(CommandSender sender) {
+    public void start(CommandSender sender,String stage) {
         if (d.getWaitRoomWorld() != null) {
             //sort player
             joinPlayer = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
@@ -85,7 +85,7 @@ public abstract class Game implements Named, Onigo {
                     player.getInventory().addItem(new ItemStack(Material.BREAD, 64));
                 }
                 //get stage
-                stageData = plugin.getStageManager().getRandomStage();
+                stageData = plugin.getStageManager().getStage(stage);
                 if (stageData != null) {
                     for (Player player : runPlayer) {
                         //teleport runner
