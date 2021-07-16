@@ -77,7 +77,8 @@ public abstract class Game implements Named, Onigo {
                         randomNumber = random.nextInt(runPlayer.size());
                         oniPlayer.add(runPlayer.get(randomNumber));
                         runPlayer.remove(randomNumber);
-                    } else {
+                    }
+                    if (d.getOniCount() < oniPlayer.size()) {
                         randomNumber = random.nextInt(oniPlayer.size());
                         runPlayer.add(oniPlayer.get(randomNumber));
                         oniPlayer.remove(randomNumber);
