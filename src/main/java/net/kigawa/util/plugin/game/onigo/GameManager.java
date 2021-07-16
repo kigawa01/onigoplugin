@@ -127,6 +127,20 @@ public abstract class GameManager implements Onigo {
             sender.sendMessage(gameName + " is not exit");
         }
     }
+    public void setOniWait1(String gameName, String worldName, int x, int y, int z, CommandSender sender) {
+        if (games.contains(new EqualsNamed(gameName))) {
+            games.get(games.indexOf(new EqualsNamed(gameName))).setOniWait1(worldName, x, y, z);
+        } else {
+            sender.sendMessage(gameName + " is not exit");
+        }
+    }
+    public void setOniWait2(String gameName, int x, int y, int z, CommandSender sender) {
+        if (games.contains(new EqualsNamed(gameName))) {
+            games.get(games.indexOf(new EqualsNamed(gameName))).setOniWait2(x, y, z);
+        } else {
+            sender.sendMessage(gameName + " is not exit");
+        }
+    }
 
     public abstract void createGame(CommandSender sender, String name);
 

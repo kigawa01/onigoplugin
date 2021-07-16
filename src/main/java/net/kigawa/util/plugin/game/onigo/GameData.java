@@ -11,6 +11,24 @@ public class GameData extends RecorderData {
     int oniCount;
     int[] waitRoom = new int[6];
     String gameType;
+    int[] oniWait = new int[6];
+    String oniWaitWorld;
+
+    public String getOniWaitWorld() {
+        return oniWaitWorld;
+    }
+
+    public void setOniWaitWorld(String oniWaitWorld) {
+        this.oniWaitWorld = oniWaitWorld;
+    }
+
+    public int[] getOniWait() {
+        return oniWait;
+    }
+
+    public void setOniWait(int[] oniWait) {
+        this.oniWait = oniWait;
+    }
 
     public String getGameType() {
         return gameType;
