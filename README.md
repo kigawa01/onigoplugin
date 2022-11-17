@@ -1,6 +1,7 @@
 # onigoplugin
 
 スパゲッティ
+
 マイクラで鬼ごっこをするためのプラグイン
 
 ## Requirement
