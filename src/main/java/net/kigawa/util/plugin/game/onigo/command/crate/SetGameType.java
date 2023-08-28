@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.game.onigo.command.crate;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import net.kigawa.util.plugin.game.onigo.command.OnigoCommand;
 import org.bukkit.ChatColor;
@@ -10,8 +10,8 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public abstract class SetGameType extends OnigoCommand {
-    public SetGameType(KigawaPlugin kigawaPlugin, GameManager manager) {
-        super(kigawaPlugin, manager);
+    public SetGameType(OnigoPlugin OnigoPlugin, GameManager manager) {
+        super(OnigoPlugin, manager);
     }
 
     public  abstract List<String> getGameTypes();

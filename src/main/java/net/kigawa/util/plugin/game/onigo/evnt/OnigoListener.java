@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.game.onigo.evnt;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.event.Event;
 import net.kigawa.util.plugin.game.onigo.list.EqualsOnigoManager;
 import org.bukkit.entity.Player;
@@ -9,9 +9,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class OnigoListener extends Event {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
-    public OnigoListener(KigawaPlugin onigoPlugin) {
+    public OnigoListener(OnigoPlugin onigoPlugin) {
         super(onigoPlugin);
         plugin = onigoPlugin;
     }

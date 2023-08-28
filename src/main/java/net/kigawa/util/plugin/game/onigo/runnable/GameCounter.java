@@ -19,6 +19,6 @@ public class GameCounter extends Counter {
     @Override
     public void sendLastMessage() {
         //send end
-        game.getPlugin().getMessenger().sendTitle(game.getJoinPlayer(), ChatColor.RED + "END", "");
+        game.getPlugin().messenger.sendTitle(game.getJoinPlayer(), ChatColor.RED + "END", "");
     }
 }

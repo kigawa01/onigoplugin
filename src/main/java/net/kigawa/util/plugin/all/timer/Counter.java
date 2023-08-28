@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.all.timer;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Counter extends BukkitRunnable {
     int count;
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
     Scoreboard bord;
     Objective objective;
     Score score;
@@ -25,9 +25,9 @@ public class Counter extends BukkitRunnable {
     String unit;
     Counter oneMinCounter;
 
-    public Counter(String bordName, String bordID, KigawaPlugin kigawaPlugin) {
+    public Counter(String bordName, String bordID, OnigoPlugin OnigoPlugin) {
         bord = Bukkit.getScoreboardManager().getNewScoreboard();
-        plugin = kigawaPlugin;
+        plugin = OnigoPlugin;
         objective = bord.registerNewObjective(bordID, "dummy", bordName);
     }
 
@@ -82,7 +82,7 @@ public class Counter extends BukkitRunnable {
         if (unit.equals("sec")) {
             //count down
             if (count <= titleCount) {
-                plugin.getMessenger().sendTitle(players, countdownColor + Integer.toString(count), "");
+                plugin.messenger.sendTitle(players, countdownColor + Integer.toString(count), "");
             }
             //send message
             if (count == 0) {
@@ -93,7 +93,7 @@ public class Counter extends BukkitRunnable {
         } else {
             if (unit.equals("min")) {
                 if (count == 1) {
-                    plugin.getMessenger().sendTitle(players, countdownColor + Integer.toString(count) + "分", "");
+                    plugin.messenger.sendTitle(players, countdownColor + Integer.toString(count) + "分", "");
                     bord.resetScores("時間(分)");
                     //reset
                     bord.resetScores("時間(分)");
@@ -112,6 +112,6 @@ public class Counter extends BukkitRunnable {
     }
 
     public void sendLastMessage() {
-        plugin.getMessenger().sendTitle(players, lastMessage, "");
+        plugin.messenger.sendTitle(players, lastMessage, "");
     }
 }

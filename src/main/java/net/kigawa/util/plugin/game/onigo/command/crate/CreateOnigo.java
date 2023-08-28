@@ -1,15 +1,15 @@
 package net.kigawa.util.plugin.game.onigo.command.crate;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.FirstCommand;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public abstract class CreateOnigo extends FirstCommand {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
-    public CreateOnigo(KigawaPlugin plugin, GameManager manager) {
+    public CreateOnigo(OnigoPlugin plugin, GameManager manager) {
         super(plugin);
         this.plugin = plugin;
         addSubcommands(new Create(plugin, manager));
@@ -25,7 +25,7 @@ public abstract class CreateOnigo extends FirstCommand {
     }
 
 
-    public abstract SetGameType getSetGameTypeCommand(KigawaPlugin plugin,GameManager manager);
+    public abstract SetGameType getSetGameTypeCommand(OnigoPlugin plugin,GameManager manager);
 
     @Override
     public int getWordNumber() {

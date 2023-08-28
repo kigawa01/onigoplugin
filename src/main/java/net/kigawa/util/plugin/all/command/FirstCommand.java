@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.all.command;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class FirstCommand extends SubCommand implements CommandExecutor, TabCompleter {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
     List<SubCommand> subCommands = new ArrayList<>();
 
-    public FirstCommand(KigawaPlugin plugin) {
+    public FirstCommand(OnigoPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
 

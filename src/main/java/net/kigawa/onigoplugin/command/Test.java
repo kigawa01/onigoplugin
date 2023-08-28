@@ -4,7 +4,6 @@ import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.onigoplugin.game.OnigoData;
 import net.kigawa.util.plugin.all.command.FirstCommand;
 import net.kigawa.util.plugin.all.recorder.RecorderData;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.yaml.Yaml;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -65,7 +64,7 @@ public class Test extends FirstCommand {
     }
 
     public RecorderData load(RecorderData recorderData, File file) {
-        org.yaml.snakeyaml.Yaml yaml = new org.yaml.snakeyaml.Yaml(new CustomClassLoaderConstructor(KigawaPlugin.class.getClassLoader()));
+        org.yaml.snakeyaml.Yaml yaml = new org.yaml.snakeyaml.Yaml(new CustomClassLoaderConstructor(OnigoPlugin.class.getClassLoader()));
         try {
             FileReader reader = new FileReader(file);
             RecorderData data = yaml.loadAs(reader, recorderData.getClass());
@@ -85,9 +84,9 @@ public class Test extends FirstCommand {
         plugin.logger("save");
         OnigoData save = new OnigoData();
         save.setName("test");
-        plugin.getRecorder().save(save,"test");
+        plugin.recorder.save(save,"test");
         plugin.logger("load");
-        OnigoData load = (OnigoData) plugin.getRecorder().load(OnigoData.class, "test", "test");
+        OnigoData load = (OnigoData) plugin.recorder.load(OnigoData.class, "test", "test");
         plugin.logger(load.getName());
         logger("end");
     }

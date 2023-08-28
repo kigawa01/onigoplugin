@@ -1,19 +1,15 @@
 package net.kigawa.util.plugin.game.stage.command;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.FirstCommand;
-import net.kigawa.util.plugin.game.stage.command.CreateCommand;
-import net.kigawa.util.plugin.game.stage.command.SetStage1;
-import net.kigawa.util.plugin.game.stage.command.SetStage2;
-import net.kigawa.util.plugin.game.stage.command.SetStartLoc;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 public abstract class StageCommand extends FirstCommand {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
 
-    public StageCommand(KigawaPlugin plugin) {
+    public StageCommand(OnigoPlugin plugin) {
         super(plugin);
         this.plugin=plugin;
         addSubcommands(new CreateCommand(plugin));

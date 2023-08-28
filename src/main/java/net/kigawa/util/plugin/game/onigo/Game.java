@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.game.onigo;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.all.Named;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.timer.Counter;
 import net.kigawa.util.plugin.game.onigo.runnable.GameCounter;
 import net.kigawa.util.plugin.game.onigo.runnable.GameLimiter;
@@ -23,7 +23,7 @@ import java.util.Random;
 
 public abstract class Game implements Named, Onigo {
     GameData d;
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
     Game game = this;
     GameManager manager;
     List<Player> joinPlayer;
@@ -37,8 +37,8 @@ public abstract class Game implements Named, Onigo {
     BukkitTask runnable;
     BukkitTask runnable1;
 
-    public Game(KigawaPlugin kigawaPlugin, GameData gameData, GameManager gameManager) {
-        plugin = kigawaPlugin;
+    public Game(OnigoPlugin OnigoPlugin, GameData gameData, GameManager gameManager) {
+        plugin = OnigoPlugin;
         d = gameData;
         manager = gameManager;
     }
@@ -62,13 +62,13 @@ public abstract class Game implements Named, Onigo {
     public void start(CommandSender sender, String stage) {
         if (d.getWaitRoomWorld() != null) {
             //sort player
-            joinPlayer = plugin.getPlayerGetter().room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
+            joinPlayer = plugin.playerGetter.room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
                     d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
             Random random = new Random();
             oniPlayer = new ArrayList<>();
             runPlayer = new ArrayList<>();
             runPlayer.addAll(joinPlayer);
-            oniPlayer = plugin.getPlayerGetter().room(d.getOniWaitWorld(), d.getOniWait()[0], d.getOniWait()[1], d.getOniWait()[2], d.getOniWait()[3], d.getOniWait()[4], d.getOniWait()[5]);
+            oniPlayer = plugin.playerGetter.room(d.getOniWaitWorld(), d.getOniWait()[0], d.getOniWait()[1], d.getOniWait()[2], d.getOniWait()[3], d.getOniWait()[4], d.getOniWait()[5]);
             joinPlayer.addAll(oniPlayer);
             int randomNumber;
             plugin.logger("join player" + joinPlayer.size());
@@ -92,7 +92,7 @@ public abstract class Game implements Named, Onigo {
                     player.getInventory().addItem(new ItemStack(Material.BREAD, 64));
                 }
                 //get stage
-                stageData = plugin.getStageManager().getStage(stage);
+                stageData = plugin.stageManager.getStage(stage);
                 if (stageData != null) {
                     for (Player player : runPlayer) {
                         //teleport runner
@@ -109,12 +109,12 @@ public abstract class Game implements Named, Onigo {
                         @Override
                         public void run() {
                             //send message
-                            plugin.getMessenger().sendMessage(joinPlayer, ChatColor.GREEN + "最初に鬼のプレーヤー");
+                            plugin.messenger.sendMessage(joinPlayer, ChatColor.GREEN + "最初に鬼のプレーヤー");
                             //teleport oni
                             for (Player player : oniPlayer) {
                                 player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]) + 0.5,
                                         Integer.valueOf(stageData.getStartLoc()[1]) + 0.5, Integer.valueOf(stageData.getStartLoc()[2]) + 0.5));
-                                plugin.getMessenger().sendMessage(joinPlayer, ChatColor.BLUE + player.getName());
+                                plugin.messenger.sendMessage(joinPlayer, ChatColor.BLUE + player.getName());
                                 //wear gold helmet
                                 player.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
                             }
@@ -147,7 +147,7 @@ public abstract class Game implements Named, Onigo {
     }
 
     public void save(GameData data) {
-        plugin.getRecorder().save(data, manager.getName());
+        plugin.recorder.save(data, manager.getName());
     }
 
     public void end() {
@@ -157,9 +157,9 @@ public abstract class Game implements Named, Onigo {
         }
         sendEndMessage();
         //teleport players
-        plugin.getTeleporter().teleportPlayers(joinPlayer, new Location(plugin.getServer().getWorld(d.getEndWorld()), d.getEndLoc()[0] + 0.5, d.getEndLoc()[1] + 0.5, d.getEndLoc()[2] + 0.5));
+        plugin.teleport.teleportPlayers(joinPlayer, new Location(plugin.getServer().getWorld(d.getEndWorld()), d.getEndLoc()[0] + 0.5, d.getEndLoc()[1] + 0.5, d.getEndLoc()[2] + 0.5));
         //return stage
-        plugin.getStageManager().returnStage(stageData);
+        plugin.stageManager.returnStage(stageData);
         //cancel counter
         counter.end();
         gameCounter.end();
@@ -199,22 +199,22 @@ public abstract class Game implements Named, Onigo {
         loc[1] = y;
         loc[2] = z;
         d.setEndWorld(world);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setGameTime(int gameTime) {
         d.setGameTime(gameTime);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setWaitTime(int waitTime) {
         d.setWaitTime(waitTime);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setOniCount(int oniCount) {
         d.setOniCount(oniCount);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setOniWait1(String world, int x, int y, int z) {
@@ -223,7 +223,7 @@ public abstract class Game implements Named, Onigo {
         loc[1] = y;
         loc[2] = z;
         d.setOniWaitWorld(world);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setOniWait2(int x, int y, int z) {
@@ -231,7 +231,7 @@ public abstract class Game implements Named, Onigo {
         loc[3] = x;
         loc[4] = y;
         loc[5] = z;
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setWaitingRoom1(String world, int x, int y, int z) {
@@ -240,7 +240,7 @@ public abstract class Game implements Named, Onigo {
         loc[1] = y;
         loc[2] = z;
         d.setWaitRoomWorld(world);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public void setWaitingRoom2(int x, int y, int z) {
@@ -248,7 +248,7 @@ public abstract class Game implements Named, Onigo {
         loc[3] = x;
         loc[4] = y;
         loc[5] = z;
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
 
@@ -256,7 +256,7 @@ public abstract class Game implements Named, Onigo {
         return d.getName();
     }
 
-    public KigawaPlugin getPlugin() {
+    public OnigoPlugin getPlugin() {
         return plugin;
     }
 
@@ -274,7 +274,7 @@ public abstract class Game implements Named, Onigo {
 
     public void setGameType(String gameType) {
         d.setGameType(gameType);
-        plugin.getRecorder().save(d, manager.getName());
+        plugin.recorder.save(d, manager.getName());
     }
 
     public List<Player> getOniPlayer() {

@@ -1,12 +1,12 @@
 package net.kigawa.util.plugin.all.message;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.message.Logger;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 
 public abstract class PluginLogger implements Logger {
-    KigawaPlugin plugin;
-    public PluginLogger(KigawaPlugin kigawaPlugin){
-        plugin=kigawaPlugin;
+    OnigoPlugin plugin;
+    public PluginLogger(OnigoPlugin OnigoPlugin){
+        plugin=OnigoPlugin;
     }
     @Override
     public void logger(String message) {

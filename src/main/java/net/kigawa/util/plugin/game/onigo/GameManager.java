@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.game.onigo;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.all.EqualsNamed;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.list.EqualsOnigoManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -13,17 +13,17 @@ import java.util.List;
 
 public abstract class GameManager implements Onigo {
     List<Game> games = new ArrayList<>();
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
     String Name;
 
-    public GameManager(KigawaPlugin kigawaPlugin, String name) {
-        plugin = kigawaPlugin;
+    public GameManager(OnigoPlugin OnigoPlugin, String name) {
+        plugin = OnigoPlugin;
         this.Name = name;
 
         File folder = new File(plugin.getDataFolder(), getName());
         folder.mkdir();
         String[] files = folder.list();
-        games = initializeGame(plugin.getRecorder().loadAll(GameData.class, getName()));
+        games = initializeGame(plugin.recorder.loadAll(GameData.class, getName()));
     }
 
     public abstract List<Game> initializeGame(List<GameData> data);
@@ -34,7 +34,7 @@ public abstract class GameManager implements Onigo {
     }
 
 
-    public KigawaPlugin getPlugin() {
+    public OnigoPlugin getPlugin() {
         return plugin;
     }
     public List<Game> getGames() {

@@ -1,14 +1,14 @@
 package net.kigawa.util.plugin.all.message;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
 public class Messenger {
-    KigawaPlugin plugin;
-    public Messenger(KigawaPlugin plugin){
+    OnigoPlugin plugin;
+    public Messenger(OnigoPlugin plugin){
         this.plugin=plugin;
     }
     public void sendTitle(List<Player> players,String title,String subTitle){

@@ -1,7 +1,7 @@
 package net.kigawa.onigoplugin.game;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.all.EqualsNamed;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.game.onigo.Game;
 import net.kigawa.util.plugin.game.onigo.GameData;
 import net.kigawa.util.plugin.game.onigo.GameManager;
@@ -12,8 +12,8 @@ import java.util.List;
 
 public class ChangeManager extends GameManager {
 
-    public ChangeManager(KigawaPlugin kigawaPlugin, String name) {
-        super(kigawaPlugin, name);
+    public ChangeManager(OnigoPlugin OnigoPlugin, String name) {
+        super(OnigoPlugin, name);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ChangeManager extends GameManager {
             OnigoData data = new OnigoData();
             data.setName(name);
             getGames().add(new OnigoGame(getPlugin(), data, this));
-            getPlugin().getRecorder().save(data, getName());
+            getPlugin().recorder.save(data, getName());
         } else {
             sender.sendMessage("this name can't use");
         }

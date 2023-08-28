@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.game.stage.runnable;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.game.stage.StageData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -9,11 +9,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 public class Limiter extends BukkitRunnable {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
     List<Player> players;
     int[] stageLoc=new int[6];
-    public Limiter(KigawaPlugin kigawaPlugin, List<Player> players, StageData stageData){
-        plugin=kigawaPlugin;
+    public Limiter(OnigoPlugin OnigoPlugin, List<Player> players, StageData stageData){
+        plugin=OnigoPlugin;
         this.players=players;
         int[] s=stageData.getStageLoc();
         if (s[0]>s[3]){

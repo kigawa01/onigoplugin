@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.all.command;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.all.Named;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 import net.kigawa.util.plugin.all.message.PluginLogger;
 import org.bukkit.command.CommandSender;
 
@@ -12,8 +12,8 @@ public abstract class TabList extends PluginLogger implements Named {
     List<TabList> tabLists;
 
 
-    public TabList(KigawaPlugin kigawaPlugin) {
-        super(kigawaPlugin);
+    public TabList(OnigoPlugin OnigoPlugin) {
+        super(OnigoPlugin);
         List<TabList> tabLists;
         tabLists = new ArrayList<>();
         this.tabLists = tabLists;

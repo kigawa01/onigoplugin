@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.game.onigo.command.crate;
 
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import net.kigawa.util.plugin.game.onigo.command.OnigoCommand;
 import org.bukkit.World;
@@ -11,9 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetWaitRoom1 extends OnigoCommand {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
-    public SetWaitRoom1(KigawaPlugin plugin, GameManager manager) {
+    public SetWaitRoom1(OnigoPlugin plugin, GameManager manager) {
         super(plugin,manager);
         this.plugin = plugin;
     }

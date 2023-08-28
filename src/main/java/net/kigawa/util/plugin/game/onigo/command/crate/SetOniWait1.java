@@ -1,18 +1,16 @@
 package net.kigawa.util.plugin.game.onigo.command.crate;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.Util;
 import net.kigawa.util.plugin.game.onigo.GameManager;
 import net.kigawa.util.plugin.game.onigo.command.OnigoCommand;
 import org.bukkit.World;
-import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class SetOniWait1 extends OnigoCommand {
-    public SetOniWait1(KigawaPlugin kigawaPlugin, GameManager manager) {
-        super(kigawaPlugin, manager);
+    public SetOniWait1(OnigoPlugin OnigoPlugin, GameManager manager) {
+        super(OnigoPlugin, manager);
     }
 
     @Override

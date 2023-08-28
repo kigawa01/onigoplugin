@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.all.recorder;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.yaml.Yaml;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 
@@ -8,14 +8,14 @@ import java.io.File;
 import java.util.List;
 
 public class Recorder {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
     Yaml yaml;
     boolean useDB;
-    public Recorder(KigawaPlugin kigawaPlugin){
-        plugin=kigawaPlugin;
+    public Recorder(OnigoPlugin OnigoPlugin){
+        plugin=OnigoPlugin;
         useDB=plugin.getConfig().getBoolean("useDB");
         if(!useDB){
-            yaml=new Yaml(new CustomClassLoaderConstructor(KigawaPlugin.class.getClassLoader()),plugin);
+            yaml=new Yaml(new CustomClassLoaderConstructor(OnigoPlugin.class.getClassLoader()),plugin);
         }
     }
     public void save(RecorderData data,String dir){

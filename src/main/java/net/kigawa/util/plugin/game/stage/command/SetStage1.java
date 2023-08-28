@@ -1,6 +1,6 @@
 package net.kigawa.util.plugin.game.stage.command;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.plugin.all.command.SubCommand;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
@@ -9,11 +9,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetStage1 extends SubCommand {
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
-    public SetStage1(KigawaPlugin kigawaPlugin) {
-        super(kigawaPlugin);
-        plugin = kigawaPlugin;
+    public SetStage1(OnigoPlugin OnigoPlugin) {
+        super(OnigoPlugin);
+        plugin = OnigoPlugin;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SetStage1 extends SubCommand {
                 } else {
                     world = ((BlockCommandSender) commandSender).getBlock().getWorld();
                 }
-                plugin.getStageManager().setStage1(strings[1], world.getName(),
+                plugin.stageManager.setStage1(strings[1], world.getName(),
                         Integer.valueOf(strings[2]), Integer.valueOf(strings[3]), Integer.valueOf(strings[4]), commandSender);
                 commandSender.sendMessage("set start point of stage");
             }

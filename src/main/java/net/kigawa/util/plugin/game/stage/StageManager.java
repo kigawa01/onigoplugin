@@ -1,7 +1,7 @@
 package net.kigawa.util.plugin.game.stage;
 
+import net.kigawa.onigoplugin.OnigoPlugin;
 import net.kigawa.util.all.EqualsNamed;
-import net.kigawa.util.plugin.all.KigawaPlugin;
 import org.bukkit.command.CommandSender;
 
 import java.io.File;
@@ -13,10 +13,10 @@ public class StageManager {
     List<StageData> allStage = new ArrayList<>();
     List<StageData> canUse = new ArrayList<>();
     List<StageData> notUse = new ArrayList<>();
-    KigawaPlugin plugin;
+    OnigoPlugin plugin;
 
-    public StageManager(KigawaPlugin kigawaPlugin) {
-        plugin = kigawaPlugin;
+    public StageManager(OnigoPlugin OnigoPlugin) {
+        plugin = OnigoPlugin;
 
         File folder = new File(plugin.getDataFolder(), "stage");
         folder.mkdir();
@@ -24,7 +24,7 @@ public class StageManager {
         for (int i = 0; i < files.length; i++) {
             File file = new File(folder, files[i]);
             plugin.logger(files[i]);
-            StageData data = (StageData) plugin.getRecorder().load(StageData.class, "stage", files[i].substring(0, files[i].length() - 4));
+            StageData data = (StageData) plugin.recorder.load(StageData.class, "stage", files[i].substring(0, files[i].length() - 4));
             canUse.add(data);
             allStage.add(data);
         }
@@ -40,7 +40,7 @@ public class StageManager {
             //logger
             plugin.logger("stage manager startLoc " + stageData.getStartLoc()[0]);
             plugin.logger("length " + stageData.getStartLoc().length);
-            plugin.getRecorder().save(stageData, "stage");
+            plugin.recorder.save(stageData, "stage");
         }
     }
 
@@ -52,7 +52,7 @@ public class StageManager {
             i[3] = x;
             i[4] = y;
             i[5] = z;
-            plugin.getRecorder().save(stageData, "stage");
+            plugin.recorder.save(stageData, "stage");
         }
     }
 
@@ -64,7 +64,7 @@ public class StageManager {
             i[0] = x;
             i[1] = y;
             i[2] = z;
-            plugin.getRecorder().save(stageData, "stage");
+            plugin.recorder.save(stageData, "stage");
         }
     }
 
@@ -80,7 +80,7 @@ public class StageManager {
 
     public void setStage(String name, CommandSender sender) {
         //check can use this name
-        if (plugin.getStageManager().getStage(name) == null) {
+        if (plugin.stageManager.getStage(name) == null) {
             //create Stage
             StageData stageData = new StageData();
             stageData.setName(name);
@@ -88,7 +88,7 @@ public class StageManager {
             canUse.add(stageData);
             allStage.add(stageData);
             //save
-            plugin.getRecorder().save(stageData, "stage");
+            plugin.recorder.save(stageData, "stage");
             //send message
             sender.sendMessage("create " + name);
         } else {

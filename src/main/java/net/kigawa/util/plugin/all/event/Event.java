@@ -1,12 +1,12 @@
 package net.kigawa.util.plugin.all.event;
 
-import net.kigawa.util.plugin.all.KigawaPlugin;
+import net.kigawa.onigoplugin.OnigoPlugin;
 import org.bukkit.event.Listener;
 
 public class Event implements Listener {
-    KigawaPlugin plugin;
-    public Event(KigawaPlugin kigawaPlugin){
-        plugin=kigawaPlugin;
+    OnigoPlugin plugin;
+    public Event(OnigoPlugin OnigoPlugin){
+        plugin=OnigoPlugin;
         plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
 }
