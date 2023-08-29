@@ -9,16 +9,15 @@ import net.kigawa.kutil.unitapi.component.UnitLoggerComponent
 import net.kigawa.kutil.unitapi.registrar.ClassRegistrar
 import net.kigawa.kutil.unitapi.registrar.InstanceRegistrar
 import net.kigawa.kutil.unitapi.registrar.ResourceRegistrar
-import net.kigawa.onigoplugin.command.Onigo
 import net.kigawa.onigoplugin.command.OnigoCreate
 import net.kigawa.onigoplugin.command.Stage
 import net.kigawa.onigoplugin.game.ChangeManager
-import net.kigawa.oyucraft.oyubingo.config.Config
 import net.kigawa.onigoplugin.util.config.ConfigInitializedFilter
 import net.kigawa.onigoplugin.util.config.ConfigManager
 import net.kigawa.onigoplugin.util.config.ConfigUtil
 import net.kigawa.onigoplugin.util.unit.BukkitFinder
 import net.kigawa.onigoplugin.util.unit.ListenerFilter
+import net.kigawa.oyucraft.oyubingo.config.Config
 import net.kigawa.oyucraft.oyubingo.unit.OyuBingoUnitLogger
 import net.kigawa.util.message.Logger
 import net.kigawa.util.plugin.all.message.Messenger
@@ -32,7 +31,11 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class OnigoPlugin : JavaPlugin(), Logger {
-  var onigo: Onigo? = null
+  companion object {
+    @JvmStatic
+    val container = UnitContainer.create()
+  }
+
   private lateinit var changeGame: ChangeManager
   private var debug = false
 
@@ -54,7 +57,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
   private fun onStart() {
     //initialize
     changeGame = ChangeManager(this, "change")
-    onigo = Onigo(this, changeGame)
     addGameManager(changeGame)
     //new Test(this);
     OnigoCreate(this, changeGame)
@@ -136,7 +138,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
     logger(message.toString())
   }
 
-  private val container = UnitContainer.create()
   val pluginClassLoader: ClassLoader
     get() = super.getClassLoader()
 

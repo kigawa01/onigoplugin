@@ -18,7 +18,6 @@ public class SetWaitRoom1 extends OnigoCommand {
         this.plugin = plugin;
     }
 
-    @Override
     public String getName() {
         return "setwaitroom1";
     }

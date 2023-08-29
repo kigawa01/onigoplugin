@@ -29,7 +29,7 @@ public class List extends OnigoCommand {
 
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
-        java.util.List<Game> games = getManager().getGames();
+        java.util.List<Game> games = getManager().games;
         for (int i = 0; i < games.size(); i++) {
             commandSender.sendMessage("name " + games.get(i).getName());
             commandSender.sendMessage(" world " + games.get(i).getD().getWaitRoomWorld());
