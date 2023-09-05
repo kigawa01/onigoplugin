@@ -2,14 +2,13 @@ package net.kigawa.onigoplugin.util.config
 
 import net.kigawa.kutil.kutil.reflection.KutilReflect
 import net.kigawa.onigoplugin.OnigoPlugin
-import net.kigawa.oyucraft.oyubingo.caseformat.CaseFormat
+import net.kigawa.onigoplugin.util.caseformat.CaseFormat
 import net.kigawa.oyucraft.oyubingo.config.Config
-import net.kigawa.oyucraft.oyubingo.config.ConfigField
 import net.kigawa.oyucraft.oyubingo.config.annotation.ConfigName
 import net.kigawa.oyucraft.oyubingo.config.annotation.ConfigValue
 import java.io.File
 
-class ConfigUtil(private val oyuBingo: OnigoPlugin) {
+class ConfigUtil(private val onigoPlugin: OnigoPlugin) {
 
   fun type(config: Config): Class<out Config> {
     return config.javaClass
@@ -26,7 +25,7 @@ class ConfigUtil(private val oyuBingo: OnigoPlugin) {
     val path = type(config).getAnnotation(ConfigName::class.java)?.dir ?: ""
     if (path != "") return File(path)
 
-    return oyuBingo.dataFolder
+    return onigoPlugin.dataFolder
   }
 
   fun file(config: Config): File {

@@ -1,8 +1,8 @@
 package net.kigawa.onigoplugin.command;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.util.plugin.game.onigo.GameManager;
-import net.kigawa.util.plugin.game.onigo.command.crate.SetGameType;
+import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager;
+import net.kigawa.onigoplugin.util.plugin.game.onigo.command.crate.SetGameType;
 
 import java.util.ArrayList;
 import java.util.List;

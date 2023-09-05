@@ -12,7 +12,7 @@ abstract class AbstractArgument<RETURN, INPUT>(base: Argument<INPUT>)
 
   private val parser: Parser<RETURN, INPUT>
     get() {
-      val parserField = CustomArgument::class.java.getField("infoParser")
+      val parserField = CustomArgument::class.java.getDeclaredField("infoParser")
       parserField.isAccessible = true
 
       @Suppress("UNCHECKED_CAST")

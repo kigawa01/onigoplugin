@@ -1,5 +1,6 @@
-package net.kigawa.oyucraft.oyubingo.config
+package net.kigawa.onigoplugin.util.config
 
+import net.kigawa.oyucraft.oyubingo.config.Config
 import net.kigawa.oyucraft.oyubingo.config.annotation.ConfigValue
 import java.lang.reflect.Field
 

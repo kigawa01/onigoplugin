@@ -6,15 +6,15 @@ import dev.jorel.commandapi.arguments.StringArgument
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
 import net.kigawa.kutil.unitapi.annotation.Kunit
-import net.kigawa.onigoplugin.util.command.AbstractCommand
+import net.kigawa.onigoplugin.util.command.RootCommandBase
 import net.kigawa.onigoplugin.util.command.SubCommand
-import net.kigawa.util.plugin.game.onigo.GameManager
+import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
 import org.bukkit.entity.Player
 
 @Kunit
 class Onigo(
   private val gameManager: GameManager,
-) : AbstractCommand("onigo") {
+) : RootCommandBase("onigo") {
   init {
     withPermission(CommandPermission.OP)
   }

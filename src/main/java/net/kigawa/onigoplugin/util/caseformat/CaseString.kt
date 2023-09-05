@@ -1,4 +1,4 @@
-package net.kigawa.oyucraft.oyubingo.caseformat
+package net.kigawa.onigoplugin.util.caseformat
 
 @Suppress("unused")
 class CaseString(
