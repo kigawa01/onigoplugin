@@ -24,7 +24,7 @@ public class End extends OnigoCommand {
     @Override
     public boolean onNotFound(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length == 2) {
-            getManager().end(strings[1], commandSender);
+            getManager().end(strings[1]);
             return true;
         } else {
             commandSender.sendMessage("/onigo end <game name>");
