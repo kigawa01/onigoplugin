@@ -5,7 +5,7 @@ import dev.jorel.commandapi.CommandPermission
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.executors.CommandExecutor
 import net.kigawa.kutil.unitapi.annotation.Kunit
-import net.kigawa.kutil.unitapi.component.UnitContainer
+import net.kigawa.kutil.unitapi.component.container.UnitContainer
 import net.kigawa.onigoplugin.util.config.ConfigUtil
 import net.kigawa.oyucraft.oyubingo.config.Config
 import org.bukkit.command.CommandSender
@@ -14,10 +14,10 @@ import org.bukkit.command.CommandSender
 class TestCommand(
   private val container: UnitContainer,
   private val configUtil: ConfigUtil,
-) : AbstractCommand("test") {
-  init {
-    withPermission(CommandPermission.OP)
-  }
+) : AbstractCommand(
+  CommandAPICommand("test")
+    .withPermission(CommandPermission.OP)
+) {
 
   @SubCommand
   fun config(): CommandAPICommand = CommandAPICommand("config")

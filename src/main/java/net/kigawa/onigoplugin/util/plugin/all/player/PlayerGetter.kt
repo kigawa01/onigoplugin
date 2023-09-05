@@ -39,7 +39,7 @@ class PlayerGetter(var plugin: OnigoPlugin) {
     if (bx > 0) bx++
     if (by > 0) by++
     if (bz > 0) bz++
-    val world1 = plugin.server.getWorld(world!!)
+    val world1 = plugin.server.getWorld(world)
     var location: Location
     val allPlayers = world1!!.players
     plugin.logger("all player " + allPlayers.size)

@@ -14,10 +14,10 @@ import org.bukkit.entity.Player
 @Kunit
 class Onigo(
   private val gameManager: GameManager,
-) : RootCommandBase("onigo") {
-  init {
-    withPermission(CommandPermission.OP)
-  }
+) : RootCommandBase(
+  CommandAPICommand("onigo")
+    .withPermission(CommandPermission.OP)
+) {
 
   @SubCommand
   fun create(): CommandAPICommand = CommandAPICommand("create")
@@ -25,8 +25,9 @@ class Onigo(
     .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
       val name = commandArguments.get("name") as String
       gameManager.createGame(player, name)
+      player.sendMessage("onigo is created")
     })
 
   @SubCommand
-  fun edit(): CommandAPICommand = OnigoEdit()
+  fun edit(): CommandAPICommand = OnigoEdit().commandAPICommand
 }

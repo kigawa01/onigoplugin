@@ -1,8 +1,9 @@
 package net.kigawa.onigoplugin.util.command
 
-abstract class RootCommandBase(commandName: String) : AbstractCommand(commandName) {
+import dev.jorel.commandapi.CommandAPICommand
+
+abstract class RootCommandBase(commandAPICommand: CommandAPICommand) : AbstractCommand(commandAPICommand) {
   init {
-    @Suppress("LeakingThis")
-    register()
+    this.commandAPICommand.register()
   }
 }
