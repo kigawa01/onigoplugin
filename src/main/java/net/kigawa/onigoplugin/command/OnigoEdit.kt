@@ -38,6 +38,30 @@ class OnigoEdit : AbstractCommand("edit", CustomArgs.game("game")) {
     )
 
   @SubCommand
+  fun oniWaitRoom(): Argument<*> = LiteralArgument("oni-wait-room")
+    .then(CustomArgs.choice("loc point", "start-loc", "end-loc")
+      .then(LocationArgument("location", LocationType.BLOCK_POSITION)
+        .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+          val game = commandArguments.get("game") as Game
+          val location = commandArguments.get("location") as Location
+          val choice = commandArguments.get("loc point") as String
+
+          if (choice == "start-loc") {
+            game.setOniWait1(player.world.name, location.blockX, location.blockY, location.blockZ)
+            player.sendMessage("start point of oni wait room is set")
+            return@PlayerCommandExecutor
+          }
+          if (choice == "end-loc") {
+            game.setOniWait2(location.blockX, location.blockY, location.blockZ)
+            player.sendMessage("end point of oni wait room is set")
+            return@PlayerCommandExecutor
+          }
+          player.sendMessage("$choice is not allowed")
+        })
+      )
+    )
+
+  @SubCommand
   fun oniCount(): Argument<*> = LiteralArgument("oni-count")
     .then(IntegerArgument("count")
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->

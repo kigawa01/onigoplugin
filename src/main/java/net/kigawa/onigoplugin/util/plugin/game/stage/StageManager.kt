@@ -1,136 +1,120 @@
-package net.kigawa.onigoplugin.util.plugin.game.stage;
+package net.kigawa.onigoplugin.util.plugin.game.stage
 
-import net.kigawa.kutil.unitapi.annotation.Kunit;
-import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.onigoplugin.util.all.EqualsNamed;
-import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder;
-import org.bukkit.command.CommandSender;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import net.kigawa.kutil.kutil.list.contains
+import net.kigawa.kutil.unitapi.annotation.Kunit
+import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
+import org.bukkit.command.CommandSender
+import java.io.File
+import java.util.*
 
 @Kunit
-public class StageManager
-{
-  List<StageData> allStage = new ArrayList<>();
-  List<StageData> canUse = new ArrayList<>();
-  List<StageData> notUse = new ArrayList<>();
-  OnigoPlugin plugin;
-  private Recorder recorder;
+class StageManager(var plugin: OnigoPlugin, private val recorder: Recorder) {
+  val allStage: MutableList<StageData> = ArrayList()
+  private var canUse: MutableList<StageData> = ArrayList()
+  private var notUse: MutableList<StageData> = ArrayList()
 
-  public StageManager(OnigoPlugin OnigoPlugin, Recorder recorder) {
-    plugin = OnigoPlugin;
-    this.recorder = recorder;
-
-    File folder = new File(plugin.getDataFolder(), "stage");
-    folder.mkdir();
-    String[] files = folder.list();
-    for (int i = 0; i < files.length; i++) {
-      File file = new File(folder, files[i]);
-      plugin.logger(files[i]);
-      StageData data = (StageData) recorder.load(StageData.class, "stage", files[i].substring(0, files[i].length() - 4));
-      canUse.add(data);
-      allStage.add(data);
+  init {
+    val folder = File(plugin.dataFolder, "stage")
+    folder.mkdir()
+    folder.list()?.forEach {
+      plugin.logger(it)
+      val data = recorder.load(StageData::class.java, "stage", it.substring(0, it.length - 4)) as StageData
+      canUse.add(data)
+      allStage.add(data)
     }
   }
 
-  public void setStartLoc(String name, int x, int y, int z, CommandSender sender) {
-    StageData stageData = getStage(name, sender);
+  fun setStartLoc(name: String, x: Int, y: Int, z: Int, sender: CommandSender) {
+    val stageData = getStage(name, sender)
     if (stageData != null) {
-      int[] i = stageData.getStartLoc();
-      i[0] = x;
-      i[1] = y;
-      i[2] = z;
+      val i = stageData.getStartLoc()
+      i[0] = x
+      i[1] = y
+      i[2] = z
       //logger
-      plugin.logger("stage manager startLoc " + stageData.getStartLoc()[0]);
-      plugin.logger("length " + stageData.getStartLoc().length);
-      recorder.save(stageData, "stage");
+      plugin.logger("stage manager startLoc " + stageData.getStartLoc()[0])
+      plugin.logger("length " + stageData.getStartLoc().size)
+      recorder.save(stageData, "stage")
     }
   }
 
-  public void setStage2(String name, String world, int x, int y, int z, CommandSender sender) {
-    StageData stageData = getStage(name, sender);
+  fun setStage2(name: String, world: String?, x: Int, y: Int, z: Int, sender: CommandSender) {
+    val stageData = getStage(name, sender)
     if (stageData != null) {
-      stageData.setStageWorld(world);
-      int[] i = stageData.getStageLoc();
-      i[3] = x;
-      i[4] = y;
-      i[5] = z;
-      recorder.save(stageData, "stage");
+      stageData.setStageWorld(world)
+      val i = stageData.getStageLoc()
+      i[3] = x
+      i[4] = y
+      i[5] = z
+      recorder.save(stageData, "stage")
     }
   }
 
-  public void setStage1(String name, String world, int x, int y, int z, CommandSender sender) {
-    StageData stageData = getStage(name, sender);
+  fun setStage1(name: String, world: String?, x: Int, y: Int, z: Int, sender: CommandSender) {
+    val stageData = getStage(name, sender)
     if (stageData != null) {
-      stageData.setStageWorld(world);
-      int[] i = stageData.getStageLoc();
-      i[0] = x;
-      i[1] = y;
-      i[2] = z;
-      recorder.save(stageData, "stage");
+      stageData.setStageWorld(world)
+      val i = stageData.getStageLoc()
+      i[0] = x
+      i[1] = y
+      i[2] = z
+      recorder.save(stageData, "stage")
     }
   }
 
-  public StageData getStage(String name, CommandSender sender) {
-    StageData stageData = null;
-    if (allStage.contains(new EqualsNamed(name))) {
-      stageData = allStage.get(allStage.indexOf(new EqualsNamed(name)));
-    } else {
-      sender.sendMessage(name + " is not exit");
-    }
-    return stageData;
+  fun getStage(name: String, sender: CommandSender): StageData? {
+    val stageData: StageData? = allStage.firstOrNull { it.name == name }
+    stageData ?: sender.sendMessage("$name is not exit")
+    return stageData
   }
 
-  public void setStage(String name, CommandSender sender) {
+  fun setStage(name: String, sender: CommandSender) {
     //check can use this name
     if (getStage(name) == null) {
       //create Stage
-      StageData stageData = new StageData();
-      stageData.setName(name);
+      val stageData = StageData()
+      stageData.name = name
       //put in list
-      canUse.add(stageData);
-      allStage.add(stageData);
+      canUse.add(stageData)
+      allStage.add(stageData)
       //save
-      recorder.save(stageData, "stage");
+      recorder.save(stageData, "stage")
       //send message
-      sender.sendMessage("create " + name);
+      sender.sendMessage("create $name")
     } else {
-      sender.sendMessage("this name can't use");
+      sender.sendMessage("this name can't use")
     }
   }
 
-  public StageData getStage(String name) {
-    StageData stageData = null;
+  fun getStage(name: String?): StageData? {
+    var stageData: StageData? = null
     if (name != null) {
-      if (allStage.contains(new EqualsNamed(name))) {
-        stageData = allStage.get(allStage.indexOf(new EqualsNamed(name)));
-      }
+      stageData = allStage.firstOrNull { it.name == name }
     }
     if (name == null) {
-      stageData = getRandomStage();
+      stageData = randomStage
     }
-    return stageData;
+    return stageData
   }
 
-  public StageData getRandomStage() {
-    StageData stageData = null;
-    if (canUse.size() > 0) {
-      Random random = new Random();
-      int randomNumber = random.nextInt(canUse.size());
-      stageData = canUse.get(randomNumber);
-      notUse.add(stageData);
-      canUse.remove(randomNumber);
+  val randomStage: StageData?
+    get() {
+      var stageData: StageData? = null
+      if (canUse.size > 0) {
+        val random = Random()
+        val randomNumber = random.nextInt(canUse.size)
+        stageData = canUse[randomNumber]
+        notUse.add(stageData)
+        canUse.removeAt(randomNumber)
+      }
+      return stageData
     }
-    return stageData;
-  }
 
-  public void returnStage(StageData stageData) {
-    if (notUse.contains(new EqualsNamed(stageData.getName()))) {
-      canUse.add(stageData);
-      notUse.remove(notUse.indexOf(new EqualsNamed(stageData.getName())));
+  fun returnStage(stageData: StageData) {
+    if (notUse.contains { it.name == stageData.name }) {
+      canUse.add(stageData)
+      notUse.removeIf { it.name == stageData.name }
     }
   }
 }

@@ -1,9 +1,11 @@
 package net.kigawa.onigoplugin.util.plugin.all.player
 
+import net.kigawa.kutil.unitapi.annotation.Kunit
 import net.kigawa.onigoplugin.OnigoPlugin
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
+@Kunit
 class PlayerGetter(var plugin: OnigoPlugin) {
   fun room(world: String, x: Int, y: Int, z: Int, x1: Int, y1: Int, z1: Int): List<Player> {
     var sx: Int

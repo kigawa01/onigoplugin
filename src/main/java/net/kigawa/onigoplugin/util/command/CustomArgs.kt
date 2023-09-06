@@ -8,11 +8,16 @@ import net.kigawa.kutil.unitapi.annotation.Inject
 import net.kigawa.kutil.unitapi.annotation.Kunit
 import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
+import net.kigawa.onigoplugin.util.plugin.game.stage.StageData
+import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager
 
 @Kunit
 object CustomArgs {
   @Inject
   private lateinit var gameManager: GameManager
+
+  @Inject
+  private lateinit var stageManager: StageManager
   fun game(nodeName: String = "game"): Argument<Game> = CustomArgument(StringArgument(nodeName)) {
     return@CustomArgument gameManager.getGame(it.input)
       ?: throw CustomArgument.CustomArgumentException
@@ -21,6 +26,16 @@ object CustomArgs {
         )
   }.replaceSuggestions(ArgumentSuggestions.strings {
     gameManager.games.map { it.name }.toTypedArray()
+  })
+
+  fun stage(nodeName: String = "stage"): Argument<StageData> = CustomArgument(StringArgument(nodeName)) {
+    return@CustomArgument stageManager.getStage(it.input)
+      ?: throw CustomArgument.CustomArgumentException
+        .fromMessageBuilder(CustomArgument.MessageBuilder("game not found: ")
+          .appendArgInput()
+        )
+  }.replaceSuggestions(ArgumentSuggestions.strings {
+    stageManager.allStage.map { it.name }.toTypedArray()
   })
 
   fun choice(nodeName: String, vararg choice: String): Argument<String> =

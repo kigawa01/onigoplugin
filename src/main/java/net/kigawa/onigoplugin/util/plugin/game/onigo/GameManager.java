@@ -27,7 +27,6 @@ public abstract class GameManager implements Onigo, Named
 
     File folder = new File(plugin.getDataFolder(), getName());
     folder.mkdir();
-    games = initializeGame(recorder.loadAll(GameData.class, getName()));
   }
 
   public abstract List<Game> initializeGame(List<GameData> data);
@@ -59,23 +58,9 @@ public abstract class GameManager implements Onigo, Named
     return false;
   }
 
-  public void end(String gameName) {
-    Game game = getGame(gameName);
-    if (game != null) {
-      game.end();
-    }
-  }
-
   public void endAll() {
     for (Game game : games) {
       game.end();
-    }
-  }
-
-  public void setGameType(String gameName, String gameType) {
-    Game game = getGame(gameName);
-    if (game != null) {
-      game.setGameType(gameType);
     }
   }
 
@@ -88,31 +73,8 @@ public abstract class GameManager implements Onigo, Named
     }
   }
 
-  public void setOniWait1(String gameName, String worldName, int x, int y, int z, CommandSender sender) {
-    if (games.contains(new EqualsNamed(gameName))) {
-      games.get(games.indexOf(new EqualsNamed(gameName))).setOniWait1(worldName, x, y, z);
-    } else {
-      sender.sendMessage(gameName + " is not exit");
-    }
-  }
-
-  public void setOniWait2(String gameName, int x, int y, int z, CommandSender sender) {
-    if (games.contains(new EqualsNamed(gameName))) {
-      games.get(games.indexOf(new EqualsNamed(gameName))).setOniWait2(x, y, z);
-    } else {
-      sender.sendMessage(gameName + " is not exit");
-    }
-  }
-
   public abstract void createGame(CommandSender sender, String name);
 
-
-  public void start(String gameName, CommandSender sender, String stageName) {
-    Game game = getGame(gameName);
-    if (game != null) {
-      game.start(sender, stageName);
-    }
-  }
 
   public boolean containGame(String name) {
     return !games.stream().filter((game)->game.getName().equals(name)).toList().isEmpty();

@@ -3,20 +3,18 @@ package net.kigawa.onigoplugin
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import net.kigawa.kutil.unitapi.component.InitializedFilterComponent
-import net.kigawa.kutil.unitapi.component.container.UnitContainer
 import net.kigawa.kutil.unitapi.component.UnitFinderComponent
 import net.kigawa.kutil.unitapi.component.UnitLoggerComponent
+import net.kigawa.kutil.unitapi.component.container.UnitContainer
 import net.kigawa.kutil.unitapi.registrar.ClassRegistrar
 import net.kigawa.kutil.unitapi.registrar.InstanceRegistrar
 import net.kigawa.kutil.unitapi.registrar.ResourceRegistrar
-import net.kigawa.onigoplugin.command.OnigoCreate
 import net.kigawa.onigoplugin.game.ChangeManager
 import net.kigawa.onigoplugin.util.config.ConfigInitializedFilter
 import net.kigawa.onigoplugin.util.config.ConfigManager
 import net.kigawa.onigoplugin.util.config.ConfigUtil
 import net.kigawa.onigoplugin.util.message.Logger
 import net.kigawa.onigoplugin.util.plugin.all.message.Messenger
-import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter
 import net.kigawa.onigoplugin.util.plugin.all.player.Teleporter
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
 import net.kigawa.onigoplugin.util.plugin.game.onigo.evnt.OnigoListener
@@ -36,9 +34,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
   private var debug = false
 
   @JvmField
-  var playerGetter: PlayerGetter? = null
-
-  @JvmField
   var messenger: Messenger? = null
 
   @JvmField
@@ -48,8 +43,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
     val changeGame = container.getUnit(ChangeManager::class.java)
     //initialize
     addGameManager(changeGame)
-    //new Test(this);
-    OnigoCreate(this, changeGame)
     OnigoListener(this)
   }
 
@@ -95,7 +88,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
     config.options().copyDefaults(true)
     saveConfig()
     debug = config.getBoolean("debug")
-    playerGetter = PlayerGetter(this)
     messenger = Messenger(this)
     teleport = Teleporter()
     onStart()

@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.util.plugin.game.onigo;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter;
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder;
 import net.kigawa.onigoplugin.util.plugin.all.timer.Counter;
 import net.kigawa.onigoplugin.util.plugin.game.onigo.runnable.GameCounter;
@@ -20,10 +21,13 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class Game implements Onigo
 {
+  private final StageManager stageManager;
+  private final PlayerGetter playerGetter;
   protected Recorder recorder;
   GameData d;
   OnigoPlugin plugin;
@@ -39,14 +43,14 @@ public abstract class Game implements Onigo
   Counter gameCounter;
   BukkitTask runnable;
   BukkitTask runnable1;
-  private StageManager stageManager;
 
-  public Game(OnigoPlugin OnigoPlugin, GameData gameData, GameManager gameManager, Recorder recorder, StageManager stageManager) {
+  public Game(OnigoPlugin OnigoPlugin, GameData gameData, GameManager gameManager, Recorder recorder, StageManager stageManager, PlayerGetter playerGetter) {
     plugin = OnigoPlugin;
     d = gameData;
     manager = gameManager;
     this.recorder = recorder;
-    this.stageManager = stageManager;
+    this.stageManager = Objects.requireNonNull(stageManager);
+    this.playerGetter = playerGetter;
   }
 
   public abstract String getBordName();
@@ -60,21 +64,21 @@ public abstract class Game implements Onigo
   public abstract void onStart();
 
   @Override
-  public boolean contain(HumanEntity player) {
-    if (joinPlayer != null) return joinPlayer.contains(player);
+  public boolean contain(HumanEntity humanEntity) {
+    if (joinPlayer != null && (humanEntity instanceof Player player)) return joinPlayer.contains(player);
     return false;
   }
 
   public void start(CommandSender sender, String stage) {
     if (d.getWaitRoomWorld() != null) {
       //sort player
-      joinPlayer = plugin.playerGetter.room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
+      joinPlayer = playerGetter.room(d.getWaitRoomWorld(), d.getWaitRoom()[0], d.getWaitRoom()[1], d.getWaitRoom()[2],
           d.getWaitRoom()[3], d.getWaitRoom()[4], d.getWaitRoom()[5]);
       Random random = new Random();
       oniPlayer = new ArrayList<>();
       runPlayer = new ArrayList<>();
       runPlayer.addAll(joinPlayer);
-      oniPlayer = plugin.playerGetter.room(d.getOniWaitWorld(), d.getOniWait()[0], d.getOniWait()[1], d.getOniWait()[2], d.getOniWait()[3], d.getOniWait()[4], d.getOniWait()[5]);
+      oniPlayer = playerGetter.room(d.getOniWaitWorld(), d.getOniWait()[0], d.getOniWait()[1], d.getOniWait()[2], d.getOniWait()[3], d.getOniWait()[4], d.getOniWait()[5]);
       joinPlayer.addAll(oniPlayer);
       int randomNumber;
       plugin.logger("join player" + joinPlayer.size());
@@ -102,8 +106,8 @@ public abstract class Game implements Onigo
         if (stageData != null) {
           for (Player player : runPlayer) {
             //teleport runner
-            player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]) + 0.5,
-                Integer.valueOf(stageData.getStartLoc()[1]) + 0.5, Integer.valueOf(stageData.getStartLoc()[2]) + 0.5));
+            player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), stageData.getStartLoc()[0] + 0.5,
+                stageData.getStartLoc()[1] + 0.5, stageData.getStartLoc()[2] + 0.5));
           }
           //limiter
           limiter = new Limiter(plugin, runPlayer, stageData);
@@ -116,11 +120,11 @@ public abstract class Game implements Onigo
             @Override
             public void run() {
               //send message
-              plugin.messenger.sendMessage(joinPlayer, ChatColor.GREEN + "最初に鬼のプレーヤー");
+              Objects.requireNonNull(plugin.messenger).sendMessage(joinPlayer, ChatColor.GREEN + "最初に鬼のプレーヤー");
               //teleport oni
               for (Player player : oniPlayer) {
-                player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), Integer.valueOf(stageData.getStartLoc()[0]) + 0.5,
-                    Integer.valueOf(stageData.getStartLoc()[1]) + 0.5, Integer.valueOf(stageData.getStartLoc()[2]) + 0.5));
+                player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), stageData.getStartLoc()[0] + 0.5,
+                    stageData.getStartLoc()[1] + 0.5, stageData.getStartLoc()[2] + 0.5));
                 plugin.messenger.sendMessage(joinPlayer, ChatColor.BLUE + player.getName());
                 //wear gold helmet
                 player.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
@@ -139,9 +143,9 @@ public abstract class Game implements Onigo
                 public void run() {
                   end();
                 }
-              }.runTaskLater(plugin, d.getGameTime() * 20 * 60);
+              }.runTaskLater(plugin, (long) d.getGameTime() * 20 * 60);
             }
-          }.runTaskLater(plugin, d.getWaitTime() * 20);
+          }.runTaskLater(plugin, d.getWaitTime() * 20L);
           onStart();
         } else {
           sender.sendMessage("stage is not exit");
@@ -154,10 +158,6 @@ public abstract class Game implements Onigo
     }
   }
 
-  public void save(GameData data) {
-    recorder.save(data, manager.getName());
-  }
-
   public void end() {
     //clear inventory
     for (Player player : joinPlayer) {
@@ -165,7 +165,7 @@ public abstract class Game implements Onigo
     }
     sendEndMessage();
     //teleport players
-    plugin.teleport.teleportPlayers(joinPlayer, new Location(plugin.getServer().getWorld(d.getEndWorld()), d.getEndLoc()[0] + 0.5, d.getEndLoc()[1] + 0.5, d.getEndLoc()[2] + 0.5));
+    Objects.requireNonNull(plugin.teleport).teleportPlayers(joinPlayer, new Location(plugin.getServer().getWorld(d.getEndWorld()), d.getEndLoc()[0] + 0.5, d.getEndLoc()[1] + 0.5, d.getEndLoc()[2] + 0.5));
     //return stage
     stageManager.returnStage(stageData);
     //cancel counter
@@ -178,13 +178,13 @@ public abstract class Game implements Onigo
     runnable.cancel();
     runnable1.cancel();
     //remove in list
-    while (0 < joinPlayer.size()) {
+    while (!joinPlayer.isEmpty()) {
       joinPlayer.remove(0);
     }
-    while (0 < oniPlayer.size()) {
+    while (!oniPlayer.isEmpty()) {
       oniPlayer.remove(0);
     }
-    while (0 < runPlayer.size()) {
+    while (!runPlayer.isEmpty()) {
       runPlayer.remove(0);
     }
     joinPlayer = null;
