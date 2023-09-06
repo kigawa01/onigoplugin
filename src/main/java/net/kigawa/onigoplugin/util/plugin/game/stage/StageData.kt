@@ -1,35 +1,28 @@
-package net.kigawa.onigoplugin.util.plugin.game.stage;
+package net.kigawa.onigoplugin.util.plugin.game.stage
 
-import net.kigawa.onigoplugin.util.plugin.all.recorder.RecorderData;
+import net.kigawa.onigoplugin.util.plugin.all.recorder.RecorderData
+import org.bukkit.Location
 
-public class StageData extends RecorderData {
+class StageData(name: String) : RecorderData(name) {
+  var stageWorld: String? = null
+  val startLoc = IntArray(3)
+  val stageLoc = IntArray(6)
 
-    public int[] getStartLoc() {
-        return startLoc;
-    }
+  fun setStageStartLoc(location: Location) {
+    stageLoc[0] = location.blockX
+    stageLoc[1] = location.blockY
+    stageLoc[2] = location.blockZ
+  }
 
-    public void setStartLoc(int[] startLoc) {
-        this.startLoc = startLoc;
-    }
+  fun setStageEndLoc(location: Location) {
+    stageLoc[3] = location.blockX
+    stageLoc[4] = location.blockY
+    stageLoc[5] = location.blockZ
+  }
 
-    int[] startLoc = new int[3];
-
-    public int[] getStageLoc() {
-        return stageLoc;
-    }
-
-    public void setStageLoc(int[] stageLoc) {
-        this.stageLoc = stageLoc;
-    }
-
-    int[] stageLoc = new int[6];
-    String stageWorld;
-
-    public String getStageWorld() {
-        return stageWorld;
-    }
-
-    public void setStageWorld(String stageWorld) {
-        this.stageWorld = stageWorld;
-    }
+  fun setStartLoc(location: Location) {
+    startLoc[0] = location.blockX
+    startLoc[1] = location.blockY
+    startLoc[2] = location.blockZ
+  }
 }

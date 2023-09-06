@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender
 class TestCommand(
   private val container: UnitContainer,
   private val configUtil: ConfigUtil,
-) : AbstractCommand("test") {
+) : ArgumentBase("test") {
 
   @SubCommand
   fun config() = LiteralArgument("config")

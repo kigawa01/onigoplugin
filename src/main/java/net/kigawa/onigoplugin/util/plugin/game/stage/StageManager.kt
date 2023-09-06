@@ -25,63 +25,16 @@ class StageManager(var plugin: OnigoPlugin, private val recorder: Recorder) {
     }
   }
 
-  fun setStartLoc(name: String, x: Int, y: Int, z: Int, sender: CommandSender) {
-    val stageData = getStage(name, sender)
-    if (stageData != null) {
-      val i = stageData.getStartLoc()
-      i[0] = x
-      i[1] = y
-      i[2] = z
-      //logger
-      plugin.logger("stage manager startLoc " + stageData.getStartLoc()[0])
-      plugin.logger("length " + stageData.getStartLoc().size)
-      recorder.save(stageData, "stage")
-    }
-  }
-
-  fun setStage2(name: String, world: String?, x: Int, y: Int, z: Int, sender: CommandSender) {
-    val stageData = getStage(name, sender)
-    if (stageData != null) {
-      stageData.setStageWorld(world)
-      val i = stageData.getStageLoc()
-      i[3] = x
-      i[4] = y
-      i[5] = z
-      recorder.save(stageData, "stage")
-    }
-  }
-
-  fun setStage1(name: String, world: String?, x: Int, y: Int, z: Int, sender: CommandSender) {
-    val stageData = getStage(name, sender)
-    if (stageData != null) {
-      stageData.setStageWorld(world)
-      val i = stageData.getStageLoc()
-      i[0] = x
-      i[1] = y
-      i[2] = z
-      recorder.save(stageData, "stage")
-    }
-  }
-
-  fun getStage(name: String, sender: CommandSender): StageData? {
-    val stageData: StageData? = allStage.firstOrNull { it.name == name }
-    stageData ?: sender.sendMessage("$name is not exit")
-    return stageData
-  }
-
   fun setStage(name: String, sender: CommandSender) {
     //check can use this name
     if (getStage(name) == null) {
       //create Stage
-      val stageData = StageData()
-      stageData.name = name
+      val stageData = StageData(name)
       //put in list
       canUse.add(stageData)
       allStage.add(stageData)
       //save
       recorder.save(stageData, "stage")
-      //send message
-      sender.sendMessage("create $name")
     } else {
       sender.sendMessage("this name can't use")
     }

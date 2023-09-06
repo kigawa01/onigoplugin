@@ -1,96 +1,26 @@
-package net.kigawa.onigoplugin.util.plugin.game.onigo;
+package net.kigawa.onigoplugin.util.plugin.game.onigo
 
-import net.kigawa.onigoplugin.util.plugin.all.recorder.RecorderData;
+import net.kigawa.onigoplugin.util.plugin.all.recorder.RecorderData
 
-public class GameData extends RecorderData {
-    int[] endLoc = new int[3];
-    String endWorld;
-    int gameTime;
-    int waitTime;
-    String waitRoomWorld = null;
-    int oniCount;
-    int[] waitRoom = new int[6];
-    String gameType;
-    int[] oniWait = new int[6];
-    String oniWaitWorld;
+open class GameData(name: String = "") : RecorderData(name) {
 
-    public String getOniWaitWorld() {
-        return oniWaitWorld;
-    }
+  var endLoc = IntArray(3)
 
-    public void setOniWaitWorld(String oniWaitWorld) {
-        this.oniWaitWorld = oniWaitWorld;
-    }
+  var endWorld: String? = null
 
-    public int[] getOniWait() {
-        return oniWait;
-    }
+  var gameTime = 0
 
-    public void setOniWait(int[] oniWait) {
-        this.oniWait = oniWait;
-    }
+  var waitTime = 0
 
-    public String getGameType() {
-        return gameType;
-    }
+  var waitRoomWorld: String? = null
 
-    public void setGameType(String gameType) {
-        this.gameType = gameType;
-    }
+  var oniCount = 0
 
-    public int[] getEndLoc() {
-        return endLoc;
-    }
+  var waitRoom = IntArray(6)
 
-    public void setEndLoc(int[] endLoc) {
-        this.endLoc = endLoc;
-    }
+  var gameType: String? = null
 
-    public String getEndWorld() {
-        return endWorld;
-    }
+  var oniWait = IntArray(6)
 
-    public void setEndWorld(String endWorld) {
-        this.endWorld = endWorld;
-    }
-
-    public int getGameTime() {
-        return gameTime;
-    }
-
-    public void setGameTime(int gameTime) {
-        this.gameTime = gameTime;
-    }
-
-    public int getWaitTime() {
-        return waitTime;
-    }
-
-    public void setWaitTime(int waitTime) {
-        this.waitTime = waitTime;
-    }
-
-    public int getOniCount() {
-        return oniCount;
-    }
-
-    public void setOniCount(int oniCount) {
-        this.oniCount = oniCount;
-    }
-
-    public int[] getWaitRoom() {
-        return waitRoom;
-    }
-
-    public void setWaitRoom(int[] waitRoom) {
-        this.waitRoom = waitRoom;
-    }
-
-    public String getWaitRoomWorld() {
-        return waitRoomWorld;
-    }
-
-    public void setWaitRoomWorld(String waitRoomWorld) {
-        this.waitRoomWorld = waitRoomWorld;
-    }
+  var oniWaitWorld: String? = null
 }

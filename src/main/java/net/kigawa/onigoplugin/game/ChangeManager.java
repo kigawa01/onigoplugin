@@ -41,8 +41,7 @@ public class ChangeManager extends GameManager
   @Override
   public void createGame(CommandSender sender, String name) {
     if (!games.contains(new EqualsNamed(name))) {
-      OnigoData data = new OnigoData();
-      data.setName(name);
+      OnigoData data = new OnigoData(name);
       games.add(new OnigoGame(plugin, data, this, recorder, stageManager, playerGetter));
       recorder.save(data, getName());
     } else {

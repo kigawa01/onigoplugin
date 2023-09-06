@@ -4,7 +4,7 @@ import dev.jorel.commandapi.arguments.Argument
 import dev.jorel.commandapi.arguments.LiteralArgument
 import net.kigawa.kutil.kutil.reflection.KutilReflect
 
-abstract class AbstractCommand(
+abstract class ArgumentBase(
   commandName: String, vararg arguments: Argument<*>
 ) :LiteralArgument(commandName){
 

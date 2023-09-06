@@ -13,16 +13,18 @@ import net.kigawa.onigoplugin.util.command.SubCommand
 import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
 import net.kigawa.onigoplugin.util.plugin.game.stage.StageData
+import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @Kunit
 class Onigo(
   private val gameManager: GameManager,
+  private val stageManager: StageManager,
 ) : RootCommandBase("onigo") {
 
   @SubCommand
-  fun create(): Argument<*> = LiteralArgument("create")
+  fun createGame(): Argument<*> = LiteralArgument("create-game")
     .then(StringArgument("name")
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val name = commandArguments.get("name") as String
@@ -38,6 +40,9 @@ class Onigo(
 
   @SubCommand
   fun edit() = OnigoEdit()
+
+  @SubCommand
+  fun stage() = OnigoStage()
 
   @SubCommand
   fun start(): Argument<*> = LiteralArgument("start")
@@ -68,4 +73,16 @@ class Onigo(
         sender.sendMessage(" world " + it.d.waitRoomWorld)
       }
     })
+
+  @SubCommand
+  fun createStage(): Argument<*> = LiteralArgument("create-stage")
+    .then(StringArgument("name")
+      .executes(CommandExecutor { sender: CommandSender, args: CommandArguments ->
+        val name = args.get("name") as String
+
+        stageManager.setStage(name, sender)
+        sender.sendMessage("stage $name is created")
+      }))
+
+
 }

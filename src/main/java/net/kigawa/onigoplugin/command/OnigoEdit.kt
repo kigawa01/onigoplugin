@@ -4,14 +4,14 @@ import dev.jorel.commandapi.arguments.*
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
 import net.kigawa.onigoplugin.game.GameType
-import net.kigawa.onigoplugin.util.command.AbstractCommand
+import net.kigawa.onigoplugin.util.command.ArgumentBase
 import net.kigawa.onigoplugin.util.command.CustomArgs
 import net.kigawa.onigoplugin.util.command.SubCommand
 import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class OnigoEdit : AbstractCommand("edit", CustomArgs.game("game")) {
+class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun waitRoom(): Argument<*> = LiteralArgument("wait-room")

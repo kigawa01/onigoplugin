@@ -4,6 +4,8 @@ import net.kigawa.onigoplugin.util.plugin.all.timer.Counter;
 import net.kigawa.onigoplugin.util.plugin.game.onigo.Game;
 import org.bukkit.ChatColor;
 
+import java.util.Objects;
+
 public class GameCounter extends Counter {
     Game game;
 
@@ -19,6 +21,7 @@ public class GameCounter extends Counter {
     @Override
     public void sendLastMessage() {
         //send end
-        game.getPlugin().messenger.sendTitle(game.getJoinPlayer(), ChatColor.RED + "END", "");
+        Objects.requireNonNull(game.getPlugin().messenger)
+            .sendTitle(game.getJoinPlayer(), ChatColor.RED + "END", "");
     }
 }

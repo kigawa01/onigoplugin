@@ -78,7 +78,15 @@ public abstract class Game implements Onigo
       oniPlayer = new ArrayList<>();
       runPlayer = new ArrayList<>();
       runPlayer.addAll(joinPlayer);
-      oniPlayer = playerGetter.room(d.getOniWaitWorld(), d.getOniWait()[0], d.getOniWait()[1], d.getOniWait()[2], d.getOniWait()[3], d.getOniWait()[4], d.getOniWait()[5]);
+      oniPlayer = playerGetter.room(
+          Objects.requireNonNull(d.getOniWaitWorld()),
+          d.getOniWait()[0],
+          d.getOniWait()[1],
+          d.getOniWait()[2],
+          d.getOniWait()[3],
+          d.getOniWait()[4],
+          d.getOniWait()[5]
+      );
       joinPlayer.addAll(oniPlayer);
       int randomNumber;
       plugin.logger("join player" + joinPlayer.size());
@@ -106,25 +114,41 @@ public abstract class Game implements Onigo
         if (stageData != null) {
           for (Player player : runPlayer) {
             //teleport runner
-            player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), stageData.getStartLoc()[0] + 0.5,
-                stageData.getStartLoc()[1] + 0.5, stageData.getStartLoc()[2] + 0.5));
+            player.teleport(new Location(
+                plugin.getServer().getWorld(Objects.requireNonNull(stageData.getStageWorld())),
+                stageData.getStartLoc()[0] + 0.5,
+                stageData.getStartLoc()[1] + 0.5,
+                stageData.getStartLoc()[2] + 0.5
+            ));
           }
           //limiter
           limiter = new Limiter(plugin, runPlayer, stageData);
           //counter
           counter = new Counter(getBordName(), "onigo", plugin);
-          counter.startSec(0L, d.getWaitTime(), 3, joinPlayer, ChatColor.GREEN + "START", ChatColor.GREEN);
+          counter.startSec(
+              0L,
+              d.getWaitTime(),
+              3,
+              joinPlayer,
+              ChatColor.GREEN + "START",
+              ChatColor.GREEN
+          );
           //count wait time
           runnable = new BukkitRunnable()
           {
             @Override
             public void run() {
               //send message
-              Objects.requireNonNull(plugin.messenger).sendMessage(joinPlayer, ChatColor.GREEN + "最初に鬼のプレーヤー");
+              Objects.requireNonNull(plugin.messenger)
+                  .sendMessage(joinPlayer, ChatColor.GREEN + "最初に鬼のプレーヤー");
               //teleport oni
               for (Player player : oniPlayer) {
-                player.teleport(new Location(plugin.getServer().getWorld(stageData.getStageWorld()), stageData.getStartLoc()[0] + 0.5,
-                    stageData.getStartLoc()[1] + 0.5, stageData.getStartLoc()[2] + 0.5));
+                player.teleport(new Location(
+                    plugin.getServer().getWorld(Objects.requireNonNull(stageData.getStageWorld())),
+                    stageData.getStartLoc()[0] + 0.5,
+                    stageData.getStartLoc()[1] + 0.5,
+                    stageData.getStartLoc()[2] + 0.5
+                ));
                 plugin.messenger.sendMessage(joinPlayer, ChatColor.BLUE + player.getName());
                 //wear gold helmet
                 player.getInventory().setHelmet(new ItemStack(Material.GOLDEN_HELMET));
@@ -165,7 +189,12 @@ public abstract class Game implements Onigo
     }
     sendEndMessage();
     //teleport players
-    Objects.requireNonNull(plugin.teleport).teleportPlayers(joinPlayer, new Location(plugin.getServer().getWorld(d.getEndWorld()), d.getEndLoc()[0] + 0.5, d.getEndLoc()[1] + 0.5, d.getEndLoc()[2] + 0.5));
+    Objects.requireNonNull(plugin.teleport).teleportPlayers(joinPlayer, new Location(
+        plugin.getServer().getWorld(Objects.requireNonNull(d.getEndWorld())),
+        d.getEndLoc()[0] + 0.5,
+        d.getEndLoc()[1] + 0.5,
+        d.getEndLoc()[2] + 0.5
+    ));
     //return stage
     stageManager.returnStage(stageData);
     //cancel counter
