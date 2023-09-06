@@ -1,82 +1,42 @@
-package net.kigawa.onigoplugin.util.plugin.game.onigo;
+package net.kigawa.onigoplugin.util.plugin.game.onigo
 
-import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.onigoplugin.util.all.EqualsNamed;
-import net.kigawa.onigoplugin.util.all.Named;
-import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder;
-import net.kigawa.onigoplugin.util.plugin.game.onigo.list.EqualsOnigoManager;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
+import net.kigawa.kutil.kutil.list.contains
+import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.HumanEntity
+import org.bukkit.entity.Player
+import java.io.File
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+abstract class GameManager(@JvmField var plugin: OnigoPlugin, var name: String, @JvmField protected var recorder: Recorder) : Onigo {
+  var games: MutableList<Game> = ArrayList()
+    protected set
 
-public abstract class GameManager implements Onigo, Named
-{
-  protected List<Game> games = new ArrayList<>();
-  protected OnigoPlugin plugin;
-  protected Recorder recorder;
-  String name;
-
-  public GameManager(OnigoPlugin OnigoPlugin, String name, Recorder recorder) {
-    plugin = OnigoPlugin;
-    this.recorder = recorder;
-    this.name = name;
-
-    File folder = new File(plugin.getDataFolder(), getName());
-    folder.mkdir();
+  init {
+    val folder = File(plugin.dataFolder, name)
+    folder.mkdir()
   }
 
-  public abstract List<Game> initializeGame(List<GameData> data);
-
-  public String getName() {
-    return name;
+  override fun contain(player: HumanEntity): Boolean {
+    return games.contains { it.contain(player) }
   }
 
-
-  public OnigoPlugin getPlugin() {
-    return plugin;
+  override fun changeOni(oni: Player, runner: Player): Boolean {
+    return games.contains { it.changeOni(oni, runner) }
   }
 
-  public List<Game> getGames() {
-    return games;
-  }
-
-  @Override
-  public boolean contain(HumanEntity player) {
-    if (games != null) return games.contains(new EqualsOnigoManager(player));
-    return false;
-  }
-
-
-  public boolean changeOni(Player oni, Player runner) {
-    if (games != null) {
-      return games.contains(new EqualsOnigoManager(oni, runner));
-    }
-    return false;
-  }
-
-  public void endAll() {
-    for (Game game : games) {
-      game.end();
+  fun endAll() {
+    for (game in games) {
+      game.end()
     }
   }
 
-
-  public Game getGame(String gameName) {
-    if (games.contains(new EqualsNamed(gameName))) {
-      return games.get(games.indexOf(new EqualsNamed(gameName)));
-    } else {
-      return null;
-    }
+  fun getGame(gameName: String?): Game? {
+    return games.firstOrNull { it.name == gameName }
   }
 
-  public abstract void createGame(CommandSender sender, String name);
-
-
-  public boolean containGame(String name) {
-    return !games.stream().filter((game)->game.getName().equals(name)).toList().isEmpty();
+  abstract fun createGame(sender: CommandSender?, name: String?)
+  fun containGame(name: String): Boolean {
+    return games.stream().filter { game: Game -> game.name == name }.toList().isNotEmpty()
   }
 }
