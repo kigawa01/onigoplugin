@@ -1,5 +1,6 @@
 package net.kigawa.onigoplugin.command
 
+import dev.jorel.commandapi.CommandPermission
 import dev.jorel.commandapi.arguments.*
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
@@ -15,8 +16,11 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun waitRoom(): Argument<*> = LiteralArgument("wait-room")
+    .withPermission(CommandPermission.OP)
     .then(CustomArgs.choice("loc point", "start-loc", "end-loc")
+      .withPermission(CommandPermission.OP)
       .then(LocationArgument("location", LocationType.BLOCK_POSITION)
+        .withPermission(CommandPermission.OP)
         .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
           val game = commandArguments.get("game") as Game
           val location = commandArguments.get("location") as Location
@@ -39,8 +43,11 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun oniWaitRoom(): Argument<*> = LiteralArgument("oni-wait-room")
+    .withPermission(CommandPermission.OP)
     .then(CustomArgs.choice("loc point", "start-loc", "end-loc")
+      .withPermission(CommandPermission.OP)
       .then(LocationArgument("location", LocationType.BLOCK_POSITION)
+        .withPermission(CommandPermission.OP)
         .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
           val game = commandArguments.get("game") as Game
           val location = commandArguments.get("location") as Location
@@ -63,7 +70,9 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun oniCount(): Argument<*> = LiteralArgument("oni-count")
+    .withPermission(CommandPermission.OP)
     .then(IntegerArgument("count")
+      .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val game = commandArguments.get("game") as Game
         val count = commandArguments.get("count") as Int
@@ -75,7 +84,9 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun waitTime(): Argument<*> = LiteralArgument("wait-time")
+    .withPermission(CommandPermission.OP)
     .then(IntegerArgument("wait time")
+      .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val game = commandArguments.get("game") as Game
         val waitTime = commandArguments.get("wait time") as Int
@@ -87,7 +98,9 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun gameTime(): Argument<*> = LiteralArgument("game-time")
+    .withPermission(CommandPermission.OP)
     .then(IntegerArgument("game time")
+      .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val game = commandArguments.get("game") as Game
         val waitTime = commandArguments.get("game time") as Int
@@ -99,7 +112,9 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun endLoc(): Argument<*> = LiteralArgument("end-loc")
+    .withPermission(CommandPermission.OP)
     .then(LocationArgument("location", LocationType.BLOCK_POSITION)
+      .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val game = commandArguments.get("game") as Game
         val location = commandArguments.get("location") as Location
@@ -111,7 +126,9 @@ class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
 
   @SubCommand
   fun gameType(): Argument<*> = LiteralArgument("game-type")
+    .withPermission(CommandPermission.OP)
     .then(CustomArgs.choice("type", *GameType.entries.map { it.value }.toTypedArray())
+      .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val game = commandArguments.get("game") as Game
         val gameType = commandArguments.get("type") as String

@@ -19,6 +19,7 @@ import net.kigawa.onigoplugin.util.plugin.all.player.Teleporter
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
 import net.kigawa.onigoplugin.util.plugin.game.onigo.evnt.OnigoListener
 import net.kigawa.onigoplugin.util.unit.BukkitFinder
+import net.kigawa.onigoplugin.util.unit.CommandFilter
 import net.kigawa.onigoplugin.util.unit.ListenerFilter
 import net.kigawa.onigoplugin.util.unit.OyuBingoUnitLogger
 import net.kigawa.oyucraft.oyubingo.config.Config
@@ -70,6 +71,7 @@ class OnigoPlugin : JavaPlugin(), Logger {
     container.getUnit(InitializedFilterComponent::class.java).apply {
       add(ConfigInitializedFilter::class.java)
       add(ListenerFilter::class.java)
+      add(CommandFilter::class.java)
     }
 
     container.getUnit(ResourceRegistrar::class.java).register(javaClass)

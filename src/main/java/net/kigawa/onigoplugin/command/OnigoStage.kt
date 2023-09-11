@@ -1,5 +1,6 @@
 package net.kigawa.onigoplugin.command
 
+import dev.jorel.commandapi.CommandPermission
 import dev.jorel.commandapi.arguments.Argument
 import dev.jorel.commandapi.arguments.LiteralArgument
 import dev.jorel.commandapi.arguments.LocationArgument
@@ -17,43 +18,55 @@ import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class OnigoStage : ArgumentBase("stage", CustomArgs.stage("stage")) {
+class OnigoStage : ArgumentBase(
+  "stage",
+  CustomArgs.stage("stage")
+    .withPermission(CommandPermission.OP)
+) {
   private val recorder = OnigoPlugin.container.getUnit(Recorder::class.java)
 
   @SubCommand
-  fun stageLoc(): Argument<*> =
-    LiteralArgument("stage-room").then(CustomArgs.choice("loc point", "start-loc", "end-loc").then(LocationArgument("location", LocationType.BLOCK_POSITION).executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-      val stage = commandArguments.get("stage") as StageData
-      val location = commandArguments.get("location") as Location
-      val choice = commandArguments.get("loc point") as String
+  fun stageLoc(): Argument<*> = LiteralArgument("stage-room")
+    .withPermission(CommandPermission.OP)
+    .then(CustomArgs.choice("loc point", "start-loc", "end-loc")
+      .withPermission(CommandPermission.OP)
+      .then(LocationArgument("location", LocationType.BLOCK_POSITION)
+        .withPermission(CommandPermission.OP)
+        .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+          val stage = commandArguments.get("stage") as StageData
+          val location = commandArguments.get("location") as Location
+          val choice = commandArguments.get("loc point") as String
 
-      if (choice == "start-loc") {
-        stage.stageWorld = player.world.name
-        stage.setStageStartLoc(location)
-        recorder.save(stage, "stage")
+          if (choice == "start-loc") {
+            stage.stageWorld = player.world.name
+            stage.setStageStartLoc(location)
+            recorder.save(stage, "stage")
 
-        player.sendMessage("start point of stage room is set")
-        return@PlayerCommandExecutor
-      }
-      if (choice == "end-loc") {
-        stage.setStageEndLoc(location)
-        recorder.save(stage, "stage")
+            player.sendMessage("start point of stage room is set")
+            return@PlayerCommandExecutor
+          }
+          if (choice == "end-loc") {
+            stage.setStageEndLoc(location)
+            recorder.save(stage, "stage")
 
-        player.sendMessage("end point of stage room is set")
-        return@PlayerCommandExecutor
-      }
-      player.sendMessage("$choice is not allowed")
-    })))
+            player.sendMessage("end point of stage room is set")
+            return@PlayerCommandExecutor
+          }
+          player.sendMessage("$choice is not allowed")
+        })))
 
   @SubCommand
-  fun startLoc(): Argument<*> =
-    LiteralArgument("start-loc").then(LocationArgument("location", LocationType.BLOCK_POSITION).executes(CommandExecutor { sender: CommandSender, args: CommandArguments ->
-      val stage = args.get("stage") as StageData
-      val location = args.get("location") as Location
+  fun startLoc(): Argument<*> = LiteralArgument("start-loc")
+    .withPermission(CommandPermission.OP)
+    .then(LocationArgument("location", LocationType.BLOCK_POSITION)
+      .withPermission(CommandPermission.OP)
+      .executes(CommandExecutor { sender: CommandSender, args: CommandArguments ->
+        val stage = args.get("stage") as StageData
+        val location = args.get("location") as Location
 
-      stage.setStartLoc(location)
-      recorder.save(stage, "stage")
+        stage.setStartLoc(location)
+        recorder.save(stage, "stage")
 
-      sender.sendMessage("stage loc is set")
-    }))
+        sender.sendMessage("stage loc is set")
+      }))
 }

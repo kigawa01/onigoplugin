@@ -21,8 +21,5 @@ abstract class RootCommandBase(commandName: String, vararg arguments: Argument<*
       val subArg = it.invoke(this) as Argument<*>
       arg?.then(subArg) ?: then(subArg)
     }
-
-    @Suppress("LeakingThis")
-    register()
   }
 }

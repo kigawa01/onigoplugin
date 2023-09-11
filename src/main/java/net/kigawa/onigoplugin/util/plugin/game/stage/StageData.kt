@@ -3,7 +3,7 @@ package net.kigawa.onigoplugin.util.plugin.game.stage
 import net.kigawa.onigoplugin.util.plugin.all.recorder.RecorderData
 import org.bukkit.Location
 
-class StageData(name: String) : RecorderData(name) {
+class StageData(name: String = "") : RecorderData(name) {
   var stageWorld: String? = null
   val startLoc = IntArray(3)
   val stageLoc = IntArray(6)

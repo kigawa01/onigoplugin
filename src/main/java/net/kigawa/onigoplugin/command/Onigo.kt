@@ -1,5 +1,6 @@
 package net.kigawa.onigoplugin.command
 
+import dev.jorel.commandapi.CommandPermission
 import dev.jorel.commandapi.arguments.Argument
 import dev.jorel.commandapi.arguments.LiteralArgument
 import dev.jorel.commandapi.arguments.StringArgument
@@ -22,10 +23,15 @@ class Onigo(
   private val gameManager: GameManager,
   private val stageManager: StageManager,
 ) : RootCommandBase("onigo") {
+  init {
+    withPermission(CommandPermission.OP)
+  }
 
   @SubCommand
   fun createGame(): Argument<*> = LiteralArgument("create-game")
+    .withPermission(CommandPermission.OP)
     .then(StringArgument("name")
+      .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
         val name = commandArguments.get("name") as String
 
@@ -39,15 +45,21 @@ class Onigo(
     )
 
   @SubCommand
-  fun edit() = OnigoEdit()
+  fun edit(): Argument<String> = OnigoEdit()
+    .withPermission(CommandPermission.OP)
 
   @SubCommand
-  fun stage() = OnigoStage()
+  fun stage(): Argument<String> = OnigoStage()
+    .withPermission(CommandPermission.OP)
 
   @SubCommand
   fun start(): Argument<*> = LiteralArgument("start")
+    .withPermission(CommandPermission.OP)
     .then(CustomArgs.game("game")
-      .then(CustomArgs.stage("stage").setOptional(true)
+      .withPermission(CommandPermission.OP)
+      .then(CustomArgs.stage("stage")
+        .withPermission(CommandPermission.OP)
+        .setOptional(true)
         .executesPlayer(PlayerCommandExecutor { player: Player, args: CommandArguments ->
           val game = args.get("game") as Game
           val stage = args.get("stage") as StageData?
@@ -58,7 +70,9 @@ class Onigo(
 
   @SubCommand
   fun end(): Argument<*> = LiteralArgument("end")
+    .withPermission(CommandPermission.OP)
     .then(CustomArgs.game("game")
+      .withPermission(CommandPermission.OP)
       .executes(CommandExecutor { _: CommandSender, args: CommandArguments ->
         val game = args.get("game") as Game
         game.end()
@@ -67,6 +81,7 @@ class Onigo(
 
   @SubCommand
   fun list(): Argument<*> = LiteralArgument("list")
+    .withPermission(CommandPermission.OP)
     .executes(CommandExecutor { sender: CommandSender, _: CommandArguments ->
       gameManager.games.forEach {
         sender.sendMessage("name " + it.name)
@@ -76,7 +91,9 @@ class Onigo(
 
   @SubCommand
   fun createStage(): Argument<*> = LiteralArgument("create-stage")
+    .withPermission(CommandPermission.OP)
     .then(StringArgument("name")
+      .withPermission(CommandPermission.OP)
       .executes(CommandExecutor { sender: CommandSender, args: CommandArguments ->
         val name = args.get("name") as String
 

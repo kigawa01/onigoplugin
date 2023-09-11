@@ -4,24 +4,3 @@ main: net.kigawa.onigoplugin.OnigoPlugin
 api-version: 1.16
 authors: [ kigawa ]
 softdepend: [UtilPlugin]
-commands:
-  test:
-    description: for test
-    usage: /test
-    permission: onigoplugin.test
-  onigocreate:
-    description: create onigp game
-    usage: /onigocreate <subcommand>
-    permission: onigoplugin.changecreate
-  stage:
-    description: for stage
-    usage: /stage <subcommand>
-    permission: onigoplugin.stage
-  incrasecreate:
-    description: create increase game
-    permission: onigoplugin.incrasecreate
-    usage: /increasecreate <subcommand>
-  increase:
-    description: about increase game
-    usage: /increase <subcommand>
-    permission: onigoplugin.increase
