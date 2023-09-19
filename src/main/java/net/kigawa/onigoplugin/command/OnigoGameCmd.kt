@@ -5,14 +5,14 @@ import dev.jorel.commandapi.arguments.*
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
 import net.kigawa.onigoplugin.game.GameType
+import net.kigawa.onigoplugin.game.OnigoGame
 import net.kigawa.onigoplugin.util.command.ArgumentBase
 import net.kigawa.onigoplugin.util.command.CustomArgs
 import net.kigawa.onigoplugin.util.command.SubCommand
-import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
+class OnigoGameCmd : ArgumentBase("game", CustomArgs.game("game")) {
 
   @SubCommand
   fun waitRoom(): Argument<*> = LiteralArgument("wait-room")
@@ -22,7 +22,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
       .then(LocationArgument("location", LocationType.BLOCK_POSITION)
         .withPermission(CommandPermission.OP)
         .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-          val game = commandArguments.get("game") as Game
+          val game = commandArguments.get("game") as OnigoGame
           val location = commandArguments.get("location") as Location
           val choice = commandArguments.get("loc point") as String
 
@@ -49,7 +49,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
       .then(LocationArgument("location", LocationType.BLOCK_POSITION)
         .withPermission(CommandPermission.OP)
         .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-          val game = commandArguments.get("game") as Game
+          val game = commandArguments.get("game") as OnigoGame
           val location = commandArguments.get("location") as Location
           val choice = commandArguments.get("loc point") as String
 
@@ -74,7 +74,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
     .then(IntegerArgument("count")
       .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as Game
+        val game = commandArguments.get("game") as OnigoGame
         val count = commandArguments.get("count") as Int
 
         game.setOniCount(count)
@@ -88,7 +88,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
     .then(IntegerArgument("wait time")
       .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as Game
+        val game = commandArguments.get("game") as OnigoGame
         val waitTime = commandArguments.get("wait time") as Int
 
         game.setWaitTime(waitTime)
@@ -102,7 +102,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
     .then(IntegerArgument("game time")
       .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as Game
+        val game = commandArguments.get("game") as OnigoGame
         val waitTime = commandArguments.get("game time") as Int
 
         game.setGameTime(waitTime)
@@ -116,7 +116,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
     .then(LocationArgument("location", LocationType.BLOCK_POSITION)
       .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as Game
+        val game = commandArguments.get("game") as OnigoGame
         val location = commandArguments.get("location") as Location
 
         game.setEndLoc(player.world.name, location.blockX, location.blockY, location.blockZ)
@@ -130,7 +130,7 @@ class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
     .then(CustomArgs.choice("type", *GameType.entries.map { it.value }.toTypedArray())
       .withPermission(CommandPermission.OP)
       .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as Game
+        val game = commandArguments.get("game") as OnigoGame
         val gameType = commandArguments.get("type") as String
 
         game.gameType = gameType

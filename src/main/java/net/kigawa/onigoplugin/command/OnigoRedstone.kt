@@ -12,7 +12,7 @@ import net.kigawa.onigoplugin.util.command.CustomArgs
 import net.kigawa.onigoplugin.util.command.SubCommand
 import org.bukkit.entity.Player
 
-class OnigoRedstone : ArgumentBase("edit", CustomArgs.game("game")) {
+class OnigoRedstone : ArgumentBase("redstone", CustomArgs.game("game")) {
 
   @SubCommand
   fun startBlock(): Argument<*> = LiteralArgument("start-block")

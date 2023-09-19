@@ -2,14 +2,19 @@ package net.kigawa.onigoplugin.util.plugin.game.onigo
 
 import net.kigawa.kutil.kutil.list.contains
 import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.game.OnigoGame
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import java.io.File
 
-abstract class GameManager(@JvmField var plugin: OnigoPlugin, var name: String, @JvmField protected var recorder: Recorder) : Onigo {
-  var games: MutableList<Game> = ArrayList()
+abstract class GameManager(
+  var plugin: OnigoPlugin,
+  var name: String,
+  protected var recorder: Recorder,
+) : Onigo {
+  var games: MutableList<OnigoGame> = ArrayList()
     protected set
 
   init {
@@ -31,12 +36,12 @@ abstract class GameManager(@JvmField var plugin: OnigoPlugin, var name: String, 
     }
   }
 
-  fun getGame(gameName: String?): Game? {
+  fun getGame(gameName: String?): OnigoGame? {
     return games.firstOrNull { it.name == gameName }
   }
 
   abstract fun createGame(sender: CommandSender?, name: String?)
   fun containGame(name: String): Boolean {
-    return games.stream().filter { game: Game -> game.name == name }.toList().isNotEmpty()
+    return games.stream().filter { game: OnigoGame -> game.name == name }.toList().isNotEmpty()
   }
 }

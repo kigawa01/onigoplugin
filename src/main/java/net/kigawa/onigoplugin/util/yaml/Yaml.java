@@ -21,7 +21,7 @@ public class Yaml
 
   public void save(YamlData data, File file) {
     try {
-      if (!file.createNewFile()) {
+      if (!file.exists() && !file.createNewFile()) {
         throw new IOException("could not create file");
       }
 

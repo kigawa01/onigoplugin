@@ -11,7 +11,6 @@ import net.kigawa.kutil.unitapi.annotation.Kunit
 import net.kigawa.onigoplugin.util.command.CustomArgs
 import net.kigawa.onigoplugin.util.command.RootCommandBase
 import net.kigawa.onigoplugin.util.command.SubCommand
-import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
 import net.kigawa.onigoplugin.util.plugin.game.stage.StageData
 import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager
@@ -45,7 +44,7 @@ class Onigo(
     )
 
   @SubCommand
-  fun game(): Argument<String> = OnigoGame()
+  fun game(): Argument<String> = OnigoGameCmd()
     .withPermission(CommandPermission.OP)
 
   @SubCommand
@@ -65,7 +64,7 @@ class Onigo(
         .withPermission(CommandPermission.OP)
         .setOptional(true)
         .executesPlayer(PlayerCommandExecutor { player: Player, args: CommandArguments ->
-          val game = args.get("game") as Game
+          val game = args.get("game") as net.kigawa.onigoplugin.game.OnigoGame
           val stage = args.get("stage") as StageData?
           game.start(player, stage?.name)
         })
@@ -78,7 +77,7 @@ class Onigo(
     .then(CustomArgs.game("game")
       .withPermission(CommandPermission.OP)
       .executes(CommandExecutor { _: CommandSender, args: CommandArguments ->
-        val game = args.get("game") as Game
+        val game = args.get("game") as net.kigawa.onigoplugin.game.OnigoGame
         game.end()
       })
     )

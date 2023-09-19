@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 
 @Kunit
 class PlayerGetter(var plugin: OnigoPlugin) {
-  fun room(world: String, x: Int, y: Int, z: Int, x1: Int, y1: Int, z1: Int): List<Player> {
+  fun room(world: String, x: Int, y: Int, z: Int, x1: Int, y1: Int, z1: Int): MutableList<Player> {
     var sx: Int
     var bx: Int
     var sy: Int

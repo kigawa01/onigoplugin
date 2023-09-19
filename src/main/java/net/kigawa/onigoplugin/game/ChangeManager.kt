@@ -5,7 +5,6 @@ import net.kigawa.kutil.unitapi.annotation.Kunit
 import net.kigawa.onigoplugin.OnigoPlugin
 import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
-import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameData
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
 import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager
@@ -13,17 +12,17 @@ import org.bukkit.command.CommandSender
 
 @Kunit
 class ChangeManager(
-  OnigoPlugin: OnigoPlugin?,
+  onigoPlugin: OnigoPlugin?,
   recorder: Recorder,
   private val stageManager: StageManager,
   private val playerGetter: PlayerGetter
-) : GameManager(OnigoPlugin!!, "change", recorder) {
+) : GameManager(onigoPlugin!!, "change", recorder) {
   init {
     games = initializeGame(recorder.loadAll(GameData::class.java, name))
   }
 
-  fun initializeGame(data: List<GameData?>): MutableList<Game> {
-    val games: MutableList<Game> = ArrayList()
+  fun initializeGame(data: List<GameData?>): MutableList<OnigoGame> {
+    val games: MutableList<OnigoGame> = ArrayList()
 
     //take out data list
     for (gameData in data) {
