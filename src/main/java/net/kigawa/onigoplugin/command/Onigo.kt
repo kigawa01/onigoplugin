@@ -45,11 +45,15 @@ class Onigo(
     )
 
   @SubCommand
-  fun edit(): Argument<String> = OnigoEdit()
+  fun game(): Argument<String> = OnigoGame()
     .withPermission(CommandPermission.OP)
 
   @SubCommand
   fun stage(): Argument<String> = OnigoStage()
+    .withPermission(CommandPermission.OP)
+
+  @SubCommand
+  fun redstone(): Argument<String> = OnigoRedstone()
     .withPermission(CommandPermission.OP)
 
   @SubCommand

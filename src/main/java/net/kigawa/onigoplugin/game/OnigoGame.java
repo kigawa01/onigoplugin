@@ -75,7 +75,7 @@ public class OnigoGame extends Game
           getRunPlayer().remove(receiver);
           //send title
           receiver.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
-          attacker.sendTitle(ChatColor.GREEN + "逃走車を捕まえました", "", 5, 15, 5);
+          attacker.sendTitle(ChatColor.GREEN + "逃走者を捕まえました", "", 5, 15, 5);
           //send message
           Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
           getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
@@ -87,7 +87,7 @@ public class OnigoGame extends Game
           getRunPlayer().remove(receiver);
           //send title
           receiver.sendTitle(ChatColor.RED + "鬼につかまりました", "", 5, 15, 5);
-          attacker.sendTitle(ChatColor.GREEN + "逃走車を捕まえました", "", 5, 15, 5);
+          attacker.sendTitle(ChatColor.GREEN + "逃走者を捕まえました", "", 5, 15, 5);
           //send message
           Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者がつかまりました");
           getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());

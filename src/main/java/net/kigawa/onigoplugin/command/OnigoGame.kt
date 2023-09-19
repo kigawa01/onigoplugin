@@ -12,7 +12,7 @@ import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class OnigoEdit : ArgumentBase("edit", CustomArgs.game("game")) {
+class OnigoGame : ArgumentBase("game", CustomArgs.game("game")) {
 
   @SubCommand
   fun waitRoom(): Argument<*> = LiteralArgument("wait-room")
