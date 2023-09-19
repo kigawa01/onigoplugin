@@ -1,6 +1,9 @@
 package net.kigawa.onigoplugin.game;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.onigoplugin.player.OnigoPlayer;
 import net.kigawa.onigoplugin.role.OnigoRole;
 import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter;
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder;
@@ -15,13 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class OnigoGame extends Game<OnigoRole>
+public class OnigoGame extends Game<OnigoRole, OnigoGame>
 {
 
 
@@ -66,8 +70,8 @@ public class OnigoGame extends Game<OnigoRole>
           receiver.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
           receiver.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
           //send all player
-          Objects.requireNonNull(plugin.messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
-          plugin.messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+          Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
+          getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
         }
         //when increase
         case "increase" -> {
@@ -78,8 +82,8 @@ public class OnigoGame extends Game<OnigoRole>
           receiver.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
           attacker.sendTitle(ChatColor.GREEN + "逃走者を捕まえました", "", 5, 15, 5);
           //send message
-          Objects.requireNonNull(plugin.messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
-          plugin.messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+          Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
+          getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
         }
         //when ice
         case "ice" -> {
@@ -90,8 +94,8 @@ public class OnigoGame extends Game<OnigoRole>
           receiver.sendTitle(ChatColor.RED + "鬼につかまりました", "", 5, 15, 5);
           attacker.sendTitle(ChatColor.GREEN + "逃走者を捕まえました", "", 5, 15, 5);
           //send message
-          Objects.requireNonNull(plugin.messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者がつかまりました");
-          plugin.messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+          Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者がつかまりました");
+          getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
           //change walk speed
           receiver.setWalkSpeed(0F);
           receiver.setFlySpeed(0F);
@@ -110,8 +114,8 @@ public class OnigoGame extends Game<OnigoRole>
         receiver.sendTitle(ChatColor.GREEN + "救出されました", "", 5, 15, 5);
         attacker.sendTitle(ChatColor.GREEN + "救出しました", "", 5, 15, 5);
         //send message
-        Objects.requireNonNull(plugin.messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者が救出されました");
-        plugin.messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+        Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者が救出されました");
+        getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
         //change walk speed
         receiver.setWalkSpeed(0.2F);
         receiver.setFlySpeed(0.2F);
@@ -128,9 +132,9 @@ public class OnigoGame extends Game<OnigoRole>
     switch (getGameType()) {
       case "change":
         //send oni name
-        Objects.requireNonNull(plugin.messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "最後に鬼だったプレーヤー");
-        for (Player player : getOniPlayer()) {
-          plugin.messenger.sendMessage(getJoinPlayer(), ":" + ChatColor.BLUE + player.getName());
+        Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "最後に鬼だったプレーヤー");
+        for (var player : getOniPlayer()) {
+          getPlugin().messenger.sendMessage(getJoinPlayer(), ":" + ChatColor.BLUE + ((Player) player).getName());
         }
         //send title
         new BukkitRunnable()
@@ -138,11 +142,11 @@ public class OnigoGame extends Game<OnigoRole>
           @Override
           public void run() {
             //send lose
-            Objects.requireNonNull(plugin.messenger).sendTitle(players, ChatColor.RED + "敗北", "");
+            Objects.requireNonNull(getPlugin().messenger).sendTitle(players, ChatColor.RED + "敗北", "");
             //send win
-            plugin.messenger.sendTitle(players, ChatColor.RED + "勝利", "");
+            getPlugin().messenger.sendTitle(players, ChatColor.RED + "勝利", "");
           }
-        }.runTaskLater(plugin, 40);
+        }.runTaskLater(getPlugin(), 40);
         break;
       case "ice":
         for (Player player : caughtPlayer) {
@@ -154,11 +158,11 @@ public class OnigoGame extends Game<OnigoRole>
 
         //runner win
         if (!getRunPlayer().isEmpty()) {
-          Objects.requireNonNull(plugin.messenger).sendTitleLater(players, ChatColor.GREEN + "逃走者の勝利", 40L);
+          Objects.requireNonNull(getPlugin().messenger).sendTitleLater(players, ChatColor.GREEN + "逃走者の勝利", 40L);
         }
         //oni win
         if (getRunPlayer().isEmpty()) {
-          Objects.requireNonNull(plugin.messenger).sendTitleLater(players, ChatColor.RED + "鬼の勝利", 40L);
+          Objects.requireNonNull(getPlugin().messenger).sendTitleLater(players, ChatColor.RED + "鬼の勝利", 40L);
         }
         break;
       default:
@@ -168,8 +172,8 @@ public class OnigoGame extends Game<OnigoRole>
 
   @Override
   public void runnable() {
-    for (Player player : getOniPlayer()) {
-      player.getInventory().setHelmet(helmet);
+    for (var player : getOniPlayer()) {
+      ((Player) player).getInventory().setHelmet(helmet);
     }
     switch (getGameType()) {
       case "increase", "ice" -> {
@@ -183,5 +187,17 @@ public class OnigoGame extends Game<OnigoRole>
 
   @Override
   public void onStart() {
+  }
+
+  @NotNull
+  @Override
+  public Function1<OnigoPlayer<OnigoRole, OnigoGame>, Unit> getBecomeOni() {
+    return null;
+  }
+
+  @NotNull
+  @Override
+  public Function1<OnigoPlayer<OnigoRole, OnigoGame>, Unit> getBecomeRunner() {
+    return null;
   }
 }

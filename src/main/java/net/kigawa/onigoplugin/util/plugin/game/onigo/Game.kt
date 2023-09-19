@@ -1,6 +1,7 @@
 package net.kigawa.onigoplugin.util.plugin.game.onigo
 
 import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.player.OnigoPlayer
 import net.kigawa.onigoplugin.role.Role
 import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
@@ -21,23 +22,26 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 
-abstract class Game<ROLE_TYPE : Role?>(
-  @JvmField var plugin: OnigoPlugin, @JvmField var d: GameData, var manager: GameManager,
+abstract class Game<ROLE_TYPE : Role<ROLE_TYPE, GAME>, GAME : Game<ROLE_TYPE, GAME>>(
+  var plugin: OnigoPlugin,
+  var d: GameData,
+  private var manager: GameManager,
   protected var recorder: Recorder,
   stageManager: StageManager, private val playerGetter: PlayerGetter
 ) : Onigo {
   private val stageManager: StageManager
-  var game: Game<*> = this
   var joinPlayer: MutableList<Player> = mutableListOf()
-  public var oniPlayer: MutableList<Player> = mutableListOf()
+  var oniPlayer: MutableList<Player> = mutableListOf()
   var runPlayer: MutableList<Player> = mutableListOf()
   var stageData: StageData? = null
   var limiter: Limiter? = null
   var limiter1: Limiter? = null
   var counter: Counter? = null
   var gameCounter: Counter? = null
-  var runnable: BukkitTask? = null
+  private var runnable: BukkitTask? = null
   var runnable1: BukkitTask? = null
+  abstract val becomeOni: OnigoPlayer<ROLE_TYPE, GAME>.() -> Unit
+  abstract val becomeRunner: OnigoPlayer<ROLE_TYPE, GAME>.() -> Unit
 
   init {
     this.stageManager = Objects.requireNonNull(stageManager)
@@ -76,20 +80,20 @@ abstract class Game<ROLE_TYPE : Role?>(
       var randomNumber: Int
       plugin.logger("join player" + joinPlayer.size)
       if (joinPlayer.size > d.oniCount) {
-        while (d.oniCount != oniPlayer!!.size) {
-          if (d.oniCount > oniPlayer!!.size) {
-            randomNumber = random.nextInt(runPlayer!!.size)
-            oniPlayer!!.add(runPlayer!!.get(randomNumber))
-            runPlayer!!.removeAt(randomNumber)
+        while (d.oniCount != oniPlayer.size) {
+          if (d.oniCount > oniPlayer.size) {
+            randomNumber = random.nextInt(runPlayer.size)
+            oniPlayer.add(runPlayer[randomNumber])
+            runPlayer.removeAt(randomNumber)
           }
-          if (d.oniCount < oniPlayer!!.size) {
-            randomNumber = random.nextInt(oniPlayer!!.size)
-            runPlayer!!.add(oniPlayer!![randomNumber])
-            oniPlayer!!.removeAt(randomNumber)
+          if (d.oniCount < oniPlayer.size) {
+            randomNumber = random.nextInt(oniPlayer.size)
+            runPlayer.add(oniPlayer[randomNumber])
+            oniPlayer.removeAt(randomNumber)
           }
         }
         //clear inventory
-        for (player in joinPlayer!!) {
+        for (player in joinPlayer) {
           player.inventory.clear()
           //give food
           player.inventory.addItem(ItemStack(Material.BREAD, 64))
@@ -142,10 +146,10 @@ abstract class Game<ROLE_TYPE : Role?>(
               //cancel limiter
               limiter!!.cancel()
               //limiter
-              limiter1 = GameLimiter(plugin, stageData, game)
+              limiter1 = GameLimiter(plugin, stageData, this@Game)
               //counter
               counter!!.cancel()
-              gameCounter = GameCounter(bordName, name, game)
+              gameCounter = GameCounter(bordName, name, this@Game)
               //end
               runnable1 = object : BukkitRunnable() {
                 override fun run() {
@@ -168,7 +172,7 @@ abstract class Game<ROLE_TYPE : Role?>(
 
   fun end() {
     //clear inventory
-    for (player in joinPlayer!!) {
+    for (player in joinPlayer) {
       player.inventory.clear()
     }
     sendEndMessage()
