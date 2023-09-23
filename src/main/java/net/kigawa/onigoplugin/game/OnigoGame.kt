@@ -312,8 +312,6 @@ class OnigoGame(
 
   override fun end() {
     val joinPlayer = playerManager.getAll(this)
-    val oniPlayer = playerManager.getAll(this, role = OnigoRole.ONI)
-    val runPlayer = playerManager.getAll(this, role = OnigoRole.RUNNER)
 
     //clear inventory
     for (player in joinPlayer) {
