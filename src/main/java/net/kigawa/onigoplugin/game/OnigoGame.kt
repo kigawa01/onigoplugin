@@ -1,203 +1,358 @@
-package net.kigawa.onigoplugin.game;
+package net.kigawa.onigoplugin.game
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-import net.kigawa.onigoplugin.OnigoPlugin;
-import net.kigawa.onigoplugin.player.OnigoPlayer;
-import net.kigawa.onigoplugin.role.OnigoRole;
-import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter;
-import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder;
-import net.kigawa.onigoplugin.util.plugin.game.onigo.Game;
-import net.kigawa.onigoplugin.util.plugin.game.onigo.GameData;
-import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager;
-import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
+import net.kigawa.kutil.unitapi.component.container.UnitContainer
+import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.player.OnigoPlayer
+import net.kigawa.onigoplugin.role.OnigoRole
+import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter
+import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
+import net.kigawa.onigoplugin.util.plugin.all.timer.Counter
+import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
+import net.kigawa.onigoplugin.util.plugin.game.onigo.GameData
+import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
+import net.kigawa.onigoplugin.util.plugin.game.onigo.runnable.GameCounter
+import net.kigawa.onigoplugin.util.plugin.game.onigo.runnable.GameLimiter
+import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager
+import net.kigawa.onigoplugin.util.plugin.game.stage.runnable.Limiter
+import org.bukkit.ChatColor
+import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
+import org.bukkit.scheduler.BukkitRunnable
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+class OnigoGame(
+  onigoPlugin: OnigoPlugin?,
+  gameData: GameData?,
+  manager: GameManager?,
+  recorder: Recorder?,
+  stageManager: StageManager?,
+  playerGetter: PlayerGetter?,
+  container: UnitContainer?
+) : Game<OnigoRole, OnigoGame>(
+  onigoPlugin!!, gameData!!, manager!!, recorder!!, stageManager!!, playerGetter!!, container!!
+) {
+  private var helmet = ItemStack(Material.GOLDEN_HELMET)
+  private var caughtPlayer: MutableList<Player> = ArrayList()
+  override val becomeOni: (player: OnigoPlayer<OnigoRole, OnigoGame>) -> Unit
+    get() = {
+      TODO("Not yet implemented")
+    }
+  override val becomeRunner: (player: OnigoPlayer<OnigoRole, OnigoGame>) -> Unit
+    get() = {
+      TODO("Not yet implemented")
+    }
+  override val bordName: String
+    get() = "鬼ごっこ"
 
-public class OnigoGame extends Game<OnigoRole, OnigoGame>
-{
-
-
-  ItemStack helmet = new ItemStack(Material.GOLDEN_HELMET);
-  List<Player> caughtPlayer = new ArrayList<>();
-
-  public OnigoGame(
-      OnigoPlugin onigoPlugin,
-      GameData gameData,
-      GameManager manager,
-      Recorder recorder,
-      StageManager stageManager,
-      PlayerGetter playerGetter
-  ) {
-    super(onigoPlugin, gameData, manager, recorder, stageManager, playerGetter);
-  }
-
-  @Override
-  public String getBordName() {
-    return "鬼ごっこ";
-  }
-
-  @Override
-  public boolean changeOni(Player attacker, Player receiver) {
-    if (getOniPlayer().contains(attacker) && getRunPlayer().contains(receiver)) {
+  override fun changeOni(oniPlayer: Player, runnerPlayer: Player): Boolean {
+    val oni = playerManager.get(this, oniPlayer.uniqueId) ?: return false
+    val runner = playerManager.get(this, runnerPlayer.uniqueId) ?: return false
+    val joinPlayer = playerManager.getAll(this)
+    if (oni.role == OnigoRole.ONI && runner.role == OnigoRole.RUNNER) {
 
       //check game type
-      switch (getGameType()) {
-        //when change
-        case "change" -> {
+      when (gameType) {
+        "change" -> {
           //change runner list
-          getOniPlayer().add(receiver);
-          getRunPlayer().remove(receiver);
+          runner.role = OnigoRole.ONI
           //change oni list
-          getRunPlayer().add(attacker);
-          getOniPlayer().remove(attacker);
+          oni.role = OnigoRole.RUNNER
           //oni to runner
-          attacker.sendTitle(ChatColor.GREEN + "鬼を交代しました", "", 5, 15, 5);
-          attacker.getInventory().setHelmet(null);
+          oni.sendTitle(ChatColor.GREEN.toString() + "鬼を交代しました", "", 5, 15, 5)
+          oni.useInventory {
+            helmet = null
+          }
           //runner to oni
-          receiver.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
-          receiver.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 1));
-          receiver.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
+          runnerPlayer.sendTitle(ChatColor.RED.toString() + "鬼になりました", "", 5, 15, 5)
+          runnerPlayer.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 100, 1))
+          runnerPlayer.addPotionEffect(PotionEffect(PotionEffectType.SLOW, 100, 1))
           //send all player
-          Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が変わりました");
-          getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+          plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(
+            joinPlayer, ChatColor.GREEN.toString() + "鬼が変わりました"
+          )
+          plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(
+            joinPlayer,
+            ChatColor.BLUE.toString() + oniPlayer.name + ChatColor.WHITE + "→" + ChatColor.BLUE + runnerPlayer.name
+          )
         }
-        //when increase
-        case "increase" -> {
+
+        "increase" -> {
           //changed runner list
-          getOniPlayer().add(receiver);
-          getRunPlayer().remove(receiver);
+          runner.role = OnigoRole.ONI
           //send title
-          receiver.sendTitle(ChatColor.RED + "鬼になりました", "", 5, 15, 5);
-          attacker.sendTitle(ChatColor.GREEN + "逃走者を捕まえました", "", 5, 15, 5);
+          runnerPlayer.sendTitle(ChatColor.RED.toString() + "鬼になりました", "", 5, 15, 5)
+          oniPlayer.sendTitle(ChatColor.GREEN.toString() + "逃走者を捕まえました", "", 5, 15, 5)
           //send message
-          Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "鬼が増えました");
-          getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
+          Objects.requireNonNull(plugin.messenger)!!.sendMessage<OnigoRole, OnigoGame>(
+            joinPlayer, ChatColor.GREEN.toString() + "鬼が増えました"
+          )
+          plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(
+            joinPlayer,
+            ChatColor.BLUE.toString() + oniPlayer.name + ChatColor.WHITE + "→" + ChatColor.BLUE + runnerPlayer.name
+          )
         }
-        //when ice
-        case "ice" -> {
-          //change runner list
-          caughtPlayer.add(receiver);
-          getRunPlayer().remove(receiver);
-          //send title
-          receiver.sendTitle(ChatColor.RED + "鬼につかまりました", "", 5, 15, 5);
-          attacker.sendTitle(ChatColor.GREEN + "逃走者を捕まえました", "", 5, 15, 5);
-          //send message
-          Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者がつかまりました");
-          getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
-          //change walk speed
-          receiver.setWalkSpeed(0F);
-          receiver.setFlySpeed(0F);
-        }
+
       }
       //return
-      return true;
-
+      return true
     }
-    //release caught player
-    if (getRunPlayer().contains(attacker) && caughtPlayer.contains(receiver)) {
-      if (getGameType().equals("ice")) {//change caught player
-        getRunPlayer().add(receiver);
-        caughtPlayer.remove(receiver);
-        //send title
-        receiver.sendTitle(ChatColor.GREEN + "救出されました", "", 5, 15, 5);
-        attacker.sendTitle(ChatColor.GREEN + "救出しました", "", 5, 15, 5);
-        //send message
-        Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "逃走者が救出されました");
-        getPlugin().messenger.sendMessage(getJoinPlayer(), ChatColor.BLUE + attacker.getName() + ChatColor.WHITE + "→" + ChatColor.BLUE + receiver.getName());
-        //change walk speed
-        receiver.setWalkSpeed(0.2F);
-        receiver.setFlySpeed(0.2F);
-      }
-    }
-    return false;
+    return false
   }
 
-  @Override
-  public void sendEndMessage() {
+  override fun sendEndMessage() {
+    val joinPlayer = playerManager.getAll(this)
+    val oniPlayer = playerManager.getAll(this, role = OnigoRole.ONI)
+    val runPlayer = playerManager.getAll(this, role = OnigoRole.RUNNER)
+
     //new list
-    List<Player> players = new LinkedList<>(getJoinPlayer());
-    //check game type
-    switch (getGameType()) {
-      case "change":
+    val players: List<OnigoPlayer<OnigoRole, OnigoGame>> = LinkedList<OnigoPlayer<OnigoRole, OnigoGame>>(joinPlayer)
+    when (gameType) {
+      "change" -> {
         //send oni name
-        Objects.requireNonNull(getPlugin().messenger).sendMessage(getJoinPlayer(), ChatColor.GREEN + "最後に鬼だったプレーヤー");
-        for (var player : getOniPlayer()) {
-          getPlugin().messenger.sendMessage(getJoinPlayer(), ":" + ChatColor.BLUE + ((Player) player).getName());
+        plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(
+          joinPlayer, ChatColor.GREEN.toString() + "最後に鬼だったプレーヤー"
+        )
+        for (player in oniPlayer) {
+          plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(joinPlayer, ":" + ChatColor.BLUE + player.name)
         }
         //send title
-        new BukkitRunnable()
-        {
-          @Override
-          public void run() {
+        object : BukkitRunnable() {
+          override fun run() {
             //send lose
-            Objects.requireNonNull(getPlugin().messenger).sendTitle(players, ChatColor.RED + "敗北", "");
+            plugin.messenger!!.sendTitle<OnigoRole, OnigoGame>(
+              players, ChatColor.RED.toString() + "敗北", ""
+            )
             //send win
-            getPlugin().messenger.sendTitle(players, ChatColor.RED + "勝利", "");
+            plugin.messenger!!.sendTitle<OnigoRole, OnigoGame>(players, ChatColor.RED.toString() + "勝利", "")
           }
-        }.runTaskLater(getPlugin(), 40);
-        break;
-      case "ice":
-        for (Player player : caughtPlayer) {
-          player.setWalkSpeed(0.2F);
-          player.setFlySpeed(0.2F);
+        }.runTaskLater(plugin, 40)
+      }
+
+      "ice" -> {
+        for (player in caughtPlayer) {
+          player.walkSpeed = 0.2f
+          player.flySpeed = 0.2f
         }
-      case "increase":
 
 
         //runner win
-        if (!getRunPlayer().isEmpty()) {
-          Objects.requireNonNull(getPlugin().messenger).sendTitleLater(players, ChatColor.GREEN + "逃走者の勝利", 40L);
+        if (!runPlayer.isEmpty()) {
+          plugin.messenger!!.sendTitleLater<OnigoRole, OnigoGame>(
+            players, ChatColor.GREEN.toString() + "逃走者の勝利", 40L
+          )
         }
         //oni win
-        if (getRunPlayer().isEmpty()) {
-          Objects.requireNonNull(getPlugin().messenger).sendTitleLater(players, ChatColor.RED + "鬼の勝利", 40L);
+        if (runPlayer.isEmpty()) {
+          plugin.messenger!!.sendTitleLater<OnigoRole, OnigoGame>(
+            players, ChatColor.RED.toString() + "鬼の勝利", 40L
+          )
         }
-        break;
-      default:
-        throw new IllegalStateException("Unexpected value: " + getGameType());
+      }
+
+      "increase" -> {
+        if (runPlayer.isNotEmpty()) {
+          plugin.messenger!!.sendTitleLater<OnigoRole, OnigoGame>(
+            players, ChatColor.GREEN.toString() + "逃走者の勝利", 40L
+          )
+        }
+        if (runPlayer.isEmpty()) {
+          plugin.messenger!!.sendTitleLater<OnigoRole, OnigoGame>(
+            players, ChatColor.RED.toString() + "鬼の勝利", 40L
+          )
+        }
+      }
+
+      else -> throw IllegalStateException("Unexpected value: $gameType")
     }
   }
 
-  @Override
-  public void runnable() {
-    for (var player : getOniPlayer()) {
-      ((Player) player).getInventory().setHelmet(helmet);
+  override fun runnable() {
+    val oniPlayer = playerManager.getAll(this, role = OnigoRole.ONI)
+    val runPlayer = playerManager.getAll(this, role = OnigoRole.RUNNER)
+
+    for (player in oniPlayer) {
+      player.useInventory {
+        helmet = this@OnigoGame.helmet
+      }
     }
-    switch (getGameType()) {
-      case "increase", "ice" -> {
+    when (gameType) {
+      "increase", "ice" -> {
         //check runner
-        if (getRunPlayer().isEmpty()) {
-          end();
+        if (runPlayer.isEmpty()) {
+          end()
         }
       }
     }
   }
 
-  @Override
-  public void onStart() {
+  override fun onStart() {}
+  override fun start(sender: CommandSender, stage: String?) {
+
+    if (d.waitRoomWorld != null) {
+      //sort player
+      playerGetter.room(
+        d.waitRoomWorld!!, d.waitRoom[0], d.waitRoom[1], d.waitRoom[2],
+        d.waitRoom[3], d.waitRoom[4], d.waitRoom[5]
+      ).map(Player::getUniqueId)
+        .let { playerManager.registerAll(it, this, OnigoRole.RUNNER) }
+      playerGetter.room(
+        d.oniWaitWorld!!,
+        d.oniWait[0],
+        d.oniWait[1],
+        d.oniWait[2],
+        d.oniWait[3],
+        d.oniWait[4],
+        d.oniWait[5]
+      ).map(Player::getUniqueId)
+        .let { playerManager.registerAll(it, this, OnigoRole.ONI) }
+
+      val random = Random()
+      var randomNumber: Int
+      plugin.logger("join player" + playerManager.getAll(this).size)
+      if (playerManager.getAll(this).size > d.oniCount) {
+        while (d.oniCount != playerManager.getAll(this, role = OnigoRole.ONI).size) {
+          if (d.oniCount > playerManager.getAll(this, role = OnigoRole.ONI).size) {
+            randomNumber = random.nextInt(playerManager.getAll(this, role = OnigoRole.RUNNER).size)
+            playerManager.getAll(this, role = OnigoRole.RUNNER)[randomNumber].role = OnigoRole.ONI
+          }
+          if (d.oniCount < playerManager.getAll(this, role = OnigoRole.ONI).size) {
+            randomNumber = random.nextInt(playerManager.getAll(this, role = OnigoRole.ONI).size)
+            playerManager.getAll(this, role = OnigoRole.ONI)[randomNumber].role = OnigoRole.RUNNER
+          }
+        }
+        val joinPlayer = playerManager.getAll(this)
+        val oniPlayer = playerManager.getAll(this, role = OnigoRole.ONI)
+        val runPlayer = playerManager.getAll(this, role = OnigoRole.RUNNER)
+
+        //clear inventory
+        for (player in joinPlayer) {
+          player.useInventory {
+            clear()
+            addItem(ItemStack(Material.BREAD, 64))
+          }
+        }
+        //get stage
+        stageData = stageManager.getStage(stage)
+        if (stageData != null) {
+          for (player in runPlayer) {
+            //teleport runner
+            player.teleport(
+              Location(
+                plugin.server.getWorld(stageData!!.stageWorld!!),
+                stageData!!.startLoc[0] + 0.5,
+                stageData!!.startLoc[1] + 0.5,
+                stageData!!.startLoc[2] + 0.5
+              )
+            )
+          }
+          //limiter
+          limiter = Limiter(plugin, runPlayer, stageData)
+          //counter
+          counter = Counter(bordName, "onigo", plugin)
+          counter!!.startSec(
+            0L,
+            d.waitTime,
+            3,
+            joinPlayer,
+            ChatColor.GREEN.toString() + "START",
+            ChatColor.GREEN
+          )
+          //count wait time
+          runnable = object : BukkitRunnable() {
+            override fun run() {
+              //send message
+              plugin.messenger!!.sendMessage(joinPlayer, ChatColor.GREEN.toString() + "最初に鬼のプレーヤー")
+              //teleport oni
+              for (player in oniPlayer) {
+                player.teleport(
+                  Location(
+                    plugin.server.getWorld(stageData!!.stageWorld!!),
+                    stageData!!.startLoc[0] + 0.5,
+                    stageData!!.startLoc[1] + 0.5,
+                    stageData!!.startLoc[2] + 0.5
+                  )
+                )
+                plugin.messenger!!.sendMessage(joinPlayer, ChatColor.BLUE.toString() + player.name)
+                //wear gold helmet
+                player.useInventory {
+                  helmet = ItemStack(Material.GOLDEN_HELMET)
+                }
+              }
+              //cancel limiter
+              limiter!!.cancel()
+              //limiter
+              limiter1 = GameLimiter(plugin, stageData, this@OnigoGame, playerManager)
+              //counter
+              counter!!.cancel()
+              gameCounter = GameCounter(bordName, name, this@OnigoGame, playerManager)
+              //end
+              runnable1 = object : BukkitRunnable() {
+                override fun run() {
+                  end()
+                }
+              }.runTaskLater(plugin, d.gameTime.toLong() * 20 * 60)
+            }
+          }.runTaskLater(plugin, d.waitTime * 20L)
+          onStart()
+        } else {
+          sender.sendMessage("stage is not exit")
+        }
+      } else {
+        sender.sendMessage("player is not enough")
+      }
+    } else {
+      sender.sendMessage("need waiting room")
+    }
   }
 
-  @NotNull
-  @Override
-  public Function1<OnigoPlayer<OnigoRole, OnigoGame>, Unit> getBecomeOni() {
-    return null;
+  override fun end() {
+    val joinPlayer = playerManager.getAll(this)
+    val oniPlayer = playerManager.getAll(this, role = OnigoRole.ONI)
+    val runPlayer = playerManager.getAll(this, role = OnigoRole.RUNNER)
+
+    //clear inventory
+    for (player in joinPlayer) {
+      player.useInventory {
+        clear()
+      }
+    }
+    sendEndMessage()
+    //teleport players
+    joinPlayer.forEach {
+      it.teleport(
+        Location(
+          plugin.server.getWorld(d.endWorld!!),
+          d.endLoc[0] + 0.5,
+          d.endLoc[1] + 0.5,
+          d.endLoc[2] + 0.5
+        )
+      )
+    }
+    //return stage
+    stageData?.let { stageManager.returnStage(it) }
+    //cancel counter
+    counter!!.end()
+    gameCounter!!.end()
+    //cancel limiter
+    limiter!!.cancel()
+    limiter1!!.cancel()
+    //cancel runnable
+    runnable!!.cancel()
+    runnable1!!.cancel()
+    //remove in list
+    playerManager.removeAll(this)
+    stageData = null
+    limiter = null
+    limiter1 = null
+    counter = null
+    gameCounter = null
+    runnable = null
+    runnable1 = null
   }
 
-  @NotNull
-  @Override
-  public Function1<OnigoPlayer<OnigoRole, OnigoGame>, Unit> getBecomeRunner() {
-    return null;
-  }
 }

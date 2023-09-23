@@ -1,13 +1,15 @@
 package net.kigawa.onigoplugin.role
 
 import net.kigawa.onigoplugin.game.OnigoGame
-import net.kigawa.onigoplugin.player.OnigoPlayer
+import net.kigawa.onigoplugin.player.OnigoPlayerImpl
 
 enum class OnigoRole(val label: String) : Role<OnigoRole, OnigoGame> {
   RUNNER("逃走者") {
-    override fun OnigoPlayer<OnigoRole, OnigoGame>.become(game: OnigoGame): Unit = game.becomeRunner(this)
+    override fun become(player: OnigoPlayerImpl<OnigoRole, OnigoGame>, game: OnigoGame): Unit =
+      game.becomeRunner(player)
   },
   ONI("鬼") {
-    override fun OnigoPlayer<OnigoRole, OnigoGame>.become(game: OnigoGame): Unit = game.becomeOni(this)
+    override fun become(player: OnigoPlayerImpl<OnigoRole, OnigoGame>, game: OnigoGame): Unit =
+      game.becomeOni(player)
   },
 }

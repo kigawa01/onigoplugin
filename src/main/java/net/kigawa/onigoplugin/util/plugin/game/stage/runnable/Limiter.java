@@ -1,9 +1,11 @@
 package net.kigawa.onigoplugin.util.plugin.game.stage.runnable;
 
 import net.kigawa.onigoplugin.OnigoPlugin;
+import net.kigawa.onigoplugin.game.OnigoGame;
+import net.kigawa.onigoplugin.player.OnigoPlayer;
+import net.kigawa.onigoplugin.role.OnigoRole;
 import net.kigawa.onigoplugin.util.plugin.game.stage.StageData;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -11,10 +13,10 @@ import java.util.List;
 public class Limiter extends BukkitRunnable
 {
   OnigoPlugin plugin;
-  List<Player> players;
+  List<OnigoPlayer<OnigoRole, OnigoGame>> players;
   int[] stageLoc = new int[6];
 
-  public Limiter(OnigoPlugin OnigoPlugin, List<Player> players, StageData stageData) {
+  public Limiter(OnigoPlugin OnigoPlugin, List<OnigoPlayer<OnigoRole, OnigoGame>> players, StageData stageData) {
     plugin = OnigoPlugin;
     this.players = players;
     int[] s = stageData.getStageLoc();
@@ -54,7 +56,9 @@ public class Limiter extends BukkitRunnable
   @Override
   public void run() {
     onRun();
-    for (Player player : players) {
+    for (OnigoPlayer onigoPlayer : players) {
+      var player = onigoPlayer.getPlayer();
+      if (player == null) return;
       Location loc = player.getLocation();
       double[] l = new double[3];
       l[0] = loc.getX();

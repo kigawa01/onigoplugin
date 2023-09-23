@@ -1,37 +1,47 @@
-package net.kigawa.onigoplugin.util.plugin.all.message;
+package net.kigawa.onigoplugin.util.plugin.all.message
 
-import net.kigawa.onigoplugin.OnigoPlugin;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.player.OnigoPlayer
+import net.kigawa.onigoplugin.role.Role
+import net.kigawa.onigoplugin.util.plugin.game.onigo.Game
+import org.bukkit.scheduler.BukkitRunnable
 
-import java.util.List;
+class Messenger(var plugin: OnigoPlugin) {
+  fun <
+      ROLE : Role<ROLE, GAME>,
+      GAME : Game<ROLE, GAME>
+      > sendTitle(players: List<OnigoPlayer<ROLE, GAME>>, title: String?, subTitle: String?) {
+    for (player in players) {
+      player.sendTitle(title!!, subTitle!!, 10, 20, 10)
+    }
+  }
 
-public class Messenger {
-    OnigoPlugin plugin;
-    public Messenger(OnigoPlugin plugin){
-        this.plugin=plugin;
+  fun <
+      ROLE : Role<ROLE, GAME>,
+      GAME : Game<ROLE, GAME>
+      > sendTitle(players: List<OnigoPlayer<ROLE, GAME>>, title: String?) {
+    for (player in players) {
+      player.sendTitle(title!!, "", 10, 20, 10)
     }
-    public void sendTitle(List<Player> players,String title,String subTitle){
-        for (Player player:players){
-            player.sendTitle(title,subTitle,10,20,10);
-        }
+  }
+
+  fun <
+      ROLE : Role<ROLE, GAME>,
+      GAME : Game<ROLE, GAME>
+      > sendMessage(players: List<OnigoPlayer<ROLE, GAME>>, message: String?) {
+    for (player in players) {
+      player.sendMessage(message!!)
     }
-    public void sendTitle(List<Player> players,String title){
-        for (Player player:players){
-            player.sendTitle(title,"",10,20,10);
-        }
-    }
-    public void sendMessage(List<Player> players,String message){
-        for (Player player: players){
-            player.sendMessage(message);
-        }
-    }
-    public  void sendTitleLater(List<Player> players,String title,Long delay){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                sendTitle(players,title);
-            }
-        }.runTaskLater(plugin,delay);
-    }
+  }
+
+  fun <
+      ROLE : Role<ROLE, GAME>,
+      GAME : Game<ROLE, GAME>
+      > sendTitleLater(players: List<OnigoPlayer<ROLE, GAME>>, title: String?, delay: Long?) {
+    object : BukkitRunnable() {
+      override fun run() {
+        sendTitle(players, title)
+      }
+    }.runTaskLater(plugin, delay!!)
+  }
 }

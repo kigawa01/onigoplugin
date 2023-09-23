@@ -10,6 +10,7 @@ import net.kigawa.kutil.unitapi.registrar.ClassRegistrar
 import net.kigawa.kutil.unitapi.registrar.InstanceRegistrar
 import net.kigawa.kutil.unitapi.registrar.ResourceRegistrar
 import net.kigawa.onigoplugin.game.ChangeManager
+import net.kigawa.onigoplugin.player.OnigoPlayerManager
 import net.kigawa.onigoplugin.util.config.ConfigInitializedFilter
 import net.kigawa.onigoplugin.util.config.ConfigManager
 import net.kigawa.onigoplugin.util.config.ConfigUtil
@@ -17,7 +18,6 @@ import net.kigawa.onigoplugin.util.message.Logger
 import net.kigawa.onigoplugin.util.plugin.all.message.Messenger
 import net.kigawa.onigoplugin.util.plugin.all.player.Teleporter
 import net.kigawa.onigoplugin.util.plugin.game.onigo.GameManager
-import net.kigawa.onigoplugin.util.plugin.game.onigo.evnt.OnigoListener
 import net.kigawa.onigoplugin.util.unit.BukkitFinder
 import net.kigawa.onigoplugin.util.unit.CommandFilter
 import net.kigawa.onigoplugin.util.unit.ListenerFilter
@@ -44,7 +44,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
     val changeGame = container.getUnit(ChangeManager::class.java)
     //initialize
     addGameManager(changeGame)
-    OnigoListener(this)
   }
 
   fun getGameManagers(): List<GameManager> {
@@ -65,6 +64,7 @@ class OnigoPlugin : JavaPlugin(), Logger {
     container.getUnit(ClassRegistrar::class.java).apply {
       register(ConfigUtil::class.java)
       register(ConfigManager::class.java)
+      register(OnigoPlayerManager::class.java)
     }
     container.getUnit(UnitFinderComponent::class.java).add(BukkitFinder::class.java)
     container.getUnit(UnitLoggerComponent::class.java).add(OyuBingoUnitLogger::class.java)

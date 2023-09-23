@@ -1,28 +1,28 @@
-package net.kigawa.onigoplugin.util.plugin.game.onigo.runnable;
+package net.kigawa.onigoplugin.util.plugin.game.onigo.runnable
 
-import net.kigawa.onigoplugin.util.plugin.all.timer.Counter;
-import net.kigawa.onigoplugin.util.plugin.game.onigo.Game;
-import org.bukkit.ChatColor;
+import net.kigawa.onigoplugin.game.OnigoGame
+import net.kigawa.onigoplugin.player.OnigoPlayerManager
+import net.kigawa.onigoplugin.util.plugin.all.timer.Counter
+import org.bukkit.ChatColor
 
-import java.util.Objects;
-
-public class GameCounter extends Counter
-{
-  Game game;
-
-  public GameCounter(String bordName, String bordID, Game onigo) {
-    super(bordName, bordID, onigo.getPlugin());
+class GameCounter(
+  bordName: String?, bordID: String?, private val game: OnigoGame, private val playerManager: OnigoPlayerManager
+) : Counter(bordName, bordID, game.plugin) {
+  init {
     //replace variable
-    this.game = onigo;
 
     //start count
-    startMin(0L, onigo.getD().getGameTime(), 3, onigo.getJoinPlayer(), ChatColor.RED + "END", ChatColor.GREEN);
+    startMin(
+      0L, game.d.gameTime, 3, playerManager.getAll(game, null, null), ChatColor.RED.toString() + "END", ChatColor.GREEN
+    )
   }
 
-  @Override
-  public void sendLastMessage() {
+  override fun sendLastMessage() {
     //send end
-    Objects.requireNonNull(game.getPlugin().messenger)
-        .sendTitle(game.getJoinPlayer(), ChatColor.RED + "END", "");
+    game.plugin.messenger!!.sendTitle(
+      playerManager.getAll(game, null, null),
+      ChatColor.RED.toString() + "END",
+      ""
+    )
   }
 }

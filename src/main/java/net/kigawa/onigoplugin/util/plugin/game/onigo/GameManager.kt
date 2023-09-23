@@ -5,7 +5,6 @@ import net.kigawa.onigoplugin.OnigoPlugin
 import net.kigawa.onigoplugin.game.OnigoGame
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import java.io.File
 
@@ -20,10 +19,6 @@ abstract class GameManager(
   init {
     val folder = File(plugin.dataFolder, name)
     folder.mkdir()
-  }
-
-  override fun contain(player: HumanEntity): Boolean {
-    return games.contains { it.contain(player) }
   }
 
   override fun changeOni(oni: Player, runner: Player): Boolean {

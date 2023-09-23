@@ -2,6 +2,7 @@ package net.kigawa.onigoplugin.game
 
 import net.kigawa.kutil.kutil.list.contains
 import net.kigawa.kutil.unitapi.annotation.Kunit
+import net.kigawa.kutil.unitapi.component.container.UnitContainer
 import net.kigawa.onigoplugin.OnigoPlugin
 import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter
 import net.kigawa.onigoplugin.util.plugin.all.recorder.Recorder
@@ -15,7 +16,8 @@ class ChangeManager(
   onigoPlugin: OnigoPlugin?,
   recorder: Recorder,
   private val stageManager: StageManager,
-  private val playerGetter: PlayerGetter
+  private val playerGetter: PlayerGetter,
+  private val container: UnitContainer,
 ) : GameManager(onigoPlugin!!, "change", recorder) {
   init {
     games = initializeGame(recorder.loadAll(GameData::class.java, name))
@@ -26,7 +28,7 @@ class ChangeManager(
 
     //take out data list
     for (gameData in data) {
-      games.add(OnigoGame(plugin, gameData, this, recorder, stageManager, playerGetter))
+      games.add(OnigoGame(plugin, gameData, this, recorder, stageManager, playerGetter, container))
     }
     return games
   }
@@ -34,7 +36,7 @@ class ChangeManager(
   override fun createGame(sender: CommandSender?, name: String?) {
     if (!games.contains { it.name == name }) {
       val data = OnigoData(name!!)
-      games.add(OnigoGame(plugin, data, this, recorder, stageManager, playerGetter))
+      games.add(OnigoGame(plugin, data, this, recorder, stageManager, playerGetter, container))
       recorder.save(data, name)
     } else {
       sender!!.sendMessage("this name can't use")
