@@ -10,23 +10,26 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.DisplaySlot
 import org.bukkit.scoreboard.Objective
 import org.bukkit.scoreboard.Score
-import org.bukkit.scoreboard.Scoreboard
 
-open class Counter(bordName: String?, bordID: String?, var plugin: OnigoPlugin) : BukkitRunnable() {
-  var count = 0
-  var bord: Scoreboard
-  var objective: Objective
-  var score: Score? = null
-  var titleCount = 0
-  var players: List<OnigoPlayer<OnigoRole, OnigoGame>>? = null
-  var lastMessage: String? = null
-  var countdownColor: ChatColor? = null
+open class Counter(
+  bordName: String?,
+  bordID: String?,
+  var plugin: OnigoPlugin,
+  private val game: OnigoGame
+) : BukkitRunnable() {
+  private var count: Int = 0
+  private var objective: Objective
+  private var score: Score? = null
+  private var titleCount = 0
+  private var players: List<OnigoPlayer<OnigoRole, OnigoGame>>? = null
+  private var lastMessage: String? = null
+  private var countdownColor: ChatColor? = null
   var unit: String? = null
-  var oneMinCounter: Counter? = null
+  private var oneMinCounter: Counter? = null
 
   init {
-    bord = Bukkit.getScoreboardManager()!!.newScoreboard
-    objective = bord.registerNewObjective(bordID!!, "dummy", bordName!!)
+    objective = bordID?.let { game.bord.getObjective(it) }
+      ?: game.bord.registerNewObjective(bordID!!, "dummy", bordName!!)
   }
 
   fun startSec(
@@ -41,7 +44,7 @@ open class Counter(bordName: String?, bordID: String?, var plugin: OnigoPlugin) 
     this.lastMessage = lastMessage
     this.countdownColor = countdownColor
     for (player in players!!) {
-      player.setScoreboard(bord)
+      player.setScoreboard(game.bord)
     }
     unit = "sec"
     runTaskTimer(plugin, delay!!, 20)
@@ -59,7 +62,7 @@ open class Counter(bordName: String?, bordID: String?, var plugin: OnigoPlugin) 
     this.lastMessage = lastMessage
     this.countdownColor = countdownColor
     for (player in players) {
-      player.setScoreboard(bord)
+      player.setScoreboard(game.bord)
     }
     unit = "min"
     runTaskTimer(plugin, delay!!, (20 * 60).toLong())
@@ -68,7 +71,7 @@ open class Counter(bordName: String?, bordID: String?, var plugin: OnigoPlugin) 
   fun onRun() {}
   fun end() {
     //reset
-    bord.resetScores("時間(分)")
+    game.bord.resetScores("時間(分)")
     if (oneMinCounter != null) oneMinCounter!!.end()
     for (player in players!!) {
       player.setScoreboard(Bukkit.getScoreboardManager()!!.mainScoreboard)
@@ -88,16 +91,16 @@ open class Counter(bordName: String?, bordID: String?, var plugin: OnigoPlugin) 
       //send message
       if (count == 0) {
         sendLastMessage()
-        bord.resetScores("時間(秒)")
+        game.bord.resetScores("時間(秒)")
         end()
       }
     } else {
       if (unit == "min") {
         if (count == 1) {
           plugin.messenger!!.sendTitle(players!!, countdownColor.toString() + count.toString() + "分", "")
-          bord.resetScores("時間(分)")
+          game.bord.resetScores("時間(分)")
           //reset
-          bord.resetScores("時間(分)")
+          game.bord.resetScores("時間(分)")
           if (oneMinCounter != null) oneMinCounter!!.end()
           for (player in players!!) {
             player.usePlayer {
@@ -105,7 +108,7 @@ open class Counter(bordName: String?, bordID: String?, var plugin: OnigoPlugin) 
             }
           }
           //create new counter
-          oneMinCounter = Counter(objective.displayName, objective.name, plugin)
+          oneMinCounter = Counter(objective.displayName, objective.name, plugin, game)
           oneMinCounter!!.startSec(0L, 60, titleCount, players, lastMessage, countdownColor)
           cancel()
         }

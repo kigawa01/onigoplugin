@@ -14,38 +14,55 @@ import net.kigawa.onigoplugin.util.plugin.game.onigo.runnable.GameCounter
 import net.kigawa.onigoplugin.util.plugin.game.onigo.runnable.GameLimiter
 import net.kigawa.onigoplugin.util.plugin.game.stage.StageManager
 import net.kigawa.onigoplugin.util.plugin.game.stage.runnable.Limiter
-import org.bukkit.ChatColor
-import org.bukkit.Location
-import org.bukkit.Material
+import org.bukkit.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.scoreboard.Scoreboard
+import org.bukkit.scoreboard.Team
+import org.bukkit.scoreboard.Team.Option
 import java.util.*
 
 class OnigoGame(
-  onigoPlugin: OnigoPlugin?,
-  gameData: GameData?,
-  manager: GameManager?,
-  recorder: Recorder?,
-  stageManager: StageManager?,
-  playerGetter: PlayerGetter?,
-  container: UnitContainer?
+  onigoPlugin: OnigoPlugin?, gameData: GameData?, manager: GameManager?, recorder: Recorder?,
+  stageManager: StageManager?, playerGetter: PlayerGetter?, container: UnitContainer?
 ) : Game<OnigoRole, OnigoGame>(
   onigoPlugin!!, gameData!!, manager!!, recorder!!, stageManager!!, playerGetter!!, container!!
 ) {
   private var helmet = ItemStack(Material.GOLDEN_HELMET)
-  private var caughtPlayer: MutableList<Player> = ArrayList()
+  val bord: Scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
+  private val oniTeam = bord.registerNewTeam("oni")
+  private val runnerTeam = bord.registerNewTeam("runner")
   override val becomeOni: (player: OnigoPlayer<OnigoRole, OnigoGame>) -> Unit
     get() = {
+      it.usePlayer {
+        oniTeam.addEntry(name)
+      }
     }
   override val becomeRunner: (player: OnigoPlayer<OnigoRole, OnigoGame>) -> Unit
     get() = {
+      it.usePlayer {
+        runnerTeam.addEntry(name)
+      }
     }
   override val bordName: String
     get() = "鬼ごっこ"
+
+  init {
+    oniTeam.displayName = "鬼"
+    runnerTeam.displayName = "逃走者"
+    oniTeam.prefix = "[鬼] "
+    runnerTeam.prefix = "[逃走者] "
+    oniTeam.color = ChatColor.RED
+    runnerTeam.color = ChatColor.BLUE
+    oniTeam.setAllowFriendlyFire(false)
+    runnerTeam.setAllowFriendlyFire(false)
+    oniTeam.setOption(Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS)
+    runnerTeam.setOption(Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS)
+  }
 
   override fun changeOni(oniPlayer: Player, runnerPlayer: Player): Boolean {
     val oni = playerManager.get(this, oniPlayer.uniqueId) ?: return false
@@ -116,7 +133,7 @@ class OnigoGame(
           joinPlayer, ChatColor.GREEN.toString() + "最後に鬼だったプレーヤー"
         )
         for (player in oniPlayer) {
-          plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(joinPlayer, ":" + ChatColor.BLUE + player.name)
+          plugin.messenger!!.sendMessage<OnigoRole, OnigoGame>(joinPlayer, ":" + ChatColor.BLUE + player.player?.name)
         }
         //send title
         object : BukkitRunnable() {
@@ -129,27 +146,6 @@ class OnigoGame(
             plugin.messenger!!.sendTitle<OnigoRole, OnigoGame>(players, ChatColor.RED.toString() + "勝利", "")
           }
         }.runTaskLater(plugin, 40)
-      }
-
-      "ice" -> {
-        for (player in caughtPlayer) {
-          player.walkSpeed = 0.2f
-          player.flySpeed = 0.2f
-        }
-
-
-        //runner win
-        if (!runPlayer.isEmpty()) {
-          plugin.messenger!!.sendTitleLater<OnigoRole, OnigoGame>(
-            players, ChatColor.GREEN.toString() + "逃走者の勝利", 40L
-          )
-        }
-        //oni win
-        if (runPlayer.isEmpty()) {
-          plugin.messenger!!.sendTitleLater<OnigoRole, OnigoGame>(
-            players, ChatColor.RED.toString() + "鬼の勝利", 40L
-          )
-        }
       }
 
       "increase" -> {
@@ -179,7 +175,7 @@ class OnigoGame(
       }
     }
     when (gameType) {
-      "increase", "ice" -> {
+      "increase" -> {
         //check runner
         if (runPlayer.isEmpty()) {
           end()
@@ -188,26 +184,16 @@ class OnigoGame(
     }
   }
 
-  override fun onStart() {}
   override fun start(sender: CommandSender, stage: String?) {
 
     if (d.waitRoomWorld != null) {
       //sort player
       playerGetter.room(
-        d.waitRoomWorld!!, d.waitRoom[0], d.waitRoom[1], d.waitRoom[2],
-        d.waitRoom[3], d.waitRoom[4], d.waitRoom[5]
-      ).map(Player::getUniqueId)
-        .let { playerManager.registerAll(it, this, OnigoRole.RUNNER) }
+        d.waitRoomWorld!!, d.waitRoom[0], d.waitRoom[1], d.waitRoom[2], d.waitRoom[3], d.waitRoom[4], d.waitRoom[5]
+      ).map(Player::getUniqueId).let { playerManager.registerAll(it, this, OnigoRole.RUNNER) }
       playerGetter.room(
-        d.oniWaitWorld!!,
-        d.oniWait[0],
-        d.oniWait[1],
-        d.oniWait[2],
-        d.oniWait[3],
-        d.oniWait[4],
-        d.oniWait[5]
-      ).map(Player::getUniqueId)
-        .let { playerManager.registerAll(it, this, OnigoRole.ONI) }
+        d.oniWaitWorld!!, d.oniWait[0], d.oniWait[1], d.oniWait[2], d.oniWait[3], d.oniWait[4], d.oniWait[5]
+      ).map(Player::getUniqueId).let { playerManager.registerAll(it, this, OnigoRole.ONI) }
 
       val random = Random()
       var randomNumber: Int
@@ -234,6 +220,9 @@ class OnigoGame(
             addItem(ItemStack(Material.BREAD, 64))
           }
         }
+        joinPlayer.forEach {
+          it.setGameMode(GameMode.ADVENTURE)
+        }
         //get stage
         stageData = stageManager.getStage(stage)
         if (stageData != null) {
@@ -241,24 +230,17 @@ class OnigoGame(
             //teleport runner
             player.teleport(
               Location(
-                plugin.server.getWorld(stageData!!.stageWorld!!),
-                stageData!!.startLoc[0] + 0.5,
-                stageData!!.startLoc[1] + 0.5,
-                stageData!!.startLoc[2] + 0.5
+                plugin.server.getWorld(stageData!!.stageWorld!!), stageData!!.startLoc[0] + 0.5,
+                stageData!!.startLoc[1] + 0.5, stageData!!.startLoc[2] + 0.5
               )
             )
           }
           //limiter
           limiter = Limiter(plugin, runPlayer, stageData)
           //counter
-          counter = Counter(bordName, "onigo", plugin)
+          counter = Counter(bordName, "onigo", plugin, this)
           counter!!.startSec(
-            0L,
-            d.waitTime,
-            3,
-            joinPlayer,
-            ChatColor.GREEN.toString() + "START",
-            ChatColor.GREEN
+            0L, d.waitTime, 3, joinPlayer, ChatColor.GREEN.toString() + "START", ChatColor.GREEN
           )
           //count wait time
           runnable = object : BukkitRunnable() {
@@ -269,13 +251,11 @@ class OnigoGame(
               for (player in oniPlayer) {
                 player.teleport(
                   Location(
-                    plugin.server.getWorld(stageData!!.stageWorld!!),
-                    stageData!!.startLoc[0] + 0.5,
-                    stageData!!.startLoc[1] + 0.5,
-                    stageData!!.startLoc[2] + 0.5
+                    plugin.server.getWorld(stageData!!.stageWorld!!), stageData!!.startLoc[0] + 0.5,
+                    stageData!!.startLoc[1] + 0.5, stageData!!.startLoc[2] + 0.5
                   )
                 )
-                plugin.messenger!!.sendMessage(joinPlayer, ChatColor.BLUE.toString() + player.name)
+                plugin.messenger!!.sendMessage(joinPlayer, ChatColor.BLUE.toString() + player.player?.name)
                 //wear gold helmet
                 player.useInventory {
                   helmet = ItemStack(Material.GOLDEN_HELMET)
@@ -296,7 +276,6 @@ class OnigoGame(
               }.runTaskLater(plugin, d.gameTime.toLong() * 20 * 60)
             }
           }.runTaskLater(plugin, d.waitTime * 20L)
-          onStart()
         } else {
           sender.sendMessage("stage is not exit")
         }
@@ -311,6 +290,8 @@ class OnigoGame(
   override fun end() {
     val joinPlayer = playerManager.getAll(this)
 
+    oniTeam.entries.forEach(oniTeam::removeEntry)
+    runnerTeam.entries.forEach(runnerTeam::removeEntry)
     //clear inventory
     for (player in joinPlayer) {
       player.useInventory {
@@ -322,10 +303,7 @@ class OnigoGame(
     joinPlayer.forEach {
       it.teleport(
         Location(
-          plugin.server.getWorld(d.endWorld!!),
-          d.endLoc[0] + 0.5,
-          d.endLoc[1] + 0.5,
-          d.endLoc[2] + 0.5
+          plugin.server.getWorld(d.endWorld!!), d.endLoc[0] + 0.5, d.endLoc[1] + 0.5, d.endLoc[2] + 0.5
         )
       )
     }

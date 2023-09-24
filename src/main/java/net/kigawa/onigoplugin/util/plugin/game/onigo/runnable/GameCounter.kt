@@ -6,8 +6,11 @@ import net.kigawa.onigoplugin.util.plugin.all.timer.Counter
 import org.bukkit.ChatColor
 
 class GameCounter(
-  bordName: String?, bordID: String?, private val game: OnigoGame, private val playerManager: OnigoPlayerManager
-) : Counter(bordName, bordID, game.plugin) {
+  bordName: String?,
+  bordID: String?,
+  private val game: OnigoGame,
+  private val playerManager: OnigoPlayerManager
+) : Counter(bordName, bordID, game.plugin, game) {
   init {
     //replace variable
 

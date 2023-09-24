@@ -45,7 +45,6 @@ abstract class Game<ROLE_TYPE : Role<ROLE_TYPE, GAME>, GAME : Game<ROLE_TYPE, GA
   abstract override fun changeOni(oniPlayer: Player, runnerPlayer: Player): Boolean
   abstract fun sendEndMessage()
   abstract fun runnable()
-  abstract fun onStart()
 
   abstract fun start(sender: CommandSender, stage: String?)
   abstract fun end()

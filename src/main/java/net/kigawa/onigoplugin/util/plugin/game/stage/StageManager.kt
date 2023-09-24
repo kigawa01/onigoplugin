@@ -25,6 +25,10 @@ class StageManager(var plugin: OnigoPlugin, private val recorder: Recorder) {
     }
   }
 
+  fun save(stageData: StageData) {
+    recorder.save(stageData, "stage")
+  }
+
   fun setStage(name: String, sender: CommandSender) {
     //check can use this name
     if (getStage(name) == null) {
@@ -34,7 +38,7 @@ class StageManager(var plugin: OnigoPlugin, private val recorder: Recorder) {
       canUse.add(stageData)
       allStage.add(stageData)
       //save
-      recorder.save(stageData, "stage")
+      save(stageData)
     } else {
       sender.sendMessage("this name can't use")
     }

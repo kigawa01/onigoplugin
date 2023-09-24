@@ -5,9 +5,8 @@ import org.bukkit.Location
 
 class StageData(name: String = "") : RecorderData(name) {
   var stageWorld: String? = null
-  val startLoc = IntArray(3)
-  val stageLoc = IntArray(6)
-
+  var startLoc = IntArray(3)
+  var stageLoc = IntArray(6)
   fun setStageStartLoc(location: Location) {
     stageLoc[0] = location.blockX
     stageLoc[1] = location.blockY

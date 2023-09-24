@@ -10,12 +10,11 @@ class OnigoPlayerImpl<
     GAME : Game<ROLE, GAME>
     >(
   override val uuid: UUID,
-  val game: GAME,
+  override val game: GAME,
   role: ROLE
-
-
 ) : OnigoPlayer<ROLE, GAME> {
   private val offlineTasks = mutableListOf<(Player) -> Unit>()
+
   override var role: ROLE = role
     set(value) {
       field = value
@@ -28,7 +27,6 @@ class OnigoPlayerImpl<
       if (value == null) {
         return
       }
-      name = value.name
       while (true) {
         offlineTasks
           .removeFirstOrNull()
@@ -36,8 +34,10 @@ class OnigoPlayerImpl<
           ?: break
       }
     }
-  override var name = player?.name ?: ""
-    private set
+
+  init {
+    this.role.become(this, game)
+  }
 
   override fun usePlayer(task: (Player) -> Unit) {
     player?.let(task) ?: offlineTasks.add(task)
