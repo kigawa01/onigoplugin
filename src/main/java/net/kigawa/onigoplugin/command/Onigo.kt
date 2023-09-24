@@ -27,82 +27,66 @@ class Onigo(
   }
 
   @SubCommand
-  fun createGame(): Argument<*> = LiteralArgument("create-game")
-    .withPermission(CommandPermission.OP)
-    .then(StringArgument("name")
-      .withPermission(CommandPermission.OP)
-      .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val name = commandArguments.get("name") as String
+  fun createGame(): Argument<*> = LiteralArgument("create-game").withPermission(CommandPermission.OP).then(
+      StringArgument("name").withPermission(CommandPermission.OP).executesPlayer(
+          PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+            val name = commandArguments.get("name") as String
 
-        if (gameManager.containGame(name)) {
-          player.sendMessage("$name is already exists")
-          return@PlayerCommandExecutor
+            if (gameManager.containGame(name)) {
+              player.sendMessage("$name is already exists")
+              return@PlayerCommandExecutor
+            }
+            gameManager.createGame(player, name)
+            player.sendMessage("onigo is created")
+          })
+    )
+
+  @SubCommand
+  fun game(): Argument<String> = OnigoGameCmd().withPermission(CommandPermission.OP)
+
+  @SubCommand
+  fun stage(): Argument<String> = OnigoStage().withPermission(CommandPermission.OP)
+
+  @SubCommand
+  fun start(): Argument<*> = LiteralArgument("start").withPermission(CommandPermission.OP).then(
+      CustomArgs.game("game").withPermission(CommandPermission.OP).then(
+          CustomArgs.stage("stage").withPermission(CommandPermission.OP).setOptional(true).executesPlayer(
+              PlayerCommandExecutor { player: Player, args: CommandArguments ->
+                val game = args.get("game") as net.kigawa.onigoplugin.game.OnigoGame
+                val stage = args.get("stage") as StageData?
+                game.start(player, stage?.name)
+              })
+        )
+    )
+
+  @SubCommand
+  fun end(): Argument<*> = LiteralArgument("end").withPermission(CommandPermission.OP).then(
+      CustomArgs.game("game").withPermission(CommandPermission.OP).executes(
+          CommandExecutor { _: CommandSender, args: CommandArguments ->
+            val game = args.get("game") as net.kigawa.onigoplugin.game.OnigoGame
+            game.end()
+          })
+    )
+
+  @SubCommand
+  fun list(): Argument<*> = LiteralArgument("list").withPermission(CommandPermission.OP).executes(
+      CommandExecutor { sender: CommandSender, _: CommandArguments ->
+        gameManager.games.forEach {
+          sender.sendMessage("name " + it.name)
+          sender.sendMessage(" world " + it.d.waitRoomWorld)
         }
-        gameManager.createGame(player, name)
-        player.sendMessage("onigo is created")
       })
+
+  @SubCommand
+  fun createStage(): Argument<*> = LiteralArgument("create-stage").withPermission(CommandPermission.OP).then(
+      StringArgument("name").withPermission(CommandPermission.OP).executes(
+          CommandExecutor { sender: CommandSender, args: CommandArguments ->
+            val name = args.get("name") as String
+
+            stageManager.setStage(name, sender)
+            sender.sendMessage("stage $name is created")
+          })
     )
-
-  @SubCommand
-  fun game(): Argument<String> = OnigoGameCmd()
-    .withPermission(CommandPermission.OP)
-
-  @SubCommand
-  fun stage(): Argument<String> = OnigoStage()
-    .withPermission(CommandPermission.OP)
-
-  @SubCommand
-  fun redstone(): Argument<String> = OnigoRedstone()
-    .withPermission(CommandPermission.OP)
-
-  @SubCommand
-  fun start(): Argument<*> = LiteralArgument("start")
-    .withPermission(CommandPermission.OP)
-    .then(CustomArgs.game("game")
-      .withPermission(CommandPermission.OP)
-      .then(CustomArgs.stage("stage")
-        .withPermission(CommandPermission.OP)
-        .setOptional(true)
-        .executesPlayer(PlayerCommandExecutor { player: Player, args: CommandArguments ->
-          val game = args.get("game") as net.kigawa.onigoplugin.game.OnigoGame
-          val stage = args.get("stage") as StageData?
-          game.start(player, stage?.name)
-        })
-      )
-    )
-
-  @SubCommand
-  fun end(): Argument<*> = LiteralArgument("end")
-    .withPermission(CommandPermission.OP)
-    .then(CustomArgs.game("game")
-      .withPermission(CommandPermission.OP)
-      .executes(CommandExecutor { _: CommandSender, args: CommandArguments ->
-        val game = args.get("game") as net.kigawa.onigoplugin.game.OnigoGame
-        game.end()
-      })
-    )
-
-  @SubCommand
-  fun list(): Argument<*> = LiteralArgument("list")
-    .withPermission(CommandPermission.OP)
-    .executes(CommandExecutor { sender: CommandSender, _: CommandArguments ->
-      gameManager.games.forEach {
-        sender.sendMessage("name " + it.name)
-        sender.sendMessage(" world " + it.d.waitRoomWorld)
-      }
-    })
-
-  @SubCommand
-  fun createStage(): Argument<*> = LiteralArgument("create-stage")
-    .withPermission(CommandPermission.OP)
-    .then(StringArgument("name")
-      .withPermission(CommandPermission.OP)
-      .executes(CommandExecutor { sender: CommandSender, args: CommandArguments ->
-        val name = args.get("name") as String
-
-        stageManager.setStage(name, sender)
-        sender.sendMessage("stage $name is created")
-      }))
 
 
 }

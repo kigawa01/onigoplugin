@@ -9,8 +9,10 @@ import net.kigawa.kutil.unitapi.component.container.UnitContainer
 import net.kigawa.kutil.unitapi.registrar.ClassRegistrar
 import net.kigawa.kutil.unitapi.registrar.InstanceRegistrar
 import net.kigawa.kutil.unitapi.registrar.ResourceRegistrar
+import net.kigawa.onigoplugin.config.OnigoConfig
 import net.kigawa.onigoplugin.game.ChangeManager
 import net.kigawa.onigoplugin.player.OnigoPlayerManager
+import net.kigawa.onigoplugin.util.config.Config
 import net.kigawa.onigoplugin.util.config.ConfigInitializedFilter
 import net.kigawa.onigoplugin.util.config.ConfigManager
 import net.kigawa.onigoplugin.util.config.ConfigUtil
@@ -22,7 +24,6 @@ import net.kigawa.onigoplugin.util.unit.BukkitFinder
 import net.kigawa.onigoplugin.util.unit.CommandFilter
 import net.kigawa.onigoplugin.util.unit.ListenerFilter
 import net.kigawa.onigoplugin.util.unit.OyuBingoUnitLogger
-import net.kigawa.oyucraft.oyubingo.config.Config
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -64,7 +65,6 @@ class OnigoPlugin : JavaPlugin(), Logger {
     container.getUnit(ClassRegistrar::class.java).apply {
       register(ConfigUtil::class.java)
       register(ConfigManager::class.java)
-      register(OnigoPlayerManager::class.java)
     }
     container.getUnit(UnitFinderComponent::class.java).add(BukkitFinder::class.java)
     container.getUnit(UnitLoggerComponent::class.java).add(OyuBingoUnitLogger::class.java)
@@ -74,6 +74,10 @@ class OnigoPlugin : JavaPlugin(), Logger {
       add(CommandFilter::class.java)
     }
 
+    container.getUnit(ClassRegistrar::class.java).apply {
+      register(OnigoConfig::class.java)
+      register(OnigoPlayerManager::class.java)
+    }
     container.getUnit(ResourceRegistrar::class.java).register(javaClass)
 
     Bukkit.getScheduler().runTaskTimerAsynchronously(this, Runnable {

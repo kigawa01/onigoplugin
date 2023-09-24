@@ -2,6 +2,7 @@ package net.kigawa.onigoplugin.game
 
 import net.kigawa.kutil.unitapi.component.container.UnitContainer
 import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.config.OnigoConfig
 import net.kigawa.onigoplugin.player.OnigoPlayer
 import net.kigawa.onigoplugin.role.OnigoRole
 import net.kigawa.onigoplugin.util.plugin.all.player.PlayerGetter
@@ -28,10 +29,11 @@ import java.util.*
 
 class OnigoGame(
   onigoPlugin: OnigoPlugin?, gameData: GameData?, manager: GameManager?, recorder: Recorder?,
-  stageManager: StageManager?, playerGetter: PlayerGetter?, container: UnitContainer?
+  stageManager: StageManager?, playerGetter: PlayerGetter?, container: UnitContainer
 ) : Game<OnigoRole, OnigoGame>(
-  onigoPlugin!!, gameData!!, manager!!, recorder!!, stageManager!!, playerGetter!!, container!!
+  onigoPlugin!!, gameData!!, manager!!, recorder!!, stageManager!!, playerGetter!!, container
 ) {
+  private val redstoneConfig = container.getUnit(OnigoConfig::class.java)
   private var helmet = ItemStack(Material.GOLDEN_HELMET)
   val bord: Scoreboard = Bukkit.getScoreboardManager()!!.newScoreboard
   private val oniTeam = bord.registerNewTeam("oni")
@@ -276,6 +278,12 @@ class OnigoGame(
               }.runTaskLater(plugin, d.gameTime.toLong() * 20 * 60)
             }
           }.runTaskLater(plugin, d.waitTime * 20L)
+          redstoneConfig.games
+            .firstOrNull { it.name == name }
+            ?.locations
+            ?.forEach {
+              it.toLocation()?.block?.type = Material.REDSTONE_BLOCK
+            }
         } else {
           sender.sendMessage("stage is not exit")
         }
@@ -327,6 +335,12 @@ class OnigoGame(
     gameCounter = null
     runnable = null
     runnable1 = null
+    redstoneConfig.games
+      .firstOrNull { it.name == name }
+      ?.locations
+      ?.forEach {
+        it.toLocation()?.block?.type = Material.AIR
+      }
   }
 
 }

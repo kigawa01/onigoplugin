@@ -4,6 +4,10 @@ import dev.jorel.commandapi.CommandPermission
 import dev.jorel.commandapi.arguments.*
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.executors.PlayerCommandExecutor
+import net.kigawa.onigoplugin.OnigoPlugin
+import net.kigawa.onigoplugin.config.BlockLocationData
+import net.kigawa.onigoplugin.config.OnigoConfig
+import net.kigawa.onigoplugin.config.OnigoGameData
 import net.kigawa.onigoplugin.game.GameType
 import net.kigawa.onigoplugin.game.OnigoGame
 import net.kigawa.onigoplugin.util.command.ArgumentBase
@@ -15,126 +19,131 @@ import org.bukkit.entity.Player
 class OnigoGameCmd : ArgumentBase("game", CustomArgs.game("game")) {
 
   @SubCommand
-  fun waitRoom(): Argument<*> = LiteralArgument("wait-room")
-    .withPermission(CommandPermission.OP)
-    .then(CustomArgs.choice("loc point", "start-loc", "end-loc")
-      .withPermission(CommandPermission.OP)
-      .then(LocationArgument("location", LocationType.BLOCK_POSITION)
-        .withPermission(CommandPermission.OP)
-        .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+  fun waitRoom(): Argument<*> = LiteralArgument("wait-room").withPermission(CommandPermission.OP).then(
+      CustomArgs.choice("loc point", "start-loc", "end-loc").withPermission(CommandPermission.OP).then(
+          LocationArgument("location", LocationType.BLOCK_POSITION).withPermission(CommandPermission.OP).executesPlayer(
+              PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+                val game = commandArguments.get("game") as OnigoGame
+                val location = commandArguments.get("location") as Location
+                val choice = commandArguments.get("loc point") as String
+
+                if (choice == "start-loc") {
+                  game.setWaitingRoom1(player.world.name, location.blockX, location.blockY, location.blockZ)
+                  player.sendMessage("start point of wait room is set")
+                  return@PlayerCommandExecutor
+                }
+                if (choice == "end-loc") {
+                  game.setWaitingRoom2(location.blockX, location.blockY, location.blockZ)
+                  player.sendMessage("end point of wait room is set")
+                  return@PlayerCommandExecutor
+                }
+                player.sendMessage("$choice is not allowed")
+              })
+        )
+    )
+
+  @SubCommand
+  fun oniWaitRoom(): Argument<*> = LiteralArgument("oni-wait-room").withPermission(CommandPermission.OP).then(
+      CustomArgs.choice("loc point", "start-loc", "end-loc").withPermission(CommandPermission.OP).then(
+          LocationArgument("location", LocationType.BLOCK_POSITION).withPermission(CommandPermission.OP).executesPlayer(
+              PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+                val game = commandArguments.get("game") as OnigoGame
+                val location = commandArguments.get("location") as Location
+                val choice = commandArguments.get("loc point") as String
+
+                if (choice == "start-loc") {
+                  game.setOniWait1(player.world.name, location.blockX, location.blockY, location.blockZ)
+                  player.sendMessage("start point of oni wait room is set")
+                  return@PlayerCommandExecutor
+                }
+                if (choice == "end-loc") {
+                  game.setOniWait2(location.blockX, location.blockY, location.blockZ)
+                  player.sendMessage("end point of oni wait room is set")
+                  return@PlayerCommandExecutor
+                }
+                player.sendMessage("$choice is not allowed")
+              })
+        )
+    )
+
+  @SubCommand
+  fun oniCount(): Argument<*> = LiteralArgument("oni-count").withPermission(CommandPermission.OP).then(
+      IntegerArgument("count").withPermission(CommandPermission.OP).executesPlayer(
+          PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+            val game = commandArguments.get("game") as OnigoGame
+            val count = commandArguments.get("count") as Int
+
+            game.setOniCount(count)
+            player.sendMessage("oni count is set")
+          })
+    )
+
+  @SubCommand
+  fun waitTime(): Argument<*> = LiteralArgument("wait-time").withPermission(CommandPermission.OP).then(
+      IntegerArgument("wait time").withPermission(CommandPermission.OP).executesPlayer(
+          PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+            val game = commandArguments.get("game") as OnigoGame
+            val waitTime = commandArguments.get("wait time") as Int
+
+            game.setWaitTime(waitTime)
+            player.sendMessage("wait time is set")
+          })
+    )
+
+  @SubCommand
+  fun gameTime(): Argument<*> = LiteralArgument("game-time").withPermission(CommandPermission.OP).then(
+      IntegerArgument("game time").withPermission(CommandPermission.OP).executesPlayer(
+          PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+            val game = commandArguments.get("game") as OnigoGame
+            val waitTime = commandArguments.get("game time") as Int
+
+            game.setGameTime(waitTime)
+            player.sendMessage("game time is set")
+          })
+    )
+
+  @SubCommand
+  fun endLoc(): Argument<*> = LiteralArgument("end-loc").withPermission(CommandPermission.OP).then(
+      LocationArgument("location", LocationType.BLOCK_POSITION).withPermission(CommandPermission.OP).executesPlayer(
+          PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+            val game = commandArguments.get("game") as OnigoGame
+            val location = commandArguments.get("location") as Location
+
+            game.setEndLoc(player.world.name, location.blockX, location.blockY, location.blockZ)
+            player.sendMessage("end location is set")
+          })
+    )
+
+  @SubCommand
+  fun gameType(): Argument<*> = LiteralArgument("game-type").withPermission(CommandPermission.OP).then(
+      CustomArgs.choice("type", *GameType.entries.map { it.value }.toTypedArray()).withPermission(
+          CommandPermission.OP
+        ).executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
           val game = commandArguments.get("game") as OnigoGame
-          val location = commandArguments.get("location") as Location
-          val choice = commandArguments.get("loc point") as String
+          val gameType = commandArguments.get("type") as String
 
-          if (choice == "start-loc") {
-            game.setWaitingRoom1(player.world.name, location.blockX, location.blockY, location.blockZ)
-            player.sendMessage("start point of wait room is set")
-            return@PlayerCommandExecutor
-          }
-          if (choice == "end-loc") {
-            game.setWaitingRoom2(location.blockX, location.blockY, location.blockZ)
-            player.sendMessage("end point of wait room is set")
-            return@PlayerCommandExecutor
-          }
-          player.sendMessage("$choice is not allowed")
+          game.gameType = gameType
+          player.sendMessage("game type is set")
         })
-      )
     )
 
-  @SubCommand
-  fun oniWaitRoom(): Argument<*> = LiteralArgument("oni-wait-room")
-    .withPermission(CommandPermission.OP)
-    .then(CustomArgs.choice("loc point", "start-loc", "end-loc")
-      .withPermission(CommandPermission.OP)
-      .then(LocationArgument("location", LocationType.BLOCK_POSITION)
-        .withPermission(CommandPermission.OP)
-        .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-          val game = commandArguments.get("game") as OnigoGame
-          val location = commandArguments.get("location") as Location
-          val choice = commandArguments.get("loc point") as String
-
-          if (choice == "start-loc") {
-            game.setOniWait1(player.world.name, location.blockX, location.blockY, location.blockZ)
-            player.sendMessage("start point of oni wait room is set")
-            return@PlayerCommandExecutor
-          }
-          if (choice == "end-loc") {
-            game.setOniWait2(location.blockX, location.blockY, location.blockZ)
-            player.sendMessage("end point of oni wait room is set")
-            return@PlayerCommandExecutor
-          }
-          player.sendMessage("$choice is not allowed")
-        })
-      )
-    )
+  private val redstoneConfig = OnigoPlugin.container.getUnit(OnigoConfig::class.java)
 
   @SubCommand
-  fun oniCount(): Argument<*> = LiteralArgument("oni-count")
-    .withPermission(CommandPermission.OP)
-    .then(IntegerArgument("count")
-      .withPermission(CommandPermission.OP)
-      .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as OnigoGame
-        val count = commandArguments.get("count") as Int
+  fun redstone(): Argument<*> = LiteralArgument("redstone").withPermission(CommandPermission.OP).then(
+      LocationArgument("location", LocationType.BLOCK_POSITION).withPermission(CommandPermission.OP).executesPlayer(
+          PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
+            val location = commandArguments.get("location") as Location
+            val game = commandArguments.get("game") as OnigoGame
 
-        game.setOniCount(count)
-        player.sendMessage("oni count is set")
-      })
-    )
+            redstoneConfig.games.firstOrNull {
+              it.name == game.name
+            } ?: OnigoGameData(game.name).also { redstoneConfig.games.add(it) }.locations.add(
+                BlockLocationData(player.world.name, location.blockX, location.blockY, location.blockZ)
+              )
 
-  @SubCommand
-  fun waitTime(): Argument<*> = LiteralArgument("wait-time")
-    .withPermission(CommandPermission.OP)
-    .then(IntegerArgument("wait time")
-      .withPermission(CommandPermission.OP)
-      .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as OnigoGame
-        val waitTime = commandArguments.get("wait time") as Int
-
-        game.setWaitTime(waitTime)
-        player.sendMessage("wait time is set")
-      })
-    )
-
-  @SubCommand
-  fun gameTime(): Argument<*> = LiteralArgument("game-time")
-    .withPermission(CommandPermission.OP)
-    .then(IntegerArgument("game time")
-      .withPermission(CommandPermission.OP)
-      .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as OnigoGame
-        val waitTime = commandArguments.get("game time") as Int
-
-        game.setGameTime(waitTime)
-        player.sendMessage("game time is set")
-      })
-    )
-
-  @SubCommand
-  fun endLoc(): Argument<*> = LiteralArgument("end-loc")
-    .withPermission(CommandPermission.OP)
-    .then(LocationArgument("location", LocationType.BLOCK_POSITION)
-      .withPermission(CommandPermission.OP)
-      .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as OnigoGame
-        val location = commandArguments.get("location") as Location
-
-        game.setEndLoc(player.world.name, location.blockX, location.blockY, location.blockZ)
-        player.sendMessage("end location is set")
-      })
-    )
-
-  @SubCommand
-  fun gameType(): Argument<*> = LiteralArgument("game-type")
-    .withPermission(CommandPermission.OP)
-    .then(CustomArgs.choice("type", *GameType.entries.map { it.value }.toTypedArray())
-      .withPermission(CommandPermission.OP)
-      .executesPlayer(PlayerCommandExecutor { player: Player, commandArguments: CommandArguments ->
-        val game = commandArguments.get("game") as OnigoGame
-        val gameType = commandArguments.get("type") as String
-
-        game.gameType = gameType
-        player.sendMessage("game type is set")
-      })
+            redstoneConfig.save()
+            player.sendMessage("set redstone position")
+          })
     )
 }

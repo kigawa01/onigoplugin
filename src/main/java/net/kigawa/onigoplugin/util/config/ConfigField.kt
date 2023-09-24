@@ -1,6 +1,5 @@
 package net.kigawa.onigoplugin.util.config
 
-import net.kigawa.oyucraft.oyubingo.config.Config
 import net.kigawa.oyucraft.oyubingo.config.annotation.ConfigValue
 import java.lang.reflect.Field
 
@@ -9,7 +8,7 @@ class ConfigField(
   private val field: Field,
   private val configName: ConfigValue,
 ) {
-  
+
   val name: String
     get() {
       return if (configName.name == "") this.field.name else configName.name
@@ -19,13 +18,13 @@ class ConfigField(
       @Suppress("UNCHECKED_CAST")
       return this.field.type as Class<Any?>
     }
-  
-  
+
+
   fun get(): Any? {
     field.isAccessible = true
     return field.get(config)
   }
-  
+
   fun set(value: Any?) {
     field.isAccessible = true
     return field.set(config, value)

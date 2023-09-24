@@ -3,7 +3,6 @@ package net.kigawa.onigoplugin.util.config
 import net.kigawa.kutil.kutil.reflection.KutilReflect
 import net.kigawa.onigoplugin.OnigoPlugin
 import net.kigawa.onigoplugin.util.caseformat.CaseFormat
-import net.kigawa.oyucraft.oyubingo.config.Config
 import net.kigawa.oyucraft.oyubingo.config.annotation.ConfigName
 import net.kigawa.oyucraft.oyubingo.config.annotation.ConfigValue
 import java.io.File

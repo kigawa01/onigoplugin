@@ -1,7 +1,6 @@
 package net.kigawa.onigoplugin.util.config
 
 import net.kigawa.onigoplugin.OnigoPlugin
-import net.kigawa.oyucraft.oyubingo.config.Config
 import org.bukkit.Bukkit
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
@@ -10,16 +9,10 @@ import java.io.OutputStreamWriter
 
 class ConfigManager(
   private val configUtil: ConfigUtil,
-  private val oyuBingo: OnigoPlugin,
+  private val plugin: OnigoPlugin,
 ) {
 
-  private val yaml = Yaml(CustomClassLoaderConstructor(oyuBingo.pluginClassLoader))
-  fun saveAsync(config: Config) {
-    Bukkit.getScheduler().runTaskAsynchronously(oyuBingo, Runnable {
-      save(config)
-    })
-  }
-
+  private val yaml = Yaml(CustomClassLoaderConstructor(plugin.pluginClassLoader))
   fun save(config: Config) {
     createFile(config)
 
@@ -28,9 +21,11 @@ class ConfigManager(
       data[it.name] = it.get()
     }
 
-    OutputStreamWriter(configUtil.file(config).outputStream()).use {
-      yaml.dump(data, it)
-    }
+    Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+      OutputStreamWriter(configUtil.file(config).outputStream()).use {
+        yaml.dump(data, it)
+      }
+    })
   }
 
   fun load(config: Config) {

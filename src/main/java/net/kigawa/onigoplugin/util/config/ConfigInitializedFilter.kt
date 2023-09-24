@@ -2,7 +2,6 @@ package net.kigawa.onigoplugin.util.config
 
 import net.kigawa.kutil.unitapi.component.InitStack
 import net.kigawa.kutil.unitapi.extention.InitializedFilter
-import net.kigawa.oyucraft.oyubingo.config.Config
 
 class ConfigInitializedFilter(
   private val configManager: ConfigManager,
