@@ -40,11 +40,9 @@ class OnigoGame(
   private var caughtPlayer: MutableList<Player> = ArrayList()
   override val becomeOni: (player: OnigoPlayer<OnigoRole, OnigoGame>) -> Unit
     get() = {
-      TODO("Not yet implemented")
     }
   override val becomeRunner: (player: OnigoPlayer<OnigoRole, OnigoGame>) -> Unit
     get() = {
-      TODO("Not yet implemented")
     }
   override val bordName: String
     get() = "鬼ごっこ"

@@ -48,7 +48,9 @@ class OnigoPlayerManager {
   fun <
       ROLE : Role<ROLE, GAME>,
       GAME : Game<ROLE, GAME>
-      > getAll(game: GAME, uuid: UUID? = null, role: ROLE? = null): List<OnigoPlayer<ROLE, GAME>> {
+      > getAll(
+    @Suppress("UNUSED_PARAMETER") game: GAME, uuid: UUID? = null, role: ROLE? = null
+  ): List<OnigoPlayer<ROLE, GAME>> {
 
     return onigoPlayers
       .filterIsInstance<OnigoPlayer<ROLE, GAME>>()
@@ -58,7 +60,7 @@ class OnigoPlayerManager {
   fun <
       ROLE : Role<ROLE, GAME>,
       GAME : Game<ROLE, GAME>
-      > removeAll(game: GAME, uuid: UUID? = null, role: ROLE? = null) {
+      > removeAll(@Suppress("UNUSED_PARAMETER") game: GAME, uuid: UUID? = null, role: ROLE? = null) {
     onigoPlayers
       .filterIsInstance<OnigoPlayer<ROLE, GAME>>()
       .filter { filter(it, uuid, role) }
@@ -70,7 +72,7 @@ class OnigoPlayerManager {
       GAME : Game<ROLE, GAME>
       > filter(player: OnigoPlayer<ROLE, GAME>, uuid: UUID?, role: ROLE?): Boolean {
     if (uuid != null && player.uuid != uuid) return false
-    if (uuid != null && player.role != role) return false
+    if (role != null && player.role != role) return false
     return true
   }
 }
